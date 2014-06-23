@@ -17,6 +17,10 @@ namespace Component {
 		void Start();
 		void End() {};
 		void Update(float);
+		
+		const char* GetID() { return "Transform"; }
+		const EFamily::_ GetFamilyID() { return EFamily::System; }
+		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
 
 		//set
 		void SetParent(Transform*);
@@ -31,7 +35,6 @@ namespace Component {
 		const Vector3& GetPosition();
 		const Vector3& GetRollPitchYaw();
 		const Vector3& GetScale();
-
 
 		//Matrix16이 힙 메모리에 할당 될때 16바이트로 할당되기떄문에 문제를 일으킬 수 있다.
 		//그래서! new 연산자를 오버로딩 해서 새로이 정의해준다! 16바이트로 할당하게끔!

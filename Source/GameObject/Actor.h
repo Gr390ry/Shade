@@ -19,7 +19,7 @@ namespace GameObject {
 		void Update(float);
 		void Release();
 		
-		void AddComponent(Component::IComponent*);
+		//void AddComponent(Component::IComponent*);
 		const bool GetActvate();
 		Component::Transform* GetTransform();
 		const Component::Render* GetRender();

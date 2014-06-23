@@ -61,6 +61,9 @@
     <ClInclude Include="Source\General.h">
       <Filter>Sources\Management</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RTTI.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -83,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="Source\General.cpp">
       <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject\IGameObject.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,6 +5,11 @@
 #include <string>
 #include <stdio.h>
 #include <assert.h>
+//std
+#include <map>
+#include <vector>
+#include <hash_map>
+#include <ppl.h>
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")

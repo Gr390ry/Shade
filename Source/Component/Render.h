@@ -16,6 +16,10 @@ namespace Component {
 		void End();
 		void DrawOnScreen(const LPD3DXEFFECT);
 
+		const char* GetID() { return "Render"; }
+		const EFamily::_ GetFamilyID() { return EFamily::Render; }
+		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
+
 		void SetMesh(LPD3DXMESH);
 		void SetWorldMatrix(const Matrix4x4*);
 

@@ -1,5 +1,6 @@
 #include "Actor.h"
 //#include "../ShadeEngine.h"
+//#include "../Component/IComponent.h"
 #include "../Component/Render.h"
 #include "../Component/Transform.h"
 
@@ -21,11 +22,12 @@ namespace GameObject {
 		if (pTransform == nullptr)
 			pTransform = ConstructHelper::CreateComponent<Component::Transform>();
 
-		pTransform->Update(0);
+		AddComponent(pRender);
+		AddComponent(pTransform);
 
-		pRender->SetMesh(ConstructHelper::LoadXMesh("Contents/Model/Torus.x"));
-		pRender->SetWorldMatrix(&pTransform->GetWorldMatrix());
-		//pTransform->GetPosition();
+		Component::Render* render = static_cast<Component::Render*>(GetComponent("Render"));
+		render->SetMesh(ConstructHelper::LoadXMesh("Contents/Model/Torus.x"));
+		render->SetWorldMatrix(&pTransform->GetWorldMatrix());
 	}
 
 	void Actor::Update(float pDelta)
@@ -38,10 +40,6 @@ namespace GameObject {
 	{
 		ConstructHelper::RemoveComponent(pRender);
 		ConstructHelper::RemoveComponent(pTransform);
-	}
-
-	void Actor::AddComponent(Component::IComponent* component)
-	{
 	}
 
 	const bool Actor::GetActvate() { return mbActivated; }
