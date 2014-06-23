@@ -9,7 +9,7 @@ typedef D3DXQUATERNION	Queternion;
 namespace GENERIC {
 
 	//전역 상수값 선언
-	const std::string	gAppName		= "ShadeEngine";
+	const std::string	gAppName		= "ShadeEngine On GitHub";
 	const int			windowWidth		= 1024;
 	const int			windowHeight	= 768;
 	const float			PI				= 3.14159265f;
