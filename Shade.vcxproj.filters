@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{b6b83e80-cff2-4a1e-be50-d9be2ac9e97a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject">
+      <UniqueIdentifier>{8ab610a4-814e-4510-86bd-f6bfde1f646d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Component">
+      <UniqueIdentifier>{35857714-a75a-4169-a6be-60b72a2964c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Management">
+      <UniqueIdentifier>{b180af82-48c8-41f3-886e-1f89b86fb125}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\ISingleton.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject\Camera.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject\IGameObject.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject\RequireComponents.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\IComponent.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Render.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\Transform.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ShadeEngine.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MemoryCheck.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameObject\Actor.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ConstructHelper.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GenericVariable.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderDevice.h">
+      <Filter>Sources\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\General.h">
+      <Filter>Sources\Management</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\window.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject\Camera.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject\Actor.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Transform.cpp">
+      <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\Render.cpp">
+      <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderDevice.cpp">
+      <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\General.cpp">
+      <Filter>Sources\Management</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
