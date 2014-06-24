@@ -1,5 +1,6 @@
 #include "ShadeEngine.h"
 #include "RenderDevice.h"
+#include "Management\ElapsedTime.h"
 #include "General.h"
 
 LRESULT WINAPI WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -52,6 +53,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 
+	ElapsedTime::Initialize();
+
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -59,6 +62,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
+
+		ElapsedTime::UpdateTickCount();
 
 		General::Get()->Update(0);
 		RenderDevice::Get()->RenderFrame();		
