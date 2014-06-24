@@ -1,4 +1,6 @@
 #include "Render.h"
+#include "Transform.h"
+#include "../GameObject/IGameObject.h"
 #include "../RenderDevice.h"
 
 namespace Component
@@ -13,14 +15,14 @@ namespace Component
 	{
 	}
 
-	void Render::Start()
+	void Render::Initialize()
 	{
 		RenderDevice::Get()->AddListener(this);
 	}
 
-	void Render::End()
+	void Render::Release()
 	{
-		//RenderDevice::Get()->RemoveListener(this);
+		RenderDevice::Get()->RemoveListener(this);
 	}
 
 	void Render::ResetComponent()
@@ -33,7 +35,12 @@ namespace Component
 
 	void Render::DrawOnScreen(const LPD3DXEFFECT _shader)
 	{
-		_shader->SetMatrix("WorldMatrix", pWorldMatrix);
+		Transform* transform = pOwner->GetComponent<Transform>();
+
+		if (transform)
+		{
+			_shader->SetMatrix("WorldMatrix", &transform->GetWorldMatrix());
+		}		
 		_shader->CommitChanges();
 		pMesh->DrawSubset(0);
 	}

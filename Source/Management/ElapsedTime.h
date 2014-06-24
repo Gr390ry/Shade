@@ -1,30 +1,45 @@
 #pragma once
+#include "../ISingleton.h"
 
-class ElapsedTime
+class ElapsedTime : public ISingleton<ElapsedTime>
 {
 public:
-	static void Initialize()
+	void Initialize()
 	{
-	}
-	static double GetElapsedTime()
-	{
-		return 0;
-	}
-	static void UpdateTickCount()
-	{
-		LARGE_INTEGER qwTicksPerSec, qwFrequency;
+		LARGE_INTEGER qwFrequency, qwCounter;
 
 		if (QueryPerformanceFrequency(&qwFrequency))
 		{
+			dbFrequency = static_cast<double>(qwFrequency.QuadPart);
 		}
 
-		currentQuery = 0;
+		QueryPerformanceCounter(&qwCounter);
+		lastedQuery = static_cast<double>(qwCounter.QuadPart) / dbFrequency;		
+	}
+	double GetElapsedTime()
+	{
+		return elapsedQuery;
+	}
+	void UpdateTickCount()
+	{
+		LARGE_INTEGER qwCount;
+		
+		QueryPerformanceCounter(&qwCount);
+
+		double QueryCounterVarable = static_cast<double>(qwCount.QuadPart);
+
+		currentQuery = QueryCounterVarable / dbFrequency;
+		elapsedQuery = currentQuery - lastedQuery;
+		lastedQuery = currentQuery;
+
+		char szMsg[256];
+		sprintf_s(szMsg, 256, "Counter:%f\n", elapsedQuery);
+		OutputDebugString(szMsg);
 	}
 
-public:
-	static double lastedQuery;
-	static double currentQuery;
+private:
+	double lastedQuery;
+	double currentQuery;
+	double elapsedQuery;
+	double dbFrequency;
 };
-
-double ElapsedTime::currentQuery = 0;
-double ElapsedTime::lastedQuery = 0;

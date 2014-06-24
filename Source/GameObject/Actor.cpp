@@ -28,17 +28,28 @@ namespace GameObject {
 
 	void Actor::Update(float pDelta)
 	{
-		/*pTransform->Update(pDelta);
-		pRender->Update(pDelta);*/
+		Component::Transform* transform = GetComponent<Component::Transform>();
+
+		if (transform)
+		{
+			Vector3 vRotate = transform->GetRollPitchYaw();
+			vRotate.y += 2 * pDelta;
+			transform->SetRollPitchYaw(vRotate);
+		}
+
+		ITER_COMPONENT iter = ContainComponents.begin();
+		int nSize = ContainComponents.size();
+		concurrency::parallel_for(0, nSize, [&](int n)
+		{
+			iter->second->Update(pDelta);
+			++iter;
+		});
 	}
 
 	void Actor::Release()
 	{
-		/*ConstructHelper::RemoveComponent(pRender);
-		ConstructHelper::RemoveComponent(pTransform);*/
+		RemoveAllComponents();
 	}
 
 	const bool Actor::GetActvate() { return mbActivated; }
-	/*Component::Transform* Actor::GetTransform() { return pTransform; }
-	const Component::Render* Actor::GetRender() { return pRender; }*/
 }

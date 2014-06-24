@@ -10,6 +10,7 @@ namespace GameObject {
 
 	class IGameObject
 	{
+	protected:
 		//type defines
 		typedef std::map<unsigned int, Component::IComponent*> MAP_COMPONENT;
 		typedef std::pair<unsigned int, Component::IComponent*> PAIR_COMPONENT;
@@ -18,8 +19,9 @@ namespace GameObject {
 		//Functions
 	public:
 		virtual void Initialize() = 0;
-		virtual void Update(float) = 0;
 		virtual void Release() = 0;
+		virtual void Update(float) = 0;
+		
 		virtual const bool GetActvate() = 0;
 				
 		//Components Functions;
@@ -35,7 +37,7 @@ namespace GameObject {
 
 			Component::IComponent* component = new T;
 			component->SetOwner(this);
-			component->Start();
+			component->Initialize();
 
 			PAIR_COMPONENT pair(nTypeID, component);
 			ContainComponents.insert(pair);
@@ -62,6 +64,8 @@ namespace GameObject {
 				ContainComponents.erase(iter); //리스트에서 제거
 
 				Component::IComponent* component = (*iter).second;
+				
+				component->Release();
 
 				delete component;
 				component = nullptr;
@@ -79,6 +83,8 @@ namespace GameObject {
 				Component::IComponent* component = (*iter).second;
 				//ConstructHelper::RemoveComponent(component); //메모리 해제
 
+				component->Release();
+
 				delete component;
 				component = nullptr;
 
@@ -89,7 +95,6 @@ namespace GameObject {
 		//Variables
 	protected:		
 		bool mbActivated;
-	private:
 		MAP_COMPONENT ContainComponents;
 	};
 }

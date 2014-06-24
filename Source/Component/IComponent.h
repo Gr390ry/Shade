@@ -26,9 +26,10 @@ namespace Component {
 
 	public:
 		virtual void ResetComponent() = 0;
-		virtual void Start() = 0;
+		virtual void Initialize() = 0;
+		virtual void Release() = 0;
 		virtual void Update(float) = 0;
-		virtual void End() = 0;
+		
 
 		virtual const char* GetID() = 0;
 		virtual const EFamily::_ GetFamilyID() = 0;

@@ -14,6 +14,8 @@ bool General::InitializeGame()
 		pTestActor = new GameObject::Actor;
 
 	pTestActor->Initialize();
+	pTestActor->GetComponent<Component::Transform>()->SetScale(Vector3(0.5, 0.5, 0.5));
+	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));
 	/*pTestActor->GetTransform()->SetScale(Vector3(1, 1, 1));
 	pTestActor->GetTransform()->SetPosition(Vector3(-100, 0, 100));*/
 	return true;

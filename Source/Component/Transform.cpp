@@ -5,7 +5,7 @@ namespace Component {
 
 	ImplementRTTI(Transform, IComponent);
 
-	void Transform::Start()
+	void Transform::Initialize()
 	{
 		parent = nullptr;
 
@@ -36,6 +36,11 @@ namespace Component {
 			matWorld = parent->matWorld;
 			D3DXMatrixMultiply(&matWorld, &parent->matWorld, &matWorld);
 		}
+	}
+
+	void Transform::Translate(const Vector3& vVelocity)
+	{
+		vPosition += vVelocity;
 	}
 
 	//set

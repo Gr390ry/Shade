@@ -15,9 +15,11 @@ namespace Component {
 
 		//overrode
 		void ResetComponent();
-		void Start();
-		void End() {};
+		void Initialize();
+		void Release() {};
 		void Update(float);
+
+		void Translate(const Vector3&);
 		
 		const char* GetID() { return "Transform"; }
 		const EFamily::_ GetFamilyID() { return EFamily::System; }

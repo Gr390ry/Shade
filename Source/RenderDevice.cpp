@@ -5,51 +5,29 @@
 
 void RenderDevice::Release()
 {
-	if (mpShader) { mpShader->Release(); }
-	if (mpCreateShadowShader) { mpCreateShadowShader->Release(); }
-	if (mpShadowRenderTarget) { mpShadowRenderTarget->Release(); }
-	if (mpShadowDepthStencil) { mpShadowDepthStencil->Release(); }
+	//SAFE_RELEASE();
 
-	if (mpFullScreenQuadDecl) { mpFullScreenQuadDecl->Release(); }
-	if (mpFullScreenQuadVB) { mpFullScreenQuadVB->Release(); }
-	if (mpFullScreenQuadIB) { mpFullScreenQuadIB->Release(); }
+	SAFE_RELEASE(mpShader);
+	SAFE_RELEASE(mpCreateShadowShader);
+	SAFE_RELEASE(mpShadowRenderTarget);
+	SAFE_RELEASE(mpShadowDepthStencil);
 
-	if (mpNoEffect)		{ mpNoEffect->Release(); }
-	if (mpGrayScale)	{ mpGrayScale->Release(); }
-	if (mpSepia)		{ mpSepia->Release(); }
-	if (mpScreenRenderTarget) { mpScreenRenderTarget->Release(); }
+	SAFE_RELEASE(mpFullScreenQuadDecl);
+	SAFE_RELEASE(mpFullScreenQuadVB);
+	SAFE_RELEASE(mpFullScreenQuadIB);
 
+	SAFE_RELEASE(mpNoEffect);
+	SAFE_RELEASE(mpGrayScale);
+	SAFE_RELEASE(mpSepia);
+	SAFE_RELEASE(mpScreenRenderTarget);
 
-
-	if (mpDiffuseTexture){ mpDiffuseTexture->Release(); }
-	if (mpSpecularTexture) { mpSpecularTexture->Release(); }
-	if (mpNormalTexture) { mpNormalTexture->Release(); }
-	if (mpModel) { mpModel->Release(); }
-	if (mpDisc) { mpDisc->Release(); }
-	if (directDevice) { directDevice->Release(); }
-	if (directObject) { directObject->Release(); }
-
-	mpShader = nullptr;
-	mpCreateShadowShader = nullptr;
-
-	mpFullScreenQuadDecl = nullptr;
-	mpFullScreenQuadVB = nullptr;
-	mpFullScreenQuadIB = nullptr;
-	mpNoEffect = nullptr;
-	mpGrayScale = nullptr;
-	mpSepia = nullptr;
-	mpScreenRenderTarget = nullptr;
-
-	mpShadowRenderTarget = nullptr;
-	mpShadowDepthStencil = nullptr;
-	mpDiffuseTexture = nullptr;
-	mpSpecularTexture = nullptr;
-	mpNormalTexture = nullptr;
-
-	mpModel = nullptr;
-	mpDisc = nullptr;
-	directDevice = nullptr;
-	directObject = nullptr;
+	SAFE_RELEASE(mpDiffuseTexture);
+	SAFE_RELEASE(mpSpecularTexture);
+	SAFE_RELEASE(mpNormalTexture);
+	SAFE_RELEASE(mpModel);
+	SAFE_RELEASE(mpDisc);
+	SAFE_RELEASE(directDevice);
+	SAFE_RELEASE(directObject);
 }
 
 bool RenderDevice::InitializeDevice(HWND hWnd)

@@ -20,8 +20,6 @@ namespace GameObject {
 		void Release();
 		
 		const bool GetActvate();
-		/*Component::Transform* GetTransform();
-		const Component::Render* GetRender();*/
 	};
 
 };

@@ -68,7 +68,7 @@ T* ConstructHelper::CreateComponent()
 	Component::IComponent* component = dynamic_cast<Component::IComponent*>(p);
 
 	if (component)
-		component->Start();
+		component->Initialize();
 	else
 		delete p;
 
@@ -78,7 +78,7 @@ void ConstructHelper::RemoveComponent(Component::IComponent* pComponent)
 {
 	if (pComponent)
 	{
-		pComponent->End();
+		pComponent->Release();
 		delete pComponent;
 		pComponent = nullptr;
 	}

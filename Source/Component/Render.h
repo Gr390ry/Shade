@@ -12,9 +12,10 @@ namespace Component {
 		Render();
 		~Render();
 		void ResetComponent();
-		void Start();
+		void Initialize();
+		void Release();
 		void Update(float);
-		void End();
+		
 		void DrawOnScreen(const LPD3DXEFFECT);
 
 		const char* GetID() { return "Render"; }

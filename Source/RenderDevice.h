@@ -23,10 +23,6 @@ public:
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
-	//LPD3DXMESH LoadModelFromX(const char*);
-	//LPD3DXEFFECT LoadShader(const char*);
-	//LPDIRECT3DTEXTURE9 LoadTexture(const char*);
-
 	//TODO:Shader DEMO
 	void LoadAsset();
 	void Draw(const Matrix4x4&, const Matrix4x4&, const Matrix4x4&);
@@ -59,4 +55,7 @@ private:
 	LPD3DXEFFECT mpGrayScale;
 	LPD3DXEFFECT mpSepia;
 	LPDIRECT3DTEXTURE9 mpScreenRenderTarget;
+
+	//for deferred
+	LPDIRECT3DTEXTURE9 mpMultiRenderTarget[4];
 };

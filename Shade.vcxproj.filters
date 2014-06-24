@@ -17,6 +17,12 @@
     <Filter Include="Sources\Management">
       <UniqueIdentifier>{b180af82-48c8-41f3-886e-1f89b86fb125}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{299649e9-b7f8-4ef5-8657-9d74914798d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\FBX">
+      <UniqueIdentifier>{ce7758a4-2882-4ddb-a20c-fbc05cad2517}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ISingleton.h">
@@ -67,6 +73,15 @@
     <ClInclude Include="Source\Management\ElapsedTime.h">
       <Filter>Sources\Management</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameObject\Prop.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\LightPoint.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\CameraProp.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -90,13 +105,19 @@
     <ClCompile Include="Source\General.cpp">
       <Filter>Sources\Management</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GameObject\IGameObject.cpp">
-      <Filter>Sources\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ConstructHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\IComponent.cpp">
+      <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameObject\Prop.cpp">
+      <Filter>Sources\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\LightPoint.cpp">
+      <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\CameraProp.cpp">
       <Filter>Sources\Component</Filter>
     </ClCompile>
   </ItemGroup>

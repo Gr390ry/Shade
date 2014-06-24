@@ -53,7 +53,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 
-	ElapsedTime::Initialize();
+	ElapsedTime::Get()->Initialize();
 
 	while (msg.message != WM_QUIT)
 	{
@@ -63,9 +63,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 			DispatchMessage(&msg);
 		}
 
-		ElapsedTime::UpdateTickCount();
+		ElapsedTime::Get()->UpdateTickCount();
 
-		General::Get()->Update(0);
+		float fTick = static_cast<float>(ElapsedTime::Get()->GetElapsedTime());
+
+		General::Get()->Update(fTick);
 		RenderDevice::Get()->RenderFrame();		
 	}
 
