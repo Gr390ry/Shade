@@ -3,6 +3,8 @@
 
 namespace Component {
 
+	ImplementRTTI(Transform, IComponent);
+
 	void Transform::Start()
 	{
 		parent = nullptr;

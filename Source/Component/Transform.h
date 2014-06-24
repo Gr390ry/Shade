@@ -8,6 +8,7 @@ namespace Component {
 
 	class Transform : public IComponent
 	{
+		DeclareRTTI(Transform);
 	public:
 		Transform() {}
 		virtual ~Transform() {}
@@ -66,5 +67,4 @@ namespace Component {
 		//parent(world)
 		Transform* parent;
 	};
-
 }; /*Component*/

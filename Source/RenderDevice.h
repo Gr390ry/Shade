@@ -31,7 +31,6 @@ public:
 	void LoadAsset();
 	void Draw(const Matrix4x4&, const Matrix4x4&, const Matrix4x4&);
 
-	//inline
 	const LPDIRECT3DDEVICE9 GetDevice();
 private:
 	LPDIRECT3D9 directObject;

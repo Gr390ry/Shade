@@ -1,12 +1,11 @@
 #include "Actor.h"
-//#include "../ShadeEngine.h"
-//#include "../Component/IComponent.h"
+#include "../ConstructHelper.h"
 #include "../Component/Render.h"
 #include "../Component/Transform.h"
 
 namespace GameObject {
 
-	Actor::Actor() : pRender(nullptr), pTransform(nullptr)
+	Actor::Actor()
 	{
 	}
 
@@ -17,32 +16,29 @@ namespace GameObject {
 
 	void Actor::Initialize()
 	{
-		if (pRender == nullptr) 
-			pRender = ConstructHelper::CreateComponent<Component::Render>();
-		if (pTransform == nullptr)
-			pTransform = ConstructHelper::CreateComponent<Component::Transform>();
+		this->AddComponent<Component::Render>();
+		this->AddComponent<Component::Transform>();
+		
+		Component::Transform* transform = GetComponent<Component::Transform>();
+		Component::Render* render = GetComponent<Component::Render>();
 
-		AddComponent(pRender);
-		AddComponent(pTransform);
-
-		Component::Render* render = static_cast<Component::Render*>(GetComponent("Render"));
 		render->SetMesh(ConstructHelper::LoadXMesh("Contents/Model/Torus.x"));
-		render->SetWorldMatrix(&pTransform->GetWorldMatrix());
+		render->SetWorldMatrix(&transform->GetWorldMatrix());
 	}
 
 	void Actor::Update(float pDelta)
 	{
-		pTransform->Update(pDelta);
-		pRender->Update(pDelta);
+		/*pTransform->Update(pDelta);
+		pRender->Update(pDelta);*/
 	}
 
 	void Actor::Release()
 	{
-		ConstructHelper::RemoveComponent(pRender);
-		ConstructHelper::RemoveComponent(pTransform);
+		/*ConstructHelper::RemoveComponent(pRender);
+		ConstructHelper::RemoveComponent(pTransform);*/
 	}
 
 	const bool Actor::GetActvate() { return mbActivated; }
-	Component::Transform* Actor::GetTransform() { return pTransform; }
-	const Component::Render* Actor::GetRender() { return pRender; }
+	/*Component::Transform* Actor::GetTransform() { return pTransform; }
+	const Component::Render* Actor::GetRender() { return pRender; }*/
 }

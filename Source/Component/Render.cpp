@@ -3,6 +3,8 @@
 
 namespace Component
 {
+	ImplementRTTI(Render, IComponent);
+
 	Render::Render() : pMesh(nullptr), pShader(nullptr), pDiffuseMap(nullptr), pNormalMap(nullptr), pSpecularMap(nullptr)
 	{
 	}

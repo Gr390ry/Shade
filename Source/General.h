@@ -8,6 +8,8 @@ namespace GameObject {
 class General : public ISingleton<General>
 {
 public:	
+	General();
+
 	bool InitializeGame();
 	void Release();
 	void Update(float);

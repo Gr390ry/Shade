@@ -17,7 +17,7 @@ private:																					\
 	bool IsKindOf( const RTTI* pRTTI ) const												\
 	{																						\
 	const RTTI* pBase = GetRTTI();														\
-	while( pBase != NULL )																\
+	while( pBase != nullptr )																\
 		{																					\
 		if( pBase == pRTTI )															\
 			{																				\
@@ -28,8 +28,10 @@ private:																					\
 		return false;																		\
 	}
 
-#define ImplementRTTI( ClassName, BaseClassName ) const RTTI ClassName::s_RTTI( RTTI::GetRTTI<BaseClassName>() )
-#define ImplementRootRTTI( ClassName ) const RTTI ClassName::s_RTTI( NULL )
+#define ImplementRTTI( ClassName, BaseClassName ) const RTTI ClassName::s_RTTI( RTTI::GetRTTI<BaseClassName>() ) //RTTI 객체 초기화 (부모 객체 전달)
+#define ImplementRootRTTI( ClassName ) const RTTI ClassName::s_RTTI( NULL ) //RTTI 객체 초기화(부모 객체 초기화 이미로 NULL 전달)
+
+#include <type_traits>
 
 class RTTI
 {
@@ -105,8 +107,10 @@ public:
 	template<typename Base, typename Derived>
 	struct one_step_direct_descendant
 	{
-		BOOST_STATIC_ASSERT((!type_traits::is_same<Base, Derived>::value));
-		BOOST_STATIC_ASSERT((type_traits::is_base_of<Base, Derived>::value));
+		/*BOOST_STATIC_ASSERT((!type_traits::is_same<Base, Derived>::value));
+		BOOST_STATIC_ASSERT((type_traits::is_base_of<Base, Derived>::value));*/
+
+		/*static_assert(std::is_same<Base, Derived>::value);
 
 		template<bool, typename Base, typename Derived>
 		struct helper
@@ -118,9 +122,9 @@ public:
 		struct helper<true, Base, Derived>
 		{
 			typedef Derived type;
-		};
+		};*/
 
-		typedef typename helper<type_traits::is_same<Base, typename Derived::BaseType>::value, Base, Derived>::type type;
+		//typedef typename helper<type_traits::is_same<Base, typename Derived::BaseType>::value, Base, Derived>::type type;
 	};
 
 public:

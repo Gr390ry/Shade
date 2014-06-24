@@ -1,68 +1,79 @@
-#include "IGameObject.h"
-//#include "../ConstructHelper.h"
-//#include "../Component/IComponent.h"
 
+#include "IGameObject.h"
 
 namespace GameObject {
 
-	void IGameObject::AddComponent(Component::IComponent* component)
-	{
-		if (component == nullptr) { return; }
+	//template <typename T>
+	//void IGameObject::AddComponent()
+	//{
+	//	unsigned int nTypeID = RTTI::GetTypeID<T>();
+	//	if (ContainComponents.find(nTypeID) == ContainComponents.end())
+	//	{
+	//		return;
+	//	}
 
-		char* id = const_cast<char*>(component->GetID());
+	//	Component::IComponent* component = new T;
+	//	component->SetOwner(this);
+	//	component->Start();
 
-		if (!IsContainComponent(id))
-		{
-			component->SetOwner(this);
-
-			PAIR_COMPONENT pair(id, component);
-			ContainComponents.insert(pair);
-		}
-	}
-
-	void IGameObject::RemoveComponent(const char* identity)
-	{
-		ITER_COMPONENT iter = ContainComponents.find(const_cast<char*>(identity));
-
-		if (iter != ContainComponents.end())
-		{
-			ContainComponents.erase(iter); //리스트에서 제거
-
-			Component::IComponent* component = (*iter).second;
-			ConstructHelper::RemoveComponent(component); //메모리 해제
-		}
-	}
-
-	void IGameObject::RemoveAllComponents()
-	{
-		ITER_COMPONENT iter = ContainComponents.begin();
-
-		while (iter != ContainComponents.end())
-		{
-			ContainComponents.erase(iter);
-
-			Component::IComponent* component = (*iter).second;
-			ConstructHelper::RemoveComponent(component); //메모리 해제
-
-			++iter;
-		}
-	}
+	//	PAIR_COMPONENT pair(nTypeID, component);
+	//	ContainComponents.insert(pair);
+	//}
 
 	//template <typename T>
-	Component::IComponent* IGameObject::GetComponent(char* identity)
-	{
-		if (ContainComponents.size() == 0 ||
-			!IsContainComponent(identity)) return nullptr;
+	//T* IGameObject::GetComponent()
+	//{
+	//	if (ContainComponents.size() == 0 ||
+	//		!IsContainComponent(identity)) return nullptr;
 
-		Component::IComponent* component = ContainComponents.at(identity);
-		return component;
-	}
+	//	unsigned int nTypeID = RTTI::GetTypeID<T>();
+	//	Component::IComponent* component = ContainComponents.at(nTypeID);
 
-	const bool IGameObject::IsContainComponent(char* identity)
-	{
-		if (ContainComponents.size() == 0) return false;
-		ITER_COMPONENT iter = ContainComponents.find(identity);
-		return (iter != ContainComponents.end());
-	}
+	//	return static_cast<T*>(component);
+	//}
+
+	//template <typename T>
+	//void IGameObject::RemoveComponent()
+	//{
+	//	unsigned int nTypeID = RTTI::GetTypeID<T>();
+
+	//	ITER_COMPONENT iter = ContainComponents.find(nTypeID);
+
+	//	if (iter != ContainComponents.end())
+	//	{
+	//		ContainComponents.erase(iter); //리스트에서 제거
+
+	//		Component::IComponent* component = (*iter).second;
+	//		ConstructHelper::RemoveComponent(component); //메모리 해제
+	//	}
+	//}
+
+	//void IGameObject::RemoveAllComponents()
+	//{
+	//	ITER_COMPONENT iter = ContainComponents.begin();
+
+	//	while (iter != ContainComponents.end())
+	//	{
+	//		ContainComponents.erase(iter);
+
+	//		Component::IComponent* component = (*iter).second;
+	//		ConstructHelper::RemoveComponent(component); //메모리 해제
+
+	//		++iter;
+	//	}
+	//}
+
+	
+
+	//template <typename T>
+	//const bool IGameObject::IsContainComponent()
+	//{
+	//	if (ContainComponents.size() == 0) return false;
+
+	//	unsigned int nTypeID = RTTI::GetTypeID<T>();
+	//	ITER_COMPONENT iter = ContainComponents.find(identity);
+
+	//	return (iter != ContainComponents.end());
+	//}
 
 }; /*GameObject*/

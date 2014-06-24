@@ -1,5 +1,8 @@
 #pragma once
+#include "../RTTI.h"
 
+
+class RTTI;
 namespace GameObject {
 	class IGameObject;
 };
@@ -19,6 +22,9 @@ namespace Component {
 	class IComponent
 	{
 	public:
+		DeclareRootRTTI(IComponent);
+
+	public:
 		virtual void ResetComponent() = 0;
 		virtual void Start() = 0;
 		virtual void Update(float) = 0;
@@ -31,5 +37,4 @@ namespace Component {
 	protected:
 		GameObject::IGameObject* pOwner;
 	};
-	
 } /*Component*/

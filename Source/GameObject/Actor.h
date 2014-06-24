@@ -15,19 +15,13 @@ namespace GameObject {
 		Actor();
 		~Actor();
 
-		void Initialize();
+		virtual void Initialize();
 		void Update(float);
 		void Release();
 		
-		//void AddComponent(Component::IComponent*);
 		const bool GetActvate();
-		Component::Transform* GetTransform();
-		const Component::Render* GetRender();
-
-	private:
-		Component::Render* pRender;
-		Component::Transform* pTransform;
-		//std::vector<Component::IComponent*> listComponents;
+		/*Component::Transform* GetTransform();
+		const Component::Render* GetRender();*/
 	};
 
 };

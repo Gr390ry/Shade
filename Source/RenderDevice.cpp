@@ -445,7 +445,7 @@ void RenderDevice::RemoveListener(Component::Render* pRender)
 	}
 }
 
-inline const LPDIRECT3DDEVICE9 RenderDevice::GetDevice()
+const LPDIRECT3DDEVICE9 RenderDevice::GetDevice()
 {
 	return directDevice;
 }

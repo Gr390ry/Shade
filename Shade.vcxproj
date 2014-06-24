@@ -22,14 +22,17 @@
     <ClInclude Include="Source\General.h" />
     <ClInclude Include="Source\GenericVariable.h" />
     <ClInclude Include="Source\ISingleton.h" />
+    <ClInclude Include="Source\Management\ElapsedTime.h" />
     <ClInclude Include="Source\MemoryCheck.h" />
     <ClInclude Include="Source\RenderDevice.h" />
     <ClInclude Include="Source\RTTI.h" />
     <ClInclude Include="Source\ShadeEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Component\IComponent.cpp" />
     <ClCompile Include="Source\Component\Render.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\ConstructHelper.cpp" />
     <ClCompile Include="Source\GameObject\Actor.cpp" />
     <ClCompile Include="Source\GameObject\Camera.cpp" />
     <ClCompile Include="Source\GameObject\IGameObject.cpp" />
@@ -49,6 +52,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -85,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

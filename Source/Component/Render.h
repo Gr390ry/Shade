@@ -7,6 +7,7 @@ namespace Component {
 
 	class Render : public IComponent
 	{
+		DeclareRTTI(Render);
 	public:
 		Render();
 		~Render();
@@ -32,5 +33,5 @@ namespace Component {
 		Matrix4x4*			pWorldMatrix;
 		bool				bIsCulled;
 	};
-
-}
+	
+};
