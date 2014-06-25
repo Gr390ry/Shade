@@ -27,6 +27,19 @@ namespace Component {
 		const Vector3& GetLookAt() { return mLookAt; }
 		const Matrix4x4& GetViewMatrix() { return mViewMatrix; }
 		const Matrix4x4& GetProjectionMatrix() { return mProjectionMatrix; }
+
+		static void* operator new (size_t size)
+		{
+			void* p = _aligned_malloc(sizeof(CameraProp), 16);
+			return p;
+		}
+		static void operator delete (void* p)
+		{
+			static_cast<CameraProp*>(p)->~CameraProp();
+			_aligned_free(p);
+			p = nullptr;
+		}
+
 	private:
 		Vector3 mLookAt;
 		Matrix4x4 mViewMatrix;

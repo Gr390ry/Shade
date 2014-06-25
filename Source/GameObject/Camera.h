@@ -1,10 +1,10 @@
 #pragma once
 #include "IGameObject.h"
 #include "../ShadeEngine.h"
-#include "../ISingleton.h"
 
 namespace Component {
 	class Transform;
+	class CameraProp;
 }
 
 namespace GameObject {
@@ -21,9 +21,15 @@ namespace GameObject {
 
 		void AttachTo(const IGameObject*);
 
+		const bool GetActvate() { return mbActivated; }
+		const Matrix4x4& GetViewMarix();
+		const Matrix4x4& GetProjectionMatrix();
+		void SetLookAt(const Vector3&);
+		void SetPosition(const Vector3&);
+
 	private:
-		Matrix4x4 mViewMatrix;
-		Matrix4x4 mProjectionMatrix;
+		Component::CameraProp* pProperty;
+		Component::Transform* pTransform;
 	};
 
 }; /*GameObject*/

@@ -1,5 +1,4 @@
 #include "Camera.h"
-
 #include "../Component/Transform.h"
 #include "../Component/CameraProp.h"
 
@@ -16,8 +15,9 @@ namespace GameObject {
 
 	void Camera::Initialize()
 	{
-		AddComponent<Component::Transform>();
-		AddComponent<Component::CameraProp>();
+		mbActivated = true;
+		pTransform	= AddComponent<Component::Transform>();
+		pProperty	= AddComponent<Component::CameraProp>();		
 	}
 
 	void Camera::Update(float pDelta)
@@ -35,5 +35,21 @@ namespace GameObject {
 	{
 		RemoveAllComponents();
 	}
-
+	
+	const Matrix4x4& Camera::GetViewMarix()
+	{
+		return pProperty->GetViewMatrix();
+	}
+	const Matrix4x4& Camera::GetProjectionMatrix()
+	{
+		return pProperty->GetProjectionMatrix();
+	}
+	void Camera::SetLookAt(const Vector3& look)
+	{
+		pProperty->SetLookAt(look);
+	}
+	void Camera::SetPosition(const Vector3& position)
+	{
+		pTransform->SetPosition(position);
+	}
 };

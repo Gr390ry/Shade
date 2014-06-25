@@ -1,7 +1,7 @@
 #include "ShadeEngine.h"
-#include "RenderDevice.h"
-#include "Management\ElapsedTime.h"
-#include "General.h"
+#include "Management/General.h"
+#include "Management/RenderDevice.h"
+#include "Management/ElapsedTime.h"
 
 LRESULT WINAPI WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessInput(HWND, WPARAM);

@@ -18,8 +18,7 @@
 #define SAFE_RELEASE(p) { if (p) { p->Release(); p = nullptr; } }
 #define SAFE_DELETE(p) { if (p) { delete p; p = nullptr; } }
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete[] p; p = nullptr; } }
+#define UPDATE_OBJECT(p, delta) { if (p) { p->Update(delta); } }
 
 #include "GenericVariable.h"
 #include "ConstructHelper.h"
-//#include "RenderDevice.h"
-//#include "General.h"

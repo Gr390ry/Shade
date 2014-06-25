@@ -20,9 +20,6 @@
     <Filter Include="Library">
       <UniqueIdentifier>{299649e9-b7f8-4ef5-8657-9d74914798d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Library\FBX">
-      <UniqueIdentifier>{ce7758a4-2882-4ddb-a20c-fbc05cad2517}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ISingleton.h">
@@ -61,12 +58,6 @@
     <ClInclude Include="Source\GenericVariable.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RenderDevice.h">
-      <Filter>Sources\Management</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\General.h">
-      <Filter>Sources\Management</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RTTI.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -80,6 +71,15 @@
       <Filter>Sources\Component</Filter>
     </ClInclude>
     <ClInclude Include="Source\Component\CameraProp.h">
+      <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Management\General.h">
+      <Filter>Sources\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Management\RenderDevice.h">
+      <Filter>Sources\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Component\IRenderable.h">
       <Filter>Sources\Component</Filter>
     </ClInclude>
   </ItemGroup>
@@ -99,12 +99,6 @@
     <ClCompile Include="Source\Component\Render.cpp">
       <Filter>Sources\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RenderDevice.cpp">
-      <Filter>Sources\Management</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\General.cpp">
-      <Filter>Sources\Management</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ConstructHelper.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -118,6 +112,15 @@
       <Filter>Sources\Component</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\CameraProp.cpp">
+      <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Management\General.cpp">
+      <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Management\RenderDevice.cpp">
+      <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Component\IRenderable.cpp">
       <Filter>Sources\Component</Filter>
     </ClCompile>
   </ItemGroup>

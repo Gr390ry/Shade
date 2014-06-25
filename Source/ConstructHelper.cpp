@@ -1,6 +1,6 @@
 #include "ConstructHelper.h"
-#include "Component\IComponent.h"
-#include "RenderDevice.h"
+#include "Component/IComponent.h"
+#include "Management/RenderDevice.h"
 #include <type_traits>
 
 LPD3DXMESH ConstructHelper::LoadXMesh(const char* filepath)

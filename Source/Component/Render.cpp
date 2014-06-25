@@ -1,11 +1,11 @@
 #include "Render.h"
 #include "Transform.h"
 #include "../GameObject/IGameObject.h"
-#include "../RenderDevice.h"
+#include "../Management/RenderDevice.h"
 
 namespace Component
 {
-	ImplementRTTI(Render, IComponent);
+	ImplementRTTI(Render, IRenderable);
 
 	Render::Render() : pMesh(nullptr), pShader(nullptr), pDiffuseMap(nullptr), pNormalMap(nullptr), pSpecularMap(nullptr)
 	{

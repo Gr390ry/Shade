@@ -23,7 +23,7 @@ namespace Component {
 
 	void CameraProp::ResetComponent()
 	{
-		mLookAt = Vector3();
+		mLookAt = Vector3(0, 0, 0);
 		D3DXMatrixIdentity(&mViewMatrix);
 		D3DXMatrixIdentity(&mProjectionMatrix);
 	}

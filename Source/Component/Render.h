@@ -1,11 +1,11 @@
 #pragma once
 #include "../ShadeEngine.h"
-#include "IComponent.h"
+#include "IRenderable.h"
 
 
 namespace Component {
 
-	class Render : public IComponent
+	class Render : public IRenderable
 	{
 		DeclareRTTI(Render);
 	public:

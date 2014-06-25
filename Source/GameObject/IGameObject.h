@@ -26,13 +26,13 @@ namespace GameObject {
 				
 		//Components Functions;
 		template <typename T>
-		void AddComponent()
+		T* AddComponent()
 		{
-			unsigned int nTypeID = RTTI::GetTypeID<T>();
-
-			if (ContainComponents.find(nTypeID) != ContainComponents.end())
+			unsigned int	nTypeID = RTTI::GetTypeID<T>();
+			ITER_COMPONENT	iter	= ContainComponents.find(nTypeID);
+			if (iter != ContainComponents.end())
 			{
-				return;
+				return static_cast<T*>((*iter).second);
 			}
 
 			Component::IComponent* component = new T;
@@ -41,6 +41,8 @@ namespace GameObject {
 
 			PAIR_COMPONENT pair(nTypeID, component);
 			ContainComponents.insert(pair);
+
+			return static_cast<T*>(component);
 		}
 		template <typename T>
 		T* GetComponent()
