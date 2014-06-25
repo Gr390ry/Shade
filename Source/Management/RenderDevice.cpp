@@ -329,7 +329,7 @@ void RenderDevice::Draw(const Matrix4x4& matWorld, const Matrix4x4& matView, con
 	pHWBackBuffer->Release();
 	pHWBackBuffer = nullptr;
 	
-	LPD3DXEFFECT effectToUse = mpGrayScale;
+	LPD3DXEFFECT effectToUse = mpNoEffect;
 	effectToUse->SetTexture("Scene_Tex", mpScreenRenderTarget);
 	effectToUse->Begin(&numPasses, 0);
 	{

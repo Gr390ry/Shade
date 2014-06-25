@@ -6,6 +6,7 @@
 namespace Component {
 	class Render;
 	class LightPoint;
+	class IRenderable;
 }
 
 class RenderDevice : public ISingleton<RenderDevice>
