@@ -2,6 +2,9 @@
 #include "../ISingleton.h"
 #include "../ShadeEngine.h"
 #include <vector>
+#include <fbxsdk.h>
+
+using namespace fbxsdk_2015_1;
 
 namespace Component {
 	class Render;
@@ -19,40 +22,57 @@ private:
 	void RenderTarget(const LPD3DXEFFECT&, const LPD3DXMESH&, const DWORD&, const DWORD&);
 	bool InitializeBuffer();
 	bool InitializeFullScreenQuad();
+	bool InitializeFbx();
 	void DrawStencilBuffer();
 
 public:	
+	RenderDevice();
+
+
 	bool InitializeDevice(HWND);
+	bool InitializeDevice11(HWND);
 	void Release();
 
+	void OnResize();
 	void RenderFrame();
+	void Render11();
 
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
-	template <typename T>
-	void AddListener(const T*);
-	template <typename T>
-	void RemoveListener(const T*);
+	//template <typename T>
+	//void AddListener(const T*);
+	//template <typename T>
+	//void RemoveListener(const T*);
 
 	//TODO:Shader DEMO
 	void LoadAsset();
 	void Draw(const Matrix4x4&, const Matrix4x4&, const Matrix4x4&);
 
 	const LPDIRECT3DDEVICE9 GetDevice();
+	FbxManager* GetFbxManager();
 private:
-	LPDIRECT3D9 directObject;
-	LPDIRECT3DDEVICE9 directDevice;
+	LPDIRECT3D9				directObject;
+	LPDIRECT3DDEVICE9		directDevice;
+	FbxManager*				fbxManager;
 
-	LPD3DXEFFECT mpCreateShadowShader;
-	LPD3DXEFFECT mpShader;
+	ID3D11Device*			directDevice11;
+	ID3D11DeviceContext*	directContext;
+	D3D_FEATURE_LEVEL		featureLevel;
+	IDXGISwapChain*			swapChain;
+	ID3D11Texture2D*		depthStencilBuffer;
+	ID3D11RenderTargetView* renderTargetView;
+	ID3D11DepthStencilView* depthStencilView;
+	D3D11_VIEWPORT			screenViewPort;
+	D3D_DRIVER_TYPE			driverType;
+	bool					enableMSAAx4;
 
-
-	LPDIRECT3DTEXTURE9 mpDiffuseTexture;
-	LPDIRECT3DTEXTURE9 mpSpecularTexture;
-	LPDIRECT3DTEXTURE9 mpNormalTexture;
-	LPD3DXMESH mpModel;
-	LPD3DXMESH mpDisc;
+	LPD3DXEFFECT			mpCreateShadowShader;
+	LPD3DXEFFECT			mpShader;
+	LPDIRECT3DTEXTURE9		mpDiffuseTexture;
+	LPDIRECT3DTEXTURE9		mpSpecularTexture;
+	LPDIRECT3DTEXTURE9		mpNormalTexture;
+	LPD3DXMESH				mpModel;
 
 	std::vector<Component::Render*> listRenders;
 	std::vector<Component::LightPoint*> listLightPoints;
@@ -88,12 +108,12 @@ private:
 	LPDIRECT3DTEXTURE9 mpMultiRenderTarget[4];
 };
 
-
-template <typename T>
-void RenderDevice::AddListener(const T* component)
-{
-}
-template <typename T>
-void RenderDevice::RemoveListener(const T* component)
-{
-}
+//
+//template <typename T>
+//void RenderDevice::AddListener(const T* component)
+//{
+//}
+//template <typename T>
+//void RenderDevice::RemoveListener(const T* component)
+//{
+//}

@@ -4,8 +4,39 @@
 #include "../GameObject/Camera.h"
 #include <algorithm>
 
+RenderDevice::RenderDevice() : mpShader(nullptr), 
+							   mpCreateShadowShader(nullptr),
+							   mpShadowRenderTarget(nullptr),
+							   mpShadowDepthStencil(nullptr),
+							   mpFullScreenQuadDecl(nullptr),
+							   mpFullScreenQuadVB(nullptr),
+							   mpFullScreenQuadIB(nullptr),
+							   mpNoEffect(nullptr),
+							   mpGrayScale(nullptr),
+							   mpSepia(nullptr),
+							   mpScreenRenderTarget(nullptr),
+							   mpDiffuseTexture(nullptr),
+							   mpSpecularTexture(nullptr),
+							   mpNormalTexture(nullptr),
+							   mpModel(nullptr),
+							   fbxManager(nullptr),
+							   directDevice(nullptr),
+							   directObject(nullptr),
+							   directDevice11(nullptr),
+							   directContext(nullptr),
+							   swapChain(nullptr),
+							   depthStencilBuffer(nullptr),
+							   renderTargetView(nullptr)
+{
+}
+
 void RenderDevice::Release()
 {
+	if (fbxManager)
+	{
+		fbxManager->Destroy();
+	}
+
 	SAFE_RELEASE(mpShader);
 	SAFE_RELEASE(mpCreateShadowShader);
 	SAFE_RELEASE(mpShadowRenderTarget);
@@ -24,9 +55,14 @@ void RenderDevice::Release()
 	SAFE_RELEASE(mpSpecularTexture);
 	SAFE_RELEASE(mpNormalTexture);
 	SAFE_RELEASE(mpModel);
-	SAFE_RELEASE(mpDisc);
 	SAFE_RELEASE(directDevice);
 	SAFE_RELEASE(directObject);
+
+	SAFE_RELEASE(renderTargetView);
+	SAFE_RELEASE(depthStencilBuffer);
+	SAFE_RELEASE(swapChain);
+	SAFE_RELEASE(directContext);
+	SAFE_RELEASE(directDevice11);
 }
 
 bool RenderDevice::InitializeDevice(HWND hWnd)
@@ -59,6 +95,10 @@ bool RenderDevice::InitializeDevice(HWND hWnd)
 		return false;
 	}
 
+	if (!InitializeFbx())
+	{
+		return false;
+	}
 
 	if (!InitializeBuffer())
 	{
@@ -72,6 +112,125 @@ bool RenderDevice::InitializeDevice(HWND hWnd)
 	}
 
 	listRenders.clear();
+	return true;
+}
+
+bool RenderDevice::InitializeDevice11(HWND hWnd)
+{
+	UINT uFlag = 0;
+
+#ifdef _DEBUG
+	uFlag |= D3D11_CREATE_DEVICE_DEBUG;
+#endif 
+
+	D3D_DRIVER_TYPE driverTypes[] =
+	{
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_REFERENCE,
+	};
+	UINT numDriverTypes = ARRAYSIZE(driverTypes);
+	D3D_FEATURE_LEVEL featureLevels[] = 
+	{
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+	};
+	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
+
+	DXGI_SWAP_CHAIN_DESC sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.BufferCount			= 1;
+	sd.BufferDesc.Width		= GENERIC::windowWidth;
+	sd.BufferDesc.Height	= GENERIC::windowHeight;
+	sd.BufferDesc.Format	= DXGI_FORMAT_R8G8B8A8_UNORM;
+	sd.BufferDesc.RefreshRate.Numerator = 60;
+	sd.BufferDesc.RefreshRate.Denominator = 1;
+	sd.BufferUsage			= DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	sd.OutputWindow			= hWnd;
+	sd.SwapEffect			= DXGI_SWAP_EFFECT_DISCARD;
+	sd.Flags				= 0;
+	sd.SampleDesc.Count		= 1;
+	sd.SampleDesc.Quality	= 0;
+	sd.Windowed				= TRUE;
+	
+	HRESULT hr = E_FAIL;
+	//다이렉트 11 디바이스/컨텍스트/스왑체인 생성
+	for (UINT i = 0; i < numDriverTypes; ++i)
+	{
+		driverType = driverTypes[i];;
+
+		hr = D3D11CreateDevice(NULL, driverType, NULL, uFlag, featureLevels, 
+							   numFeatureLevels, D3D11_SDK_VERSION, 
+							   &directDevice11, &featureLevel, &directContext);
+
+		if (SUCCEEDED(hr))
+			break;
+	}
+	if (FAILED(hr)) return false;
+
+	
+	IDXGIDevice* dxgiDevice = nullptr;
+	hr = directDevice11->QueryInterface(__uuidof(IDXGIDevice), (LPVOID*)&dxgiDevice);
+	if (FAILED(hr)) return false;
+	
+	IDXGIAdapter* dxgiAdapter;
+	hr = dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (LPVOID*)&dxgiAdapter);
+	if (FAILED(hr)) return false;
+
+	IDXGIFactory* dxgiFactory;
+	hr = dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (LPVOID*)&dxgiFactory);
+	if (FAILED(hr)) return false;
+	
+	hr = dxgiFactory->CreateSwapChain(directDevice11, &sd, &swapChain);
+	if (FAILED(hr)) return false;
+
+	dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_WINDOW_CHANGES);
+		
+	SAFE_RELEASE(dxgiFactory);
+	SAFE_RELEASE(dxgiAdapter);
+	SAFE_RELEASE(dxgiDevice);
+	
+	//백버퍼 생성
+	hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&depthStencilBuffer);
+	if (FAILED(hr)) return false;
+
+	//랜더 타겟 설정
+	hr = directDevice11->CreateRenderTargetView(depthStencilBuffer, NULL, &renderTargetView);
+	depthStencilBuffer->Release();
+	if (FAILED(hr)) return false;
+
+	directContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+
+	//뷰포트 설정
+	screenViewPort.Width = GENERIC::windowWidth;
+	screenViewPort.Height = GENERIC::windowHeight;
+	screenViewPort.MinDepth = 0;
+	screenViewPort.MaxDepth = 1;
+	screenViewPort.TopLeftX = 0;
+	screenViewPort.TopLeftY = 0;
+	directContext->RSSetViewports(1, &screenViewPort);
+
+	if (!InitializeFbx())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool RenderDevice::InitializeFbx()
+{
+	fbxManager = FbxManager::Create();
+	
+	if (fbxManager == nullptr)
+	{
+		return false;
+	}
+
+	FbxIOSettings* ios = FbxIOSettings::Create(fbxManager, IOSROOT);
+	fbxManager->SetIOSettings(ios);
 	return true;
 }
 
@@ -174,6 +333,13 @@ bool RenderDevice::InitializeFullScreenQuad()
 	return true;
 }
 
+void RenderDevice::Render11()
+{
+	float color[4] = { 0, 0.125f, 0.3f, 1 };
+	directContext->ClearRenderTargetView(renderTargetView, color);
+	swapChain->Present(0, 0);
+}
+
 void RenderDevice::RenderFrame()
 {
 	directDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFF000000, 1.f, 0);
@@ -197,17 +363,15 @@ void RenderDevice::RenderFrame()
 
 void RenderDevice::LoadAsset()
 {
-	mpShader				= ConstructHelper::LoadShader("Contents/Fx/ColorConversion.fx");
-	mpCreateShadowShader	= ConstructHelper::LoadShader("Contents/Fx/CreateShadowShader.fx");
-	mpDiffuseTexture		= ConstructHelper::LoadTexture("Contents/Texture/Fieldstone_DM.tga");
-	mpSpecularTexture		= ConstructHelper::LoadTexture("Contents/Texture/fieldstone_SM.tga");
-	mpNormalTexture			= ConstructHelper::LoadTexture("Contents/Texture/fieldstone_NM.tga");
-	mpModel					= ConstructHelper::LoadXMesh("Contents/Model/Torus.x");
-	mpDisc					= ConstructHelper::LoadXMesh("Contents/Model/Disc.x");
-
-	mpNoEffect				= ConstructHelper::LoadShader("Contents/Fx/NoEffect.fx");
-	mpGrayScale				= ConstructHelper::LoadShader("Contents/Fx/GrayScale.fx");
-	mpSepia					= ConstructHelper::LoadShader("Contents/Fx/Sepia.fx");
+	//mpShader				= ConstructHelper::LoadShader("Contents/Fx/ColorConversion.fx");
+	//mpCreateShadowShader	= ConstructHelper::LoadShader("Contents/Fx/CreateShadowShader.fx");
+	//mpDiffuseTexture		= ConstructHelper::LoadTexture("Contents/Texture/Fieldstone_DM.tga");
+	//mpSpecularTexture		= ConstructHelper::LoadTexture("Contents/Texture/fieldstone_SM.tga");
+	//mpNormalTexture			= ConstructHelper::LoadTexture("Contents/Texture/fieldstone_NM.tga");
+	//mpModel					= ConstructHelper::LoadXMesh("Contents/Model/Torus.x");
+	//mpNoEffect				= ConstructHelper::LoadShader("Contents/Fx/NoEffect.fx");
+	//mpGrayScale				= ConstructHelper::LoadShader("Contents/Fx/GrayScale.fx");
+	//mpSepia					= ConstructHelper::LoadShader("Contents/Fx/Sepia.fx");
 }
 
 void RenderDevice::RenderTarget(const LPD3DXEFFECT& fx, const LPD3DXMESH& mesh, const DWORD& flags = 0, const DWORD& meshAttribute = 0)
@@ -392,4 +556,9 @@ void RenderDevice::RemoveListener(Component::Render* pRender)
 const LPDIRECT3DDEVICE9 RenderDevice::GetDevice()
 {
 	return directDevice;
+}
+
+FbxManager* RenderDevice::GetFbxManager()
+{
+	return fbxManager;
 }

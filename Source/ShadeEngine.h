@@ -1,10 +1,15 @@
 #pragma once
+#pragma warning(disable:4005)
+
+#include <d3d11.h>
+#include <d3dx11.h>
 #include <d3d9.h>
 #include <d3dx9.h>
-#include <ddraw.h>
+#include <xnamath.h>
 #include <string>
 #include <stdio.h>
 #include <assert.h>
+#include <iostream>
 
 //std
 #include <map>

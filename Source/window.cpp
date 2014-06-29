@@ -1,10 +1,14 @@
 #include "ShadeEngine.h"
 #include "Management/General.h"
 #include "Management/RenderDevice.h"
-#include "Management/ElapsedTime.h"
+#include "Management/GameTimer.h"
 
 LRESULT WINAPI WndProc(HWND, UINT, WPARAM, LPARAM);
 void ProcessInput(HWND, WPARAM);
+void CalculateFrameStats(HWND);
+
+
+bool gAppPuased;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	, LPSTR lpszCmdParam, int nCmdShow)
@@ -19,7 +23,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		style, CW_USEDEFAULT, 0, GENERIC::windowWidth, GENERIC::windowHeight,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
-	if (!RenderDevice::Get()->InitializeDevice(hWnd))
+	//if (!RenderDevice::Get()->InitializeDevice(hWnd))
+	if (!RenderDevice::Get()->InitializeDevice11(hWnd))
 	{
 		MessageBox(hWnd, "Render Device Initialize Failure!", "Error", MB_OK);
 		PostQuitMessage(0);
@@ -30,7 +35,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		PostQuitMessage(0);
 	}
 
-	RenderDevice::Get()->LoadAsset();
+	gAppPuased = false;
+
+	//RenderDevice::Get()->LoadAsset();
 
 	// Client Rect 크기가 WIN_WIDTH, WIN_HEIGHT와 같도록 크기를 조정한다.
 	{
@@ -53,7 +60,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 
-	ElapsedTime::Get()->Initialize();
+	GameTimer::Get()->Initialize();
 
 	while (msg.message != WM_QUIT)
 	{
@@ -63,12 +70,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 			DispatchMessage(&msg);
 		}
 
-		ElapsedTime::Get()->UpdateTickCount();
+		GameTimer::Get()->UpdateTickCount();
 
-		float fTick = static_cast<float>(ElapsedTime::Get()->GetElapsedTime());
 
-		General::Get()->Update(fTick);
-		RenderDevice::Get()->RenderFrame();		
+		if (!gAppPuased)
+		{
+			float fTick = GameTimer::Get()->DeltaTime();
+
+			General::Get()->Update(fTick);
+			RenderDevice::Get()->Render11();
+			CalculateFrameStats(hWnd);
+		}
+		else
+		{
+			Sleep(100);
+		}		
 	}
 
 	RenderDevice::Get()->Release();
@@ -83,9 +99,24 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		ProcessInput(hWnd, wParam);
 		break;
+	case WM_ACTIVATE:	//응용 프로그램이 활성화 되어 있지 않을때 타이머를 정지 시킨다.
+		if (LOWORD(wParam) == WA_INACTIVE)
+		{
+			gAppPuased = true;
+			GameTimer::Get()->Stop();
+		}
+		else
+		{
+			gAppPuased = false;
+			GameTimer::Get()->Start();
+		}
+		break;
+	case WM_EXITSIZEMOVE:
+		break;
+	case WM_MENUCHAR: //메뉴가 활성화 되어서 사용자가 키를 눌렀으나 그 키가 그 어떤 니모닉이나 단축키에도 해당하지 않을때 전달
+		return MAKELRESULT(0, MNC_CLOSE);
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		return 0;
 	}
 	return(DefWindowProc(hWnd, iMessage, wParam, lParam));
 }
@@ -97,5 +128,28 @@ void ProcessInput(HWND hWnd, WPARAM keyPress)
 	case VK_ESCAPE:
 		PostMessage(hWnd, WM_DESTROY, 0L, 0L);
 		break;
+	}
+}
+
+void CalculateFrameStats(HWND hWnd)
+{
+	static int			frameCount = 0;
+	static float		timeElapsed = 0;;
+
+	++frameCount;
+
+	float totalTime = GameTimer::Get()->TotalTime();
+	if ((totalTime - timeElapsed) >= 1.f)
+	{
+		float fps = (float)frameCount;
+		float mspf = 1000.f / fps;
+		char caption[256] = {0,};
+
+		sprintf_s(caption, "%s FPS:%.2f FrameTime:%.2f", GENERIC::gAppName.c_str(), fps, mspf);
+
+		SetWindowText(hWnd, caption);
+
+		frameCount = 0;
+		timeElapsed += 1;
 	}
 }

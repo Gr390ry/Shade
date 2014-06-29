@@ -61,9 +61,6 @@
     <ClInclude Include="Source\RTTI.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Management\ElapsedTime.h">
-      <Filter>Sources\Management</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameObject\Prop.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
@@ -81,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="Source\Component\IRenderable.h">
       <Filter>Sources\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Management\GameTimer.h">
+      <Filter>Sources\Management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="Source\Component\IRenderable.cpp">
       <Filter>Sources\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Management\GameTimer.cpp">
+      <Filter>Sources\Management</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

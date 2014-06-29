@@ -23,7 +23,7 @@ namespace GameObject {
 		Component::Render* render = GetComponent<Component::Render>();
 
 		render->SetMesh(ConstructHelper::LoadXMesh("Contents/Model/Torus.x"));
-		render->SetWorldMatrix(&transform->GetWorldMatrix());
+		render->LoadFbxModel("Contents/Model/box.fbx");
 	}
 
 	void Actor::Update(float pDelta)

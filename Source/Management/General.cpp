@@ -17,9 +17,9 @@ bool General::InitializeGame()
 	if (pMainCamera == nullptr)
 		pMainCamera = new GameObject::Camera;
 
-	pTestActor->Initialize();
+	/*pTestActor->Initialize();
 	pTestActor->GetComponent<Component::Transform>()->SetScale(Vector3(0.5, 0.5, 0.5));
-	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));
+	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));*/
 
 	pMainCamera->Initialize();
 	pMainCamera->SetPosition(Vector3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
