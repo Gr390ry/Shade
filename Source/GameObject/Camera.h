@@ -22,10 +22,10 @@ namespace GameObject {
 		void AttachTo(const IGameObject*);
 
 		const bool GetActvate() { return mbActivated; }
-		const Matrix4x4& GetViewMarix();
-		const Matrix4x4& GetProjectionMatrix();
-		void SetLookAt(const Vector3&);
-		void SetPosition(const Vector3&);
+		const XMMATRIX& GetViewMarix();
+		const XMMATRIX& GetProjectionMatrix();
+		void SetLookAt(const XMFLOAT3&);
+		void SetPosition(const XMFLOAT3&);
 
 	private:
 		Component::CameraProp* pProperty;

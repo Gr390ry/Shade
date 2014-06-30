@@ -22,8 +22,8 @@ bool General::InitializeGame()
 	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));*/
 
 	pMainCamera->Initialize();
-	pMainCamera->SetPosition(Vector3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
-	pMainCamera->SetLookAt(Vector3(0, 0, 0));
+	pMainCamera->SetPosition(XMFLOAT3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
+	pMainCamera->SetLookAt(XMFLOAT3(0, 0, 0));
 
 	return true;
 }

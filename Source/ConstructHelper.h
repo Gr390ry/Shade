@@ -16,9 +16,9 @@ public:
 
 	virtual ~ConstructHelper() {}
 
-	static LPD3DXMESH LoadXMesh(const char*);
-	static LPD3DXEFFECT LoadShader(const char*);
-	static LPDIRECT3DTEXTURE9 LoadTexture(const char*);
+	//static LPD3DXMESH LoadXMesh(const char*);
+	//static LPD3DXEFFECT LoadShader(const char*);
+	//static LPDIRECT3DTEXTURE9 LoadTexture(const char*);
 
 	template <class T>
 	static T* CreateComponent();

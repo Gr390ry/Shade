@@ -1,19 +1,17 @@
-﻿빌드 시작: 2014-06-30 오전 10:02:25
+﻿빌드 시작: 2014-06-30 오후 6:03:52
      1>2 노드의 "D:\GitHub\Shade\Shade.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Component\CameraProp.cpp Source\Component\IComponent.cpp Source\Component\LightPoint.cpp Source\Component\Render.cpp Source\Component\IRenderable.cpp Source\Component\Transform.cpp Source\ConstructHelper.cpp Source\GameObject\Actor.cpp Source\GameObject\Camera.cpp Source\GameObject\Prop.cpp Source\Management\GameTimer.cpp Source\Management\General.cpp Source\Management\RenderDevice.cpp Source\window.cpp
-         window.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Component\CameraProp.cpp Source\Component\IComponent.cpp Source\Component\IRenderable.cpp Source\Component\LightPoint.cpp Source\Component\Render.cpp Source\Component\Transform.cpp Source\ConstructHelper.cpp Source\GameObject\Actor.cpp Source\GameObject\Camera.cpp Source\GameObject\Prop.cpp Source\Management\General.cpp Source\Management\RenderDevice.cpp
          RenderDevice.cpp
          General.cpp
-         GameTimer.cpp
          Prop.cpp
          Camera.cpp
          Actor.cpp
          ConstructHelper.cpp
          Transform.cpp
-         IRenderable.cpp
          Render.cpp
          LightPoint.cpp
+         IRenderable.cpp
          IComponent.cpp
          CameraProp.cpp
          코드를 생성하고 있습니다...
@@ -37,4 +35,4 @@
 
 빌드했습니다.
 
-경과 시간: 00:00:18.83
+경과 시간: 00:00:14.69

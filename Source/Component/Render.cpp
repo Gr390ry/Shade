@@ -11,7 +11,7 @@ namespace Component
 	{
 	}
 
-	Render::Render() : pMesh(nullptr), pShader(nullptr), pDiffuseMap(nullptr), pNormalMap(nullptr), pSpecularMap(nullptr), attributes(nullptr)
+	Render::Render() : /*pMesh(nullptr), pShader(nullptr), pDiffuseMap(nullptr), pNormalMap(nullptr), pSpecularMap(nullptr),*/ attributes(nullptr)
 	{
 	}
 
@@ -38,17 +38,17 @@ namespace Component
 	{
 	}
 
-	void Render::DrawOnScreen(const LPD3DXEFFECT _shader)
-	{
-		Transform* transform = pOwner->GetComponent<Transform>();
+	//void Render::DrawOnScreen(const LPD3DXEFFECT _shader)
+	//{
+	//	Transform* transform = pOwner->GetComponent<Transform>();
 
-		if (transform)
-		{
-			_shader->SetMatrix("WorldMatrix", &transform->GetWorldMatrix());
-		}		
-		_shader->CommitChanges();
-		pMesh->DrawSubset(0);
-	}
+	//	if (transform)
+	//	{
+	//		_shader->SetMatrix("WorldMatrix", &transform->GetWorldMatrix());
+	//	}		
+	//	_shader->CommitChanges();
+	//	pMesh->DrawSubset(0);
+	//}
 	
 	void Render::DrawFbxMesh()
 	{

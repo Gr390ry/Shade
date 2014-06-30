@@ -16,11 +16,11 @@ namespace Component {
 		{
 		public:
 			int indices;
-			Vector3 vertices;			
-			Vector3 normal;
-			Vector3 tangent;
-			Vector3 binormal;
-			Vector2 uv;
+			XMFLOAT3 vertices;			
+			XMFLOAT3 normal;
+			XMFLOAT3 tangent;
+			XMFLOAT3 binormal;
+			XMFLOAT2 uv;
 
 			Attribute();
 		};
@@ -35,21 +35,21 @@ namespace Component {
 
 		void LoadFbxModel(const char*);
 		
-		void DrawOnScreen(const LPD3DXEFFECT);
+		//void DrawOnScreen(const LPD3DXEFFECT);
 		void DrawFbxMesh();
 
 		const char* GetID() { return "Render"; }
 		const EFamily::_ GetFamilyID() { return EFamily::Render; }
 		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
-		void SetMesh(LPD3DXMESH mesh) { pMesh = mesh; }
+		//void SetMesh(LPD3DXMESH mesh) { pMesh = mesh; }
 
 	private:
-		LPD3DXEFFECT		pShader;
-		LPD3DXMESH			pMesh;
-		LPDIRECT3DTEXTURE9	pDiffuseMap;
-		LPDIRECT3DTEXTURE9	pNormalMap;
-		LPDIRECT3DTEXTURE9	pSpecularMap;
-		Matrix4x4*			pWorldMatrix;
+		//LPD3DXEFFECT		pShader;
+		//LPD3DXMESH			pMesh;
+		//LPDIRECT3DTEXTURE9	pDiffuseMap;
+		//LPDIRECT3DTEXTURE9	pNormalMap;
+		//LPDIRECT3DTEXTURE9	pSpecularMap;
+		XMMATRIX*			pWorldMatrix;
 		bool				bIsCulled;
 
 		Attribute*			attributes;

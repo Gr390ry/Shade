@@ -19,7 +19,7 @@ namespace Component {
 		void Release() {};
 		void Update(float);
 
-		void Translate(const Vector3&);
+		void Translate(const XMFLOAT3&);
 		
 		const char* GetID() { return "Transform"; }
 		const EFamily::_ GetFamilyID() { return EFamily::System; }
@@ -27,17 +27,17 @@ namespace Component {
 
 		//set
 		void SetParent(Transform*);
-		void SetPosition(const Vector3);
-		void SetRollPitchYaw(const Vector3);
-		void SetScale(const Vector3);
+		void SetPosition(const XMFLOAT3);
+		void SetRollPitchYaw(const XMFLOAT3);
+		void SetScale(const XMFLOAT3);
 
 		//get
 		Transform* GetParent() const;
-		const Matrix4x4& GetWorldMatrix();
-		const Matrix4x4& GetLocalMatrix();
-		const Vector3& GetPosition();
-		const Vector3& GetRollPitchYaw();
-		const Vector3& GetScale();
+		const XMMATRIX& GetWorldMatrix();
+		const XMMATRIX& GetLocalMatrix();
+		const XMFLOAT3& GetPosition();
+		const XMFLOAT3& GetRollPitchYaw();
+		const XMFLOAT3& GetScale();
 
 		//Matrix16이 힙 메모리에 할당 될때 16바이트로 할당되기떄문에 문제를 일으킬 수 있다.
 		//그래서! new 연산자를 오버로딩 해서 새로이 정의해준다! 16바이트로 할당하게끔!
@@ -55,16 +55,16 @@ namespace Component {
 
 	private:
 		//matrix
-		Matrix4x4 matWorld;
+		XMMATRIX matWorld;
 		//Matrix4x4 matLocal;
-		Matrix4x4 matTransform;
-		Matrix4x4 matRotator;
-		Matrix4x4 matScaling;
+		XMMATRIX matTransform;
+		XMMATRIX matRotator;
+		XMMATRIX matScaling;
 
 		//vector
-		Vector3 vPosition;
-		Vector3 vRollPitchYaw;
-		Vector3 vScale;
+		XMFLOAT3 vPosition;
+		XMFLOAT3 vRollPitchYaw;
+		XMFLOAT3 vScale;
 
 		//parent(world)
 		Transform* parent;

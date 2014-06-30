@@ -23,10 +23,10 @@ namespace Component {
 		const EFamily::_ GetFamilyID() { return EFamily::Render; }
 		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
 
-		void SetLookAt(Vector3 vLook) { mLookAt = vLook; }
-		const Vector3& GetLookAt() { return mLookAt; }
-		const Matrix4x4& GetViewMatrix() { return mViewMatrix; }
-		const Matrix4x4& GetProjectionMatrix() { return mProjectionMatrix; }
+		void SetLookAt(XMFLOAT3 vLook) { mLookAt = vLook; }
+		const XMFLOAT3& GetLookAt() { return mLookAt; }
+		const XMMATRIX& GetViewMatrix() { return mViewMatrix; }
+		const XMMATRIX& GetProjectionMatrix() { return mProjectionMatrix; }
 
 		static void* operator new (size_t size)
 		{
@@ -41,9 +41,9 @@ namespace Component {
 		}
 
 	private:
-		Vector3 mLookAt;
-		Matrix4x4 mViewMatrix;
-		Matrix4x4 mProjectionMatrix;
+		XMFLOAT3 mLookAt;
+		XMMATRIX mViewMatrix;
+		XMMATRIX mProjectionMatrix;
 	};
 
 }; /*Component*/

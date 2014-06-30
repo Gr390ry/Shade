@@ -21,8 +21,6 @@ namespace GameObject {
 		
 		Component::Transform* transform = GetComponent<Component::Transform>();
 		Component::Render* render = GetComponent<Component::Render>();
-
-		render->SetMesh(ConstructHelper::LoadXMesh("Contents/Model/Torus.x"));
 		render->LoadFbxModel("Contents/Model/box.fbx");
 	}
 
@@ -32,7 +30,7 @@ namespace GameObject {
 
 		if (transform)
 		{
-			Vector3 vRotate = transform->GetRollPitchYaw();
+			XMFLOAT3 vRotate = transform->GetRollPitchYaw();
 			vRotate.y += 2 * pDelta;
 			transform->SetRollPitchYaw(vRotate);
 		}

@@ -36,19 +36,19 @@ namespace GameObject {
 		RemoveAllComponents();
 	}
 	
-	const Matrix4x4& Camera::GetViewMarix()
+	const XMMATRIX& Camera::GetViewMarix()
 	{
 		return pProperty->GetViewMatrix();
 	}
-	const Matrix4x4& Camera::GetProjectionMatrix()
+	const XMMATRIX& Camera::GetProjectionMatrix()
 	{
 		return pProperty->GetProjectionMatrix();
 	}
-	void Camera::SetLookAt(const Vector3& look)
+	void Camera::SetLookAt(const XMFLOAT3& look)
 	{
 		pProperty->SetLookAt(look);
 	}
-	void Camera::SetPosition(const Vector3& position)
+	void Camera::SetPosition(const XMFLOAT3& position)
 	{
 		pTransform->SetPosition(position);
 	}

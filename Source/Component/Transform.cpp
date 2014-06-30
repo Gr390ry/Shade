@@ -9,38 +9,37 @@ namespace Component {
 	{
 		parent = nullptr;
 
-		D3DXMatrixIdentity(&matWorld);
-		D3DXMatrixIdentity(&matTransform);
-		D3DXMatrixIdentity(&matScaling);
-		D3DXMatrixIdentity(&matRotator);
-
 		ResetComponent();
 	}
 	void Transform::ResetComponent()
 	{
-		vPosition = Vector3(0, 0, 0);
-		vRollPitchYaw = Vector3(0, 0, 0);
-		vScale = Vector3(1, 1, 1);
-		Update(0);
+		vPosition		= XMFLOAT3(0, 0, 0);
+		vRollPitchYaw	= XMFLOAT3(0, 0, 0);
+		vScale			= XMFLOAT3(1, 1, 1);
+		matWorld		= XMMatrixIdentity();
+		matTransform	= XMMatrixIdentity();
+		matScaling		= XMMatrixIdentity();
+		matRotator		= XMMatrixIdentity();
 	}
 	void Transform::Update(float pDelta)
 	{
-		D3DXMatrixTranslation(&matTransform, vPosition.x, vPosition.y, vPosition.z);
-		D3DXMatrixScaling(&matScaling, vScale.x, vScale.y, vScale.z);
-		D3DXMatrixRotationYawPitchRoll(&matRotator, vRollPitchYaw.y, vRollPitchYaw.x, vRollPitchYaw.z);
+		matScaling		= XMMatrixScaling(vScale.x, vScale.y, vScale.z);
+		matRotator		= XMMatrixRotationRollPitchYaw(vRollPitchYaw.x, vRollPitchYaw.y, vRollPitchYaw.z);
+		matTransform	= XMMatrixTranslation(vPosition.x, vPosition.y, vPosition.z);	
 
-		matWorld = matScaling * matRotator * matTransform;
+		matWorld		= matScaling * matRotator * matTransform;
 
 		if (parent)
 		{
-			matWorld = parent->matWorld;
-			D3DXMatrixMultiply(&matWorld, &parent->matWorld, &matWorld);
+			matWorld	= XMMatrixMultiply(matWorld, parent->matWorld);
 		}
 	}
 
-	void Transform::Translate(const Vector3& vVelocity)
+	void Transform::Translate(const XMFLOAT3& vVelocity)
 	{
-		vPosition += vVelocity;
+		vPosition.x += vVelocity.x;
+		vPosition.y += vVelocity.y;
+		vPosition.z += vVelocity.z;
 	}
 
 	//set
@@ -49,15 +48,15 @@ namespace Component {
 		if (this == _parent) return;
 		parent = _parent;
 	}
-	void Transform::SetPosition(const Vector3 _position)
+	void Transform::SetPosition(const XMFLOAT3 _position)
 	{
 		vPosition = _position;
 	}
-	void Transform::SetRollPitchYaw(const Vector3 _rollpitchyaw)
+	void Transform::SetRollPitchYaw(const XMFLOAT3 _rollpitchyaw)
 	{
 		vRollPitchYaw = _rollpitchyaw;
 	}
-	void Transform::SetScale(const Vector3 _scale)
+	void Transform::SetScale(const XMFLOAT3 _scale)
 	{
 		vScale = _scale;
 	}
@@ -66,23 +65,19 @@ namespace Component {
 	{
 		return parent;
 	}
-	const Matrix4x4& Transform::GetWorldMatrix()
+	const XMMATRIX& Transform::GetWorldMatrix()
 	{
 		return matWorld;
 	}
-	/*inline const Matrix4x4& Transform::GetLocalMatrix()
-	{
-		return matLocal;
-	}*/
-	const Vector3& Transform::GetPosition()
+	const XMFLOAT3& Transform::GetPosition()
 	{
 		return vPosition;
 	}
-	const Vector3& Transform::GetRollPitchYaw()
+	const XMFLOAT3& Transform::GetRollPitchYaw()
 	{
 		return vRollPitchYaw;
 	}
-	const Vector3& Transform::GetScale()
+	const XMFLOAT3& Transform::GetScale()
 	{
 		return vScale;
 	}

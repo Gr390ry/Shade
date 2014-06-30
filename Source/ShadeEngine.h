@@ -3,8 +3,8 @@
 
 #include <d3d11.h>
 #include <d3dx11.h>
-#include <d3d9.h>
-#include <d3dx9.h>
+//#include <d3d9.h>
+//#include <d3dx9.h>
 #include <xnamath.h>
 #include <string>
 #include <stdio.h>
@@ -17,8 +17,8 @@
 #include <hash_map>
 #include <ppl.h>
 
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
+//#pragma comment(lib, "d3d9.lib")
+//#pragma comment(lib, "d3dx9.lib")
 
 #define SAFE_RELEASE(p) { if (p) { p->Release(); p = nullptr; } }
 #define SAFE_DELETE(p) { if (p) { delete p; p = nullptr; } }
