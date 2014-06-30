@@ -29,31 +29,24 @@ public:
 	RenderDevice();
 
 
-	bool InitializeDevice(HWND);
+	//bool InitializeDevice(HWND);
 	bool InitializeDevice11(HWND);
 	void Release();
 
 	void OnResize();
-	void RenderFrame();
 	void Render11();
 
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
-	//template <typename T>
-	//void AddListener(const T*);
-	//template <typename T>
-	//void RemoveListener(const T*);
-
 	//TODO:Shader DEMO
 	void LoadAsset();
-	//void Draw(const Matrix4x4&, const Matrix4x4&, const Matrix4x4&);
 
-	//const LPDIRECT3DDEVICE9 GetDevice();
 	FbxManager* GetFbxManager();
+	ID3D11Device* GetDevice() { return directDevice11; }
+	ID3D11DeviceContext* GetContext() { return directContext; }
+
 private:
-	//LPDIRECT3D9				directObject;
-	//LPDIRECT3DDEVICE9		directDevice;
 	FbxManager*				fbxManager;
 
 	ID3D11Device*			directDevice11;
@@ -67,27 +60,10 @@ private:
 	D3D_DRIVER_TYPE			driverType;
 	bool					enableMSAAx4;
 
-	//LPD3DXEFFECT			mpCreateShadowShader;
-	//LPD3DXEFFECT			mpShader;
-	//LPDIRECT3DTEXTURE9		mpDiffuseTexture;
-	//LPDIRECT3DTEXTURE9		mpSpecularTexture;
-	//LPDIRECT3DTEXTURE9		mpNormalTexture;
-	//LPD3DXMESH				mpModel;
+	ID3D11InputLayout*		inputLayout;
 
 	std::vector<Component::Render*> listRenders;
 	std::vector<Component::LightPoint*> listLightPoints;
-
-	//LPDIRECT3DTEXTURE9 mpShadowRenderTarget;
-	//LPDIRECT3DSURFACE9 mpShadowDepthStencil;
-
-	//LPDIRECT3DVERTEXDECLARATION9	mpFullScreenQuadDecl;
-	//LPDIRECT3DVERTEXBUFFER9			mpFullScreenQuadVB;
-	//LPDIRECT3DINDEXBUFFER9			mpFullScreenQuadIB;
-
-	//LPD3DXEFFECT mpNoEffect;
-	//LPD3DXEFFECT mpGrayScale;
-	//LPD3DXEFFECT mpSepia;
-	//LPDIRECT3DTEXTURE9 mpScreenRenderTarget;
 
 	//출력 가능한 컴포넌트들을 받는다.(Render, LightPoint, Etc..)
 	MAP_COMPONENT ContainComponents;
@@ -107,13 +83,3 @@ private:
 	//LPD3DXEFFECT mpDeferredShader;
 	//LPDIRECT3DTEXTURE9 mpMultiRenderTarget[4];
 };
-
-//
-//template <typename T>
-//void RenderDevice::AddListener(const T* component)
-//{
-//}
-//template <typename T>
-//void RenderDevice::RemoveListener(const T* component)
-//{
-//}

@@ -7,11 +7,7 @@ namespace Component
 {
 	ImplementRTTI(Render, IRenderable);
 
-	Render::Attribute::Attribute() : vertices(0, 0, 0), normal(0, 0, 0), tangent(0, 0, 0), binormal(0, 0, 0), uv(0, 0), indices(0)
-	{
-	}
-
-	Render::Render() : /*pMesh(nullptr), pShader(nullptr), pDiffuseMap(nullptr), pNormalMap(nullptr), pSpecularMap(nullptr),*/ attributes(nullptr)
+	Render::Render()
 	{
 	}
 
@@ -26,7 +22,10 @@ namespace Component
 
 	void Render::Release()
 	{
-		SAFE_DELETE_ARRAY(attributes);
+		SAFE_RELEASE(pVB);
+		SAFE_RELEASE(pIB);
+		//SAFE_RELEASE(pInputLayout);
+		//SAFE_DELETE_ARRAY(attributes);
 		RenderDevice::Get()->RemoveListener(this);
 	}
 
@@ -51,15 +50,13 @@ namespace Component
 	//}
 	
 	void Render::DrawFbxMesh()
-	{
-		if (attributes == nullptr) return;
+	{		
 	}
 
 	void Render::LoadFbxModel(const char* filepath)
 	{
 		typedef fbxsdk_2015_1::FbxImporter IMPORTER;
 		typedef FbxScene SCENE;
-		typedef Render::Attribute MeshAttribute;
 
 		FbxManager* manager = RenderDevice::Get()->GetFbxManager();
 		IMPORTER *	import	= IMPORTER::Create(manager, "Model");
@@ -82,6 +79,9 @@ namespace Component
 			return;
 		}
 
+		this->mVertices.clear();
+		this->mIndices.clear();
+
 		for (int i = 0; i < root->GetChildCount(); ++i)
 		{
 			FbxNode* child = root->GetChild(i);
@@ -98,14 +98,13 @@ namespace Component
 			FbxVector4* vertices = mesh->GetControlPoints();
 
 			int PolygonCount = mesh->GetPolygonCount();
-			attributes = new Render::Attribute[PolygonCount * 3];
 
 			FbxVector4 normal(0, 0, 0, 1);
 			FbxVector2 uv(0, 0);
 			int idx = 0;
 			char* uvSetName = "UVChannel_1";//{ 0, };
 			bool bUnMapped;
-			
+
 			for (int polygonidx = 0; polygonidx < PolygonCount; ++polygonidx)
 			{
 				int numVertices = mesh->GetPolygonSize(polygonidx);
@@ -114,27 +113,71 @@ namespace Component
 				for (int vertexidx = 0; vertexidx < numVertices; ++vertexidx)
 				{
 					int controlPointIdx = mesh->GetPolygonVertex(polygonidx, vertexidx);
+
+					Vertex vertex;
+
 					idx = polygonidx * numVertices + vertexidx;
 
 					if (mesh->GetPolygonVertexNormal(polygonidx, vertexidx, normal))
 					{
-						attributes[idx].normal.x = static_cast<float>(normal.mData[0]);
-						attributes[idx].normal.y = static_cast<float>(normal.mData[1]);
-						attributes[idx].normal.z = static_cast<float>(normal.mData[2]);
+						vertex.normal.x = static_cast<float>(normal.mData[0]);
+						vertex.normal.y = static_cast<float>(normal.mData[1]);
+						vertex.normal.z = static_cast<float>(normal.mData[2]);
 					}					
 					if (mesh->GetPolygonVertexUV(polygonidx, vertexidx, uvSetName, uv, bUnMapped))
 					{
-						attributes[idx].uv.x = static_cast<float>(uv.mData[0]);
-						attributes[idx].uv.y = static_cast<float>(uv.mData[1]);
+						vertex.uv.x = static_cast<float>(uv.mData[0]);
+						vertex.uv.y = static_cast<float>(uv.mData[1]);
 					}
 
-					attributes[idx].vertices.x = static_cast<float>(vertices[controlPointIdx].mData[0]);
-					attributes[idx].vertices.y = static_cast<float>(vertices[controlPointIdx].mData[1]);
-					attributes[idx].vertices.z = static_cast<float>(vertices[controlPointIdx].mData[2]);
-					attributes[idx].indices = controlPointIdx;
-				}
+					vertex.position.x = static_cast<float>(vertices[controlPointIdx].mData[0]);
+					vertex.position.y = static_cast<float>(vertices[controlPointIdx].mData[1]);
+					vertex.position.z = static_cast<float>(vertices[controlPointIdx].mData[2]);
 
+					this->mVertices.push_back(vertex);
+					this->mIndices.push_back(controlPointIdx);
+				}
 			}
+		}
+		CreateVertexBuffer();
+		CreateIndexBuffer();
+	}
+
+	void Render::CreateVertexBuffer()
+	{
+		D3D11_BUFFER_DESC vbd;
+		vbd.Usage = D3D11_USAGE_IMMUTABLE;
+		vbd.ByteWidth = sizeof(Vertex)* this->mVertices.size();
+		vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vbd.CPUAccessFlags = 0;
+		vbd.MiscFlags = 0;
+		vbd.StructureByteStride = 0;
+
+		D3D11_SUBRESOURCE_DATA initData;
+		initData.pSysMem = &mVertices[0];
+
+		if (FAILED(RenderDevice::Get()->GetDevice()->CreateBuffer(&vbd, &initData, &pVB)))
+		{
+			assert(NULL);
+		}
+	}
+
+	void Render::CreateIndexBuffer()
+	{
+		D3D11_BUFFER_DESC vbd;
+		vbd.Usage = D3D11_USAGE_IMMUTABLE;
+		vbd.ByteWidth = sizeof(int)* mIndices.size();
+		vbd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		vbd.CPUAccessFlags = 0;
+		vbd.MiscFlags = 0;
+		vbd.StructureByteStride = 0;
+
+		D3D11_SUBRESOURCE_DATA initData;
+		initData.pSysMem = &mIndices[0];
+
+		if (FAILED(RenderDevice::Get()->GetDevice()->CreateBuffer(&vbd, &initData, &pIB)))
+		{
+			assert(NULL);
 		}
 	}
 };

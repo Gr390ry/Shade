@@ -12,18 +12,17 @@ namespace Component {
 		DeclareRTTI(Render);
 
 	public:
-		class Attribute
+		
+		struct Vertex
 		{
-		public:
-			int indices;
-			XMFLOAT3 vertices;			
+			XMFLOAT3 position;
 			XMFLOAT3 normal;
-			XMFLOAT3 tangent;
-			XMFLOAT3 binormal;
 			XMFLOAT2 uv;
-
-			Attribute();
 		};
+
+	private:
+		void CreateVertexBuffer();
+		void CreateIndexBuffer();
 
 	public:
 		Render();
@@ -49,10 +48,16 @@ namespace Component {
 		//LPDIRECT3DTEXTURE9	pDiffuseMap;
 		//LPDIRECT3DTEXTURE9	pNormalMap;
 		//LPDIRECT3DTEXTURE9	pSpecularMap;
+		ID3D11Buffer*		pVB;
+		ID3D11Buffer*		pIB;
+		ID3D10EffectMatrixVariable* fxWorldVoewProjectionMatrix;
+		//ID3D11InputLayout*	pInputLayout;
+
+		std::vector<Vertex> mVertices;
+		std::vector<int>	mIndices;
+
 		XMMATRIX*			pWorldMatrix;
 		bool				bIsCulled;
-
-		Attribute*			attributes;
 		Transform*			transform;
 	};
 	
