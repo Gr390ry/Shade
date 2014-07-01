@@ -20,6 +20,9 @@
     <Filter Include="Library">
       <UniqueIdentifier>{299649e9-b7f8-4ef5-8657-9d74914798d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\directX11">
+      <UniqueIdentifier>{eb7d02a6-94b3-43e8-95ba-f4903364a889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ISingleton.h">
@@ -82,6 +85,9 @@
     <ClInclude Include="Source\Management\GameTimer.h">
       <Filter>Sources\Management</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\directX11\Effect\d3dx11effect.h">
+      <Filter>Library\directX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -126,5 +132,8 @@
     <ClCompile Include="Source\Management\GameTimer.cpp">
       <Filter>Sources\Management</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Contents\color.fx" />
   </ItemGroup>
 </Project>

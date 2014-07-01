@@ -35,7 +35,7 @@ namespace Component {
 		void LoadFbxModel(const char*);
 		
 		//void DrawOnScreen(const LPD3DXEFFECT);
-		void DrawFbxMesh();
+		void DrawFbxMesh(ID3DX11EffectTechnique*);
 
 		const char* GetID() { return "Render"; }
 		const EFamily::_ GetFamilyID() { return EFamily::Render; }

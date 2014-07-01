@@ -1,7 +1,10 @@
 #include "Render.h"
 #include "Transform.h"
 #include "../GameObject/IGameObject.h"
+#include "../GameObject/Camera.h"
+#include "../Management//General.h"
 #include "../Management/RenderDevice.h"
+
 
 namespace Component
 {
@@ -49,8 +52,42 @@ namespace Component
 	//	pMesh->DrawSubset(0);
 	//}
 	
-	void Render::DrawFbxMesh()
-	{		
+	void Render::DrawFbxMesh(ID3DX11EffectTechnique* technique)
+	{
+		XMMATRIX world = pOwner->GetComponent<Transform>()->GetWorldMatrix();
+		XMMATRIX view = General::Get()->GetMainCamera()->GetViewMarix();
+		XMMATRIX projection = General::Get()->GetMainCamera()->GetProjectionMatrix();
+
+		XMMATRIX vp = XMMatrixMultiply(view, projection);
+		ID3DX11EffectMatrixVariable* fxWorld = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorld")->AsMatrix();
+		ID3DX11EffectMatrixVariable* fxViewProjection = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gViewProjection")->AsMatrix();
+		ID3DX11EffectVectorVariable* fxWorldLightPosition = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorldLightPosition")->AsVector();
+		
+		fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
+		fxViewProjection->SetMatrix(reinterpret_cast<float*>(&vp));
+
+		float lightPosition[] = { 500, 500, -500, 1 };
+
+		fxWorldLightPosition->SetFloatVector(lightPosition);
+
+		UINT stride = sizeof(Vertex);
+		UINT offset = 0;
+		RenderDevice::Get()->GetContext()->IASetVertexBuffers(0, 1, &pVB, &stride, &offset);
+		RenderDevice::Get()->GetContext()->IASetIndexBuffer(pIB, DXGI_FORMAT_R32_UINT, 0);
+
+		/*fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
+		fxView->SetMatrix(reinterpret_cast<float*>(&view));
+		fxProjection->SetMatrix(reinterpret_cast<float*>(&projection));*/
+
+		D3DX11_TECHNIQUE_DESC techDesc;
+		technique->GetDesc(&techDesc);
+
+		for (UINT i = 0; i < techDesc.Passes; ++i)
+		{
+			technique->GetPassByIndex(i)->Apply(0, RenderDevice::Get()->GetContext());
+			//RenderDevice::Get()->GetContext()->DrawIndexed(mIndices.size() * 3, 0, 0);
+			RenderDevice::Get()->GetContext()->Draw(mVertices.size(), 0);
+		}
 	}
 
 	void Render::LoadFbxModel(const char* filepath)
@@ -104,6 +141,20 @@ namespace Component
 			int idx = 0;
 			char* uvSetName = "UVChannel_1";//{ 0, };
 			bool bUnMapped;
+			
+#ifdef _DEBUG
+			FbxStringList uvSetList;
+			mesh->GetUVSetNames(uvSetList);
+
+			char uvsetname[256] = { 0, };
+			for (int i = 0; i < uvSetList.GetCount(); ++i)
+			{
+				sprintf_s(uvsetname, "UV SET NAME[%s]\n", uvSetList[i]);
+				OutputDebugString(uvsetname);
+			}
+#endif
+
+			
 
 			for (int polygonidx = 0; polygonidx < PolygonCount; ++polygonidx)
 			{

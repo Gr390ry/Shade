@@ -25,6 +25,9 @@ private:
 	bool InitializeFbx();
 	void DrawStencilBuffer();
 
+	bool CreateEffectFile(char*, LPD3D11EFFECT*);
+	bool InitializeVertexLayout();
+
 public:	
 	RenderDevice();
 
@@ -42,32 +45,36 @@ public:
 	//TODO:Shader DEMO
 	void LoadAsset();
 
-	FbxManager* GetFbxManager();
-	ID3D11Device* GetDevice() { return directDevice11; }
-	ID3D11DeviceContext* GetContext() { return directContext; }
+	FbxManager* GetFbxManager() { return mFbxManager; }
+	ID3D11Device* GetDevice() { return mDirectDevice11; }
+	ID3D11DeviceContext* GetContext() { return mDirectContext; }
+	LPD3D11EFFECT GetShaderDEMO() { return mShader; }
 
 private:
-	FbxManager*				fbxManager;
+	
 
-	ID3D11Device*			directDevice11;
-	ID3D11DeviceContext*	directContext;
-	D3D_FEATURE_LEVEL		featureLevel;
-	IDXGISwapChain*			swapChain;
-	ID3D11Texture2D*		depthStencilBuffer;
-	ID3D11RenderTargetView* renderTargetView;
-	ID3D11DepthStencilView* depthStencilView;
-	D3D11_VIEWPORT			screenViewPort;
-	D3D_DRIVER_TYPE			driverType;
+	ID3D11Device*			mDirectDevice11;
+	ID3D11DeviceContext*	mDirectContext;
+	D3D_FEATURE_LEVEL		mFeatureLevel;
+	IDXGISwapChain*			mSwapChain;
+	ID3D11Texture2D*		mDepthStencilBuffer;
+	ID3D11RenderTargetView* mRenderTargetView;
+	ID3D11DepthStencilView* mDepthStencilView;
+	D3D11_VIEWPORT			mScreenViewPort;
+	D3D_DRIVER_TYPE			mDriverType;
 	bool					enableMSAAx4;
-
-	ID3D11InputLayout*		inputLayout;
+	
+	LPD3D11EFFECT			mShader;
+	ID3D11InputLayout*		mInputLayout;
+	ID3DX11EffectTechnique* mTechnique;
 
 	std::vector<Component::Render*> listRenders;
 	std::vector<Component::LightPoint*> listLightPoints;
 
 	//출력 가능한 컴포넌트들을 받는다.(Render, LightPoint, Etc..)
 	MAP_COMPONENT ContainComponents;
-		
+
+	FbxManager*				mFbxManager;		
 	/*
 		Support Maximize RenderTarget Count To DirectX Version
 		-DX9 : 4

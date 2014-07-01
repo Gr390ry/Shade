@@ -22,4 +22,7 @@ namespace GENERIC {
 	const XMFLOAT4		worldLightPosition(500, 500, -500, 1);
 	const XMFLOAT4		worldLightColor(0.7f, 0.7f, 0.7f, 1);
 	const XMFLOAT4		worldCameraPosition(0, 0, -200, 1);
+
+	const float			RadToDeg = 57.29577951f;
+	const float			DegToRad = 0.017453293f;
 };

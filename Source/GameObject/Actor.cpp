@@ -21,7 +21,7 @@ namespace GameObject {
 		
 		Component::Transform* transform = GetComponent<Component::Transform>();
 		Component::Render* render = GetComponent<Component::Render>();
-		render->LoadFbxModel("Contents/Model/box.fbx");
+		render->LoadFbxModel("Contents/Model/darkSider2/DarSider.fbx");
 	}
 
 	void Actor::Update(float pDelta)
@@ -31,7 +31,8 @@ namespace GameObject {
 		if (transform)
 		{
 			XMFLOAT3 vRotate = transform->GetRollPitchYaw();
-			vRotate.y += 2 * pDelta;
+			//vRotate.x = 0.785f;
+			vRotate.y += 1 * pDelta;
 			transform->SetRollPitchYaw(vRotate);
 		}
 

@@ -18,8 +18,11 @@ bool General::InitializeGame()
 		pMainCamera = new GameObject::Camera;
 
 	pTestActor->Initialize();
+	pTestActor->GetComponent<Component::Transform>()->SetRollPitchYaw(XMFLOAT3(270 * GENERIC::DegToRad, 0, 0));
+	pTestActor->GetComponent<Component::Transform>()->SetPosition(XMFLOAT3(0, -50, 0));
 	/*pTestActor->GetComponent<Component::Transform>()->SetScale(Vector3(0.5, 0.5, 0.5));
 	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));*/
+	
 
 	pMainCamera->Initialize();
 	pMainCamera->SetPosition(XMFLOAT3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));

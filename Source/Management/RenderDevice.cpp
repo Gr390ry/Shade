@@ -19,22 +19,22 @@ RenderDevice::RenderDevice() : /*mpShader(nullptr),
 							   mpSpecularTexture(nullptr),
 							   mpNormalTexture(nullptr),
 							   mpModel(nullptr),*/
-							   fbxManager(nullptr),
+							   mFbxManager(nullptr),
 							   /*directDevice(nullptr),
 							   directObject(nullptr),*/
-							   directDevice11(nullptr),
-							   directContext(nullptr),
-							   swapChain(nullptr),
-							   depthStencilBuffer(nullptr),
-							   renderTargetView(nullptr)
+							   mDirectDevice11(nullptr),
+							   mDirectContext(nullptr),
+							   mSwapChain(nullptr),
+							   mDepthStencilBuffer(nullptr),
+							   mRenderTargetView(nullptr)
 {
 }
 
 void RenderDevice::Release()
 {
-	if (fbxManager)
+	if (mFbxManager)
 	{
-		fbxManager->Destroy();
+		mFbxManager->Destroy();
 	}
 
 	//SAFE_RELEASE(mpShader);
@@ -58,11 +58,12 @@ void RenderDevice::Release()
 	//SAFE_RELEASE(directDevice);
 	//SAFE_RELEASE(directObject);
 
-	SAFE_RELEASE(renderTargetView);
-	SAFE_RELEASE(depthStencilBuffer);
-	SAFE_RELEASE(swapChain);
-	SAFE_RELEASE(directContext);
-	SAFE_RELEASE(directDevice11);
+	SAFE_RELEASE(mShader);
+	SAFE_RELEASE(mRenderTargetView);
+	SAFE_RELEASE(mDepthStencilBuffer);
+	SAFE_RELEASE(mSwapChain);
+	SAFE_RELEASE(mDirectContext);
+	SAFE_RELEASE(mDirectDevice11);
 }
 
 //bool RenderDevice::InitializeDevice(HWND hWnd)
@@ -159,78 +160,204 @@ bool RenderDevice::InitializeDevice11(HWND hWnd)
 	//다이렉트 11 디바이스/컨텍스트/스왑체인 생성
 	for (UINT i = 0; i < numDriverTypes; ++i)
 	{
-		driverType = driverTypes[i];;
+		mDriverType = driverTypes[i];;
 
-		hr = D3D11CreateDevice(NULL, driverType, NULL, uFlag, featureLevels, 
+		hr = D3D11CreateDevice(NULL, mDriverType, NULL, uFlag, featureLevels, 
 							   numFeatureLevels, D3D11_SDK_VERSION, 
-							   &directDevice11, &featureLevel, &directContext);
+							   &mDirectDevice11, &mFeatureLevel, &mDirectContext);
 
 		if (SUCCEEDED(hr))
 			break;
 	}
 	if (FAILED(hr)) return false;
 
-	
-	IDXGIDevice* dxgiDevice = nullptr;
-	hr = directDevice11->QueryInterface(__uuidof(IDXGIDevice), (LPVOID*)&dxgiDevice);
-	if (FAILED(hr)) return false;
-	
-	IDXGIAdapter* dxgiAdapter;
-	hr = dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (LPVOID*)&dxgiAdapter);
-	if (FAILED(hr)) return false;
+	{
+		IDXGIDevice* dxgiDevice = nullptr;
+		hr = mDirectDevice11->QueryInterface(__uuidof(IDXGIDevice), (LPVOID*)&dxgiDevice);
+		if (FAILED(hr)) return false;
 
-	IDXGIFactory* dxgiFactory;
-	hr = dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (LPVOID*)&dxgiFactory);
-	if (FAILED(hr)) return false;
-	
-	hr = dxgiFactory->CreateSwapChain(directDevice11, &sd, &swapChain);
-	if (FAILED(hr)) return false;
+		IDXGIAdapter* dxgiAdapter;
+		hr = dxgiDevice->GetParent(__uuidof(IDXGIAdapter), (LPVOID*)&dxgiAdapter);
+		if (FAILED(hr)) return false;
 
-	dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_WINDOW_CHANGES);
-		
-	SAFE_RELEASE(dxgiFactory);
-	SAFE_RELEASE(dxgiAdapter);
-	SAFE_RELEASE(dxgiDevice);
-	
+		IDXGIFactory* dxgiFactory;
+		hr = dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (LPVOID*)&dxgiFactory);
+		if (FAILED(hr)) return false;
+
+		hr = dxgiFactory->CreateSwapChain(mDirectDevice11, &sd, &mSwapChain);
+		if (FAILED(hr)) return false;
+
+		dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_WINDOW_CHANGES);
+
+		SAFE_RELEASE(dxgiFactory);
+		SAFE_RELEASE(dxgiAdapter);
+		SAFE_RELEASE(dxgiDevice);
+	}
+
 	//백버퍼 생성
-	hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&depthStencilBuffer);
-	if (FAILED(hr)) return false;
+	{
+		ID3D11Texture2D* backBuffer;
+		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
+		if (FAILED(hr)) return false;
 
-	//랜더 타겟 설정
-	hr = directDevice11->CreateRenderTargetView(depthStencilBuffer, NULL, &renderTargetView);
-	depthStencilBuffer->Release();
-	if (FAILED(hr)) return false;
+		//랜더 타겟 설정
+		hr = mDirectDevice11->CreateRenderTargetView(backBuffer, NULL, &mRenderTargetView);
+		backBuffer->Release();
+		if (FAILED(hr)) return false;
+	}
 
-	directContext->OMSetRenderTargets(1, &renderTargetView, NULL);
+	{
+		//랜더 타겟 뷰 생성
+		mDirectContext->OMSetRenderTargets(1, &mRenderTargetView, NULL);
+
+		D3D11_TEXTURE2D_DESC depthStencilDesc;
+		depthStencilDesc.Width = GENERIC::windowWidth;
+		depthStencilDesc.Height = GENERIC::windowHeight;
+		depthStencilDesc.MipLevels = 1;
+		depthStencilDesc.ArraySize = 1;
+		depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilDesc.SampleDesc.Count = 1;
+		depthStencilDesc.SampleDesc.Quality = 0;
+		depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+		depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		depthStencilDesc.CPUAccessFlags = 0;
+		depthStencilDesc.MiscFlags = 0;
+
+		hr = mDirectDevice11->CreateTexture2D(&depthStencilDesc, 0, &mDepthStencilBuffer);
+		if (FAILED(hr)) return false;
+		hr = mDirectDevice11->CreateDepthStencilView(mDepthStencilBuffer, 0, &mDepthStencilView);
+		if (FAILED(hr)) return false;
+	}
+
+	mDirectContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
+
+
 
 	//뷰포트 설정
-	screenViewPort.Width = GENERIC::windowWidth;
-	screenViewPort.Height = GENERIC::windowHeight;
-	screenViewPort.MinDepth = 0;
-	screenViewPort.MaxDepth = 1;
-	screenViewPort.TopLeftX = 0;
-	screenViewPort.TopLeftY = 0;
-	directContext->RSSetViewports(1, &screenViewPort);
+	mScreenViewPort.Width = GENERIC::windowWidth;
+	mScreenViewPort.Height = GENERIC::windowHeight;
+	mScreenViewPort.MinDepth = 0;
+	mScreenViewPort.MaxDepth = 1;
+	mScreenViewPort.TopLeftX = 0;
+	mScreenViewPort.TopLeftY = 0;
+	mDirectContext->RSSetViewports(1, &mScreenViewPort);
+
+	D3D11_RASTERIZER_DESC rasterDesc;
+	rasterDesc.AntialiasedLineEnable = false;
+	rasterDesc.CullMode = D3D11_CULL_BACK;
+	rasterDesc.DepthBias = 0;
+	rasterDesc.DepthBiasClamp = 0.0f;
+	rasterDesc.DepthClipEnable = true;
+	rasterDesc.FillMode = D3D11_FILL_SOLID;
+	rasterDesc.FrontCounterClockwise = false;
+	rasterDesc.MultisampleEnable = false;
+	rasterDesc.ScissorEnable = false;
+	rasterDesc.SlopeScaledDepthBias = 0.0f;
+
+	// Create the rasterizer state from the description we just filled out.
+	//result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
+	ID3D11RasterizerState* rasterState;
+	if (FAILED(mDirectDevice11->CreateRasterizerState(&rasterDesc, &rasterState)))
+	{
+		return false;
+	}
+
+	mDirectContext->RSSetState(rasterState);
 
 	if (!InitializeFbx())
 	{
 		return false;
 	}
 
+	if (!CreateEffectFile("Contents/color.fx", &mShader))
+	{
+		return false;
+	}
+	//mTechnique = mShader->GetTechniqueByName("ColorTech");
+	mTechnique = mShader->GetTechniqueByIndex(0);
+
+	if (!InitializeVertexLayout())
+	{
+		return false;
+	}
 	return true;
 }
 
 bool RenderDevice::InitializeFbx()
 {
-	fbxManager = FbxManager::Create();
+	mFbxManager = FbxManager::Create();
 	
-	if (fbxManager == nullptr)
+	if (mFbxManager == nullptr)
 	{
 		return false;
 	}
 
-	FbxIOSettings* ios = FbxIOSettings::Create(fbxManager, IOSROOT);
-	fbxManager->SetIOSettings(ios);
+	FbxIOSettings* ios = FbxIOSettings::Create(mFbxManager, IOSROOT);
+	mFbxManager->SetIOSettings(ios);
+	return true;
+}
+
+bool RenderDevice::InitializeVertexLayout()
+{
+	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+	};
+
+	D3DX11_PASS_DESC passDesc;
+	
+	/*if (!mTechnique->IsValid())
+	{
+		return false;
+	}*/
+
+	mTechnique->GetPassByIndex(0)->GetDesc(&passDesc);
+
+	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
+	{
+		return false;
+	}
+	return true;
+}
+
+bool RenderDevice::CreateEffectFile(char* filepath, LPD3D11EFFECT* effect)
+{
+	DWORD shaderFlag = 0;
+
+#if defined(DEBUG) || defined(_DEBUG)
+	shaderFlag |= D3D10_SHADER_DEBUG;
+	shaderFlag |= D3D10_SHADER_SKIP_OPTIMIZATION;
+#endif
+
+	ID3D10Blob* compiledShader = nullptr;
+	ID3D10Blob* compilationMsgs = nullptr;
+
+	//effect 파일 컴파일
+	if (FAILED(D3DX11CompileFromFile(filepath, 0, 0, 0, "fx_5_0", 
+									 shaderFlag, 0, 0, 
+									 &compiledShader, &compilationMsgs, 0)))
+	{
+		if (compilationMsgs != 0)
+		{
+			MessageBoxA(NULL, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
+			SAFE_RELEASE(compilationMsgs);
+		}
+		assert(NULL);
+		return false;
+	}
+	
+	/* - NOTICE -
+		컴파일이 완료된 쉐이더를 이펙트 파일로 만든다.
+	*/
+	HRESULT hr;
+
+	hr = D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(),
+									  compiledShader->GetBufferSize(),
+									  0, mDirectDevice11, effect);
+	SAFE_RELEASE(compiledShader);
+
+	if (FAILED(hr)) return false;
 	return true;
 }
 
@@ -336,8 +463,24 @@ bool RenderDevice::InitializeFbx()
 void RenderDevice::Render11()
 {
 	float color[4] = { 0, 0.125f, 0.3f, 1 };
-	directContext->ClearRenderTargetView(renderTargetView, color);
-	swapChain->Present(0, 0);
+	mDirectContext->ClearRenderTargetView(mRenderTargetView, color);
+	mDirectContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+
+	mDirectContext->IASetInputLayout(mInputLayout);
+	mDirectContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	
+	typedef std::vector<Component::Render*>::iterator listiterator;
+	listiterator iter = listRenders.begin();
+	while (iter != listRenders.end())
+	{
+		Component::Render* elemental = (*iter);
+		elemental->DrawFbxMesh(mTechnique);
+		++iter;
+	}
+
+
+	mSwapChain->Present(0, 0);
 }
 
 //void RenderDevice::RenderFrame()
@@ -553,12 +696,9 @@ void RenderDevice::RemoveListener(Component::Render* pRender)
 	}
 }
 
+
+
 //const LPDIRECT3DDEVICE9 RenderDevice::GetDevice()
 //{
 //	return directDevice;
 //}
-
-FbxManager* RenderDevice::GetFbxManager()
-{
-	return fbxManager;
-}
