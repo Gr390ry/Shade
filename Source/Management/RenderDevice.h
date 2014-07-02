@@ -4,7 +4,7 @@
 #include <vector>
 #include <fbxsdk.h>
 
-using namespace fbxsdk_2015_1;
+//using namespace fbxsdk_2015_1;
 
 namespace Component {
 	class Render;

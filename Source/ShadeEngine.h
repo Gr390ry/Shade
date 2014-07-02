@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <iostream>
+#include <fbxsdk.h>
 
 //std
 #include <map>
@@ -18,9 +19,6 @@
 #include <ppl.h>
 
 #include "../Lib/directX11/d3dx11effect.h"
-
-//#pragma comment(lib, "d3d9.lib")
-//#pragma comment(lib, "d3dx9.lib")
 
 #define SAFE_RELEASE(p) { if (p) { p->Release(); p = nullptr; } }
 #define SAFE_DELETE(p) { if (p) { delete p; p = nullptr; } }

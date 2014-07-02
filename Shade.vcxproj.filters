@@ -23,6 +23,9 @@
     <Filter Include="Library\directX11">
       <UniqueIdentifier>{eb7d02a6-94b3-43e8-95ba-f4903364a889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Mesh">
+      <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\ISingleton.h">
@@ -88,6 +91,12 @@
     <ClInclude Include="Lib\directX11\Effect\d3dx11effect.h">
       <Filter>Library\directX11</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mesh\StaticMesh.h">
+      <Filter>Sources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh\IMesh.h">
+      <Filter>Sources\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -131,6 +140,9 @@
     </ClCompile>
     <ClCompile Include="Source\Management\GameTimer.cpp">
       <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\StaticMesh.cpp">
+      <Filter>Sources\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
