@@ -170,25 +170,18 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 			vertex.position.z = static_cast<float>(vertices[controlPointIdx].mData[2]);
 
 			mContainVertices.push_back(vertex);
+			mContainIndices.push_back(controlPointIdx);
 		}
 	}
 
-	FbxLayerElementArrayTemplate<int>* Indice = &mesh->GetElementMaterial()->GetIndexArray();
-	for (int i = 0; i < Indice->GetCount(); ++i)
+	const char* diffuse = fbxsdk_2015_1::FbxSurfaceMaterial::sDiffuse;
+
+	int nMaterialCount = pNode->GetMaterialCount();
+	for (int i = 0; i < nMaterialCount; ++i)
 	{
-		mContainIndices.push_back(Indice->GetAt(i));
+		fbxsdk_2015_1::FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
+		if (pMaterial == nullptr) continue;
 	}
-	
-	//int nMaterialCount = pNode->GetMaterialCount();
-	//for (int i = 0; i < nMaterialCount; ++i)
-	//{
-	//	fbxsdk_2015_1::FbxSurfaceMaterial* pMaterial = pNode->GetMaterial(i);
-	//	if (pMaterial == nullptr) continue;
-	//	//fbxsdk_2015_1::FbxProperty prop = pMaterial->GetSrcPropertyCount();
-	//	const char* diffuse = fbxsdk_2015_1::FbxSurfaceMaterial::sDiffuse;
-	//	//FbxProperty property = pMaterial->FindProperty(sDiffuse);
-	//	//int nLayeredTextureCount = property.GetSrcObjectCount<FbxLayeredTexture>();
-	//}
 
 	//자식 노드 검사 한다.
 	for (int i = 0; i < pNode->GetChildCount(); ++i)
