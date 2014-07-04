@@ -42,6 +42,7 @@
     <ClInclude Include="Source\Component\LightPoint.h" />
     <ClInclude Include="Source\Component\Render.h" />
     <ClInclude Include="Source\Component\Transform.h" />
+    <ClInclude Include="Source\Console.h" />
     <ClInclude Include="Source\ConstructHelper.h" />
     <ClInclude Include="Source\GameObject\Actor.h" />
     <ClInclude Include="Source\GameObject\Camera.h" />

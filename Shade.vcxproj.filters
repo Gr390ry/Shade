@@ -97,6 +97,9 @@
     <ClInclude Include="Source\Mesh\IMesh.h">
       <Filter>Sources\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Console.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">

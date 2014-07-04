@@ -23,21 +23,24 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		style, CW_USEDEFAULT, 0, GENERIC::windowWidth, GENERIC::windowHeight,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
+	Console::Get()->Initialize("Shade - Debug", hInstance, hPrevInstance, lpszCmdParam, nCmdShow);
+
 	//if (!RenderDevice::Get()->InitializeDevice(hWnd))
 	if (!RenderDevice::Get()->InitializeDevice11(hWnd))
 	{
 		MessageBox(hWnd, "Render Device Initialize Failure!", "Error", MB_OK);
 		PostQuitMessage(0);
 	}
+	Console::Get()->print("DirectX11 Device Initialize Complete!\n");
+
 	if (!General::Get()->InitializeGame())
 	{
 		MessageBox(hWnd, "General Game Initialize Failure!", "Error", MB_OK);
 		PostQuitMessage(0);
 	}
+	Console::Get()->print("Game Asset Initialize Complete!\n");
 
 	gAppPuased = false;
-
-	//RenderDevice::Get()->LoadAsset();
 
 	// Client Rect 크기가 WIN_WIDTH, WIN_HEIGHT와 같도록 크기를 조정한다.
 	{
@@ -83,7 +86,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		}
 		else
 		{
-			Sleep(100);
+			Sleep(1);
 		}		
 	}
 
