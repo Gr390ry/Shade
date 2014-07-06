@@ -1,5 +1,6 @@
 #pragma once
 #include "../ISingleton.h"
+#include "../ShadeEngine.h"
 
 namespace GameObject {
 	class Actor;
@@ -19,5 +20,9 @@ public:
 
 private:
 	GameObject::Actor* pTestActor;
+	std::vector<GameObject::Actor*> listActors;
+
 	GameObject::Camera* pMainCamera;
+
+
 };

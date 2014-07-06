@@ -100,6 +100,12 @@
     <ClInclude Include="Source\Console.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Mesh\BoxMesh.h">
+      <Filter>Sources\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh\SphereMesh.h">
+      <Filter>Sources\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -145,6 +151,12 @@
       <Filter>Sources\Management</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\StaticMesh.cpp">
+      <Filter>Sources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\BoxMesh.cpp">
+      <Filter>Sources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh\SphereMesh.cpp">
       <Filter>Sources\Mesh</Filter>
     </ClCompile>
   </ItemGroup>

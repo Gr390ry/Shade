@@ -13,45 +13,30 @@ namespace Component {
 	class Render : public IRenderable
 	{
 		DeclareRTTI(Render);
-
-	//public:
-	//	
-	//	struct Vertex
-	//	{
-	//		XMFLOAT3 position;
-	//		XMFLOAT3 normal;
-	//		XMFLOAT2 uv;
-	//	};
-
 	private:
 		void CreateVertexBuffer();
 		void CreateIndexBuffer();
 
-		//void GetFBXInfo(FbxNode*);
-
 	public:
 		Render();
 		~Render();
-		void ResetComponent();
-		void Initialize();
-		void Release();
-		void Update(float);
+		void				ResetComponent()	override;
+		void				Initialize()		override;
+		void				Release()			override;
+		void				Update(float)		override;
+		const char*			GetID()				override { return "Render"; }
+		const EFamily::_	GetFamilyID()		override { return EFamily::Render; }
+		void				SetOwner(GameObject::IGameObject* owner) override { pOwner = owner; }
 
-		void LoadFbxModel(const char*);
-		void DrawFbxMesh(ID3DX11EffectTechnique*);
-
-		const char* GetID() { return "Render"; }
-		const EFamily::_ GetFamilyID() { return EFamily::Render; }
-		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
-		
-
+		//void				LoadFbxModel(const char*);
+		void				RendMesh(ID3DX11EffectTechnique*);
+		void				SetMeshData(IMesh*);
 	private:
 		ID3D11Buffer*		pVB;
 		ID3D11Buffer*		pIB;
 		ID3D10EffectMatrixVariable* fxWorldVoewProjectionMatrix;
-
-		//std::vector<Vertex> mVertices;
-		//std::vector<int>	mIndices;
+		ID3D11Texture2D*	pDiffuseTexture;
+		ID3D11ShaderResourceView* pDiffuseMap;
 
 		XMMATRIX*			pWorldMatrix;
 		bool				bIsCulled;

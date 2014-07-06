@@ -9,11 +9,10 @@ namespace GameObject {
 		Prop();
 		~Prop();
 
-		void Initialize();
-		void Release();
-		void Update(float);
-		
-		const bool GetActvate() { return mbActivated; }
+		void				Initialize()	override;
+		void				Release()		override;
+		void				Update(float)	override;		
+		const bool			GetActvate()	override { return mbActivated; }
 	};
 
 }; /*GameObject*/

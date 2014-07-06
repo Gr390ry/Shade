@@ -16,23 +16,18 @@ private:
 	};
 
 private:
-	void GetFBXInfo(FbxNode*);
+	void			GetFBXInfo(FbxNode*);
 
 public:	
-	bool Initialize(const char*);
-	void Release();
-	const Vertex* GetVertices() { return mVertices; }
-	const int* GetIndices() { return mIndices; }
-	const int&		GetNumVertices() { return mNumVertices; };
-	const int&		GetNumIndices() { return mNumIndices; };
+	bool			Initialize(const char*) override;
+	void			Release()				override;
+	const Vertex*	GetVertices()			override;
+	const int*		GetIndices()			override;
+	const int		GetNumVertices()		override;
+	const int		GetNumIndices()			override;
 private:
-	Vertex*	mVertices;
-	int* mIndices;
-	int mNumVertices;
-	int mNumIndices;
-
-	std::vector<Vertex> mContainVertices;
-	std::vector<int> mContainIndices;
+	std::vector<Vertex> mVertices;
+	std::vector<int>	mIndices;
 };
 
 #endif

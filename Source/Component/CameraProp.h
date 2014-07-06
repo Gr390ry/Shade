@@ -14,19 +14,18 @@ namespace Component {
 		CameraProp();
 		~CameraProp();
 
-		void ResetComponent();
-		void Initialize();
-		void Release();
-		void Update(float);	
+		void				ResetComponent()	override;
+		void				Initialize()		override;
+		void				Release()			override;
+		void				Update(float)		override;
+		const char*			GetID()				override { return "Camera"; }
+		const EFamily::_	GetFamilyID()		override { return EFamily::Render; }
+		void				SetOwner(GameObject::IGameObject* owner) override { pOwner = owner; }
 
-		const char* GetID() { return "Camera"; }
-		const EFamily::_ GetFamilyID() { return EFamily::Render; }
-		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
-
-		void SetLookAt(XMFLOAT3 vLook) { mLookAt = vLook; }
-		const XMFLOAT3& GetLookAt() { return mLookAt; }
-		const XMMATRIX& GetViewMatrix() { return mViewMatrix; }
-		const XMMATRIX& GetProjectionMatrix() { return mProjectionMatrix; }
+		void				SetLookAt(XMFLOAT3 vLook) { mLookAt = vLook; }
+		const XMFLOAT3&		GetLookAt() { return mLookAt; }
+		const XMMATRIX&		GetViewMatrix() { return mViewMatrix; }
+		const XMMATRIX&		GetProjectionMatrix() { return mProjectionMatrix; }
 
 		static void* operator new (size_t size)
 		{

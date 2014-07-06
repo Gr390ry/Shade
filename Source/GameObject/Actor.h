@@ -15,11 +15,13 @@ namespace GameObject {
 		Actor();
 		~Actor();
 
-		virtual void Initialize();
-		void Update(float);
-		void Release();
-		
-		const bool GetActvate();
+		virtual void		Initialize()	override;
+		void				Update(float)	override;
+		void				Release()		override;
+		const bool			GetActvate()	override;
+
+		const Component::Transform* GetTransform();
+		const Component::Render*	GetRender();
 	};
 
 };

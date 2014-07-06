@@ -14,30 +14,26 @@ namespace Component {
 		virtual ~Transform() {}
 
 		//overrode
-		void ResetComponent();
-		void Initialize();
-		void Release() {};
-		void Update(float);
-
-		void Translate(const XMFLOAT3&);
-		
-		const char* GetID() { return "Transform"; }
-		const EFamily::_ GetFamilyID() { return EFamily::System; }
-		void SetOwner(GameObject::IGameObject* owner) { pOwner = owner; }
-
+		void				ResetComponent()	override;
+		void				Initialize()		override;
+		void				Release()			override {};
+		void				Update(float)		override;
+		const char*			GetID()				override { return "Transform"; }
+		const EFamily::_	GetFamilyID()		override { return EFamily::System; }
+		void				SetOwner(GameObject::IGameObject* owner) override { pOwner = owner; }
+		void				Translate(const XMFLOAT3&);
 		//set
-		void SetParent(Transform*);
-		void SetPosition(const XMFLOAT3);
-		void SetRollPitchYaw(const XMFLOAT3);
-		void SetScale(const XMFLOAT3);
-
+		void				SetParent(Transform*);
+		void				SetPosition(const XMFLOAT3);
+		void				SetRollPitchYaw(const XMFLOAT3);
+		void				SetScale(const XMFLOAT3);
 		//get
-		Transform* GetParent() const;
-		const XMMATRIX& GetWorldMatrix();
-		const XMMATRIX& GetLocalMatrix();
-		const XMFLOAT3& GetPosition();
-		const XMFLOAT3& GetRollPitchYaw();
-		const XMFLOAT3& GetScale();
+		Transform*			GetParent() const;
+		const XMMATRIX&		GetWorldMatrix();
+		const XMMATRIX&		GetLocalMatrix();
+		const XMFLOAT3&		GetPosition();
+		const XMFLOAT3&		GetRollPitchYaw();
+		const XMFLOAT3&		GetScale();
 
 		//Matrix16이 힙 메모리에 할당 될때 16바이트로 할당되기떄문에 문제를 일으킬 수 있다.
 		//그래서! new 연산자를 오버로딩 해서 새로이 정의해준다! 16바이트로 할당하게끔!

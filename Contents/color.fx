@@ -8,19 +8,21 @@ cbuffer cbPerObject
 {
 	float4x4 gWorld;
 	float4x4 gViewProjection;
-	float4 gWorldLightPosition;
+	float4 gWorldLightPosition;	
 };
 
 struct VS_INPUT
 {
 	float4 mPosition : POSITION;
 	float3 mNormal: NORMAL;
+	float2 mUV:TEXCOORD;
 };
 
 struct VS_OUTPUT
 {
 	float4 mPosition : SV_POSITION;
 	float mDiffuse: TEXCOORD1;
+	float2 mUV:TEXCOORD;
 };
 
 VS_OUTPUT VS(VS_INPUT Input)
@@ -32,17 +34,27 @@ VS_OUTPUT VS(VS_INPUT Input)
 	float4 lightDir	= normalize(worldPosition - gWorldLightPosition);
 
 	Output.mPosition = mul(worldPosition, gViewProjection);
-	Output.mDiffuse = dot(-lightDir, normalize(worldNormal));
+	Output.mDiffuse = dot(-(float3)lightDir, normalize(worldNormal));
+	Output.mUV = Input.mUV;
+
 	return Output;
 }
 
+SamplerState TestSampler
+{
+	Filter = ANISOTROPIC;
+	MaxAnisotropy = 4;
+};
+
+Texture2D gDiffuseMap;
 float4 PS(VS_OUTPUT Input) : SV_Target
 {
+	float3 albedo = gDiffuseMap.Sample(TestSampler, Input.mUV);
 	float diffuse = saturate(Input.mDiffuse * 0.5 + 0.5);
 
 	//diffuse = ceil(diffuse * 5) / 5.0f;
 
-    return float4(diffuse.xxx, 1);
+	return float4(diffuse.xxx, 1);
 }
 
 technique11 ColorTech

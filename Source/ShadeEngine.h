@@ -24,6 +24,7 @@
 #define SAFE_DELETE(p) { if (p) { delete p; p = nullptr; } }
 #define SAFE_DELETE_ARRAY(p) { if (p) { delete[] p; p = nullptr; } }
 #define UPDATE_OBJECT(p, delta) { if (p) { p->Update(delta); } }
+#define DEBUG_CONSOLE(p) { Console::Get()->print(p); }
 
 #include "GenericVariable.h"
 #include "ConstructHelper.h"

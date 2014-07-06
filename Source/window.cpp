@@ -13,6 +13,7 @@ bool gAppPuased;
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	, LPSTR lpszCmdParam, int nCmdShow)
 {
+
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
 		GENERIC::gAppName.c_str(), NULL };
@@ -23,7 +24,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		style, CW_USEDEFAULT, 0, GENERIC::windowWidth, GENERIC::windowHeight,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
-	Console::Get()->Initialize("Shade - Debug", hInstance, hPrevInstance, lpszCmdParam, nCmdShow);
+	Console::Get()->Initialize("Debug Console", hInstance, hPrevInstance, lpszCmdParam, nCmdShow);
+
+	DEBUG_CONSOLE("Hello!\n");
 
 	//if (!RenderDevice::Get()->InitializeDevice(hWnd))
 	if (!RenderDevice::Get()->InitializeDevice11(hWnd))
@@ -43,19 +46,17 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	gAppPuased = false;
 
 	// Client Rect 크기가 WIN_WIDTH, WIN_HEIGHT와 같도록 크기를 조정한다.
-	{
-		POINT ptDiff;
-		RECT rcClient, rcWindow;
+	POINT ptDiff;
+	RECT rcClient, rcWindow;
 
-		GetClientRect(hWnd, &rcClient);
-		GetWindowRect(hWnd, &rcWindow);
-		ptDiff.x = (rcWindow.right - rcWindow.left) - rcClient.right;
-		ptDiff.y = (rcWindow.bottom - rcWindow.top) - rcClient.bottom;
+	GetClientRect(hWnd, &rcClient);
+	GetWindowRect(hWnd, &rcWindow);
+	ptDiff.x = (rcWindow.right - rcWindow.left) - rcClient.right;
+	ptDiff.y = (rcWindow.bottom - rcWindow.top) - rcClient.bottom;
 
-		MoveWindow(hWnd, rcWindow.left, rcWindow.top, 
-				GENERIC::windowWidth + ptDiff.x,
-				GENERIC::windowHeight + ptDiff.y, TRUE);
-	}
+	MoveWindow(hWnd, rcWindow.left, rcWindow.top, 
+			GENERIC::windowWidth + ptDiff.x,
+			GENERIC::windowHeight + ptDiff.y, TRUE);
 
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 	UpdateWindow(hWnd);	

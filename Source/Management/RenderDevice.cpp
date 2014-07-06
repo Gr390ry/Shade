@@ -302,7 +302,8 @@ bool RenderDevice::InitializeVertexLayout()
 	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	D3DX11_PASS_DESC passDesc;
@@ -314,7 +315,7 @@ bool RenderDevice::InitializeVertexLayout()
 
 	mTechnique->GetPassByIndex(0)->GetDesc(&passDesc);
 
-	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
+	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 3, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
 	{
 		return false;
 	}
@@ -475,7 +476,7 @@ void RenderDevice::Render11()
 	while (iter != listRenders.end())
 	{
 		Component::Render* elemental = (*iter);
-		elemental->DrawFbxMesh(mTechnique);
+		elemental->RendMesh(mTechnique);
 		++iter;
 	}
 

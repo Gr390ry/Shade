@@ -1,8 +1,12 @@
 #include "General.h"
 #include "../GameObject/Actor.h"
+#include "../Component/Render.h"
 #include "../Component/Transform.h"
 #include "../Component/CameraProp.h"
 #include "../GameObject/Camera.h"
+#include "../Mesh/IMesh.h"
+#include "../Mesh/BoxMesh.h"
+#include "../Mesh/SphereMesh.h"
 
 using namespace GameObject;
 
@@ -12,17 +16,48 @@ General::General() : pTestActor(nullptr), pMainCamera(nullptr)
 
 bool General::InitializeGame()
 {
-	if (pTestActor == nullptr)
-		pTestActor = new GameObject::Actor;
+	GameObject::Actor* pActor;
+	IMesh* pBoxMesh = new BoxMesh;
+	pBoxMesh->Initialize("");
+
+	//fillow
+	for (int i = 0; i < 30; ++i)
+	{
+		pActor = new GameObject::Actor;
+		pActor->Initialize();
+
+		Component::Render* pRender = pActor->GetComponent<Component::Render>();
+		Component::Transform* pTransform = pActor->GetComponent<Component::Transform>();
+
+		if (pRender)
+		{
+			pRender->SetMeshData(pBoxMesh);
+		}
+		if (pTransform)
+		{
+			pTransform->SetScale(XMFLOAT3(15, 50, 15));
+			pTransform->SetPosition(XMFLOAT3((float)((i % 2) * 300 - 150), -25, (float)((i / 2) * 200 - 100)));
+		}
+		listActors.emplace_back(pActor);
+	}
+	//floor
+	pActor = new GameObject::Actor;
+	pActor->Initialize();
+	Component::Render* pRender = pActor->GetComponent<Component::Render>();
+	Component::Transform* pTransform = pActor->GetComponent<Component::Transform>();
+	if (pRender)
+	{
+		pRender->SetMeshData(pBoxMesh);
+	}
+	if (pTransform)
+	{
+		pTransform->SetScale(XMFLOAT3(300, 1, 2000));
+		pTransform->SetPosition(XMFLOAT3(0, -100, 2000));
+	}
+	listActors.emplace_back(pActor);
+
 	if (pMainCamera == nullptr)
 		pMainCamera = new GameObject::Camera;
-
-	pTestActor->Initialize();
-	pTestActor->GetComponent<Component::Transform>()->SetRollPitchYaw(XMFLOAT3(270 * GENERIC::DegToRad, 0, 0));
-	pTestActor->GetComponent<Component::Transform>()->SetPosition(XMFLOAT3(0, -50, 0));
-	/*pTestActor->GetComponent<Component::Transform>()->SetScale(Vector3(0.5, 0.5, 0.5));
-	pTestActor->GetComponent<Component::Transform>()->SetPosition(Vector3(-100, 50, 100));*/
-	
 
 	pMainCamera->Initialize();
 	pMainCamera->SetPosition(XMFLOAT3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
@@ -33,16 +68,25 @@ bool General::InitializeGame()
 
 void General::Release()
 {
-	pTestActor->Release();
+	for (GameObject::Actor* pActor : listActors)
+	{
+		pActor->Release();
+		SAFE_DELETE(pActor);
+	}
+	//pTestActor->Release();
 	pMainCamera->Release();
 
-	SAFE_DELETE(pTestActor);
+	//SAFE_DELETE(pTestActor);
 	SAFE_DELETE(pMainCamera);
 }
 
 void General::Update(float pDelta)
 {
-	UPDATE_OBJECT(pTestActor, pDelta);
+	for (GameObject::Actor* pActor : listActors)
+	{
+		if (pActor == nullptr) continue;
+		pActor->Update(pDelta);
+	}
 	UPDATE_OBJECT(pMainCamera, pDelta);
 }
 

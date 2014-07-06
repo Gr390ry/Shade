@@ -2,6 +2,8 @@
 #include "../ConstructHelper.h"
 #include "../Component/Render.h"
 #include "../Component/Transform.h"
+#include "../Mesh/BoxMesh.h"
+#include "../Mesh/SphereMesh.h"
 
 namespace GameObject {
 
@@ -17,24 +19,19 @@ namespace GameObject {
 	void Actor::Initialize()
 	{
 		this->AddComponent<Component::Render>();
-		this->AddComponent<Component::Transform>();
-		
-		Component::Transform* transform = GetComponent<Component::Transform>();
-		Component::Render* render = GetComponent<Component::Render>();
-		render->LoadFbxModel("Contents/Model/darkSider2/DarSider.fbx");
+		this->AddComponent<Component::Transform>();		
+		/*Component::Transform* transform = GetComponent<Component::Transform>();
+		Component::Render* render = GetComponent<Component::Render>();*/
+		//render->LoadFbxModel("Contents/Model/darkSider2/DarSider.fbx");
+		//BoxMesh* pBox = new BoxMesh;
+		/*SphereMesh *pSphere = new SphereMesh;
+		pSphere->Initialize("");
+		render->SetMeshData(pSphere);*/
 	}
 
 	void Actor::Update(float pDelta)
 	{
 		Component::Transform* transform = GetComponent<Component::Transform>();
-
-		if (transform)
-		{
-			XMFLOAT3 vRotate = transform->GetRollPitchYaw();
-			//vRotate.x = 0.785f;
-			vRotate.y += 1 * pDelta;
-			transform->SetRollPitchYaw(vRotate);
-		}
 
 		ITER_COMPONENT iter = ContainComponents.begin();
 		int nSize = ContainComponents.size();
@@ -50,5 +47,16 @@ namespace GameObject {
 		RemoveAllComponents();
 	}
 
-	const bool Actor::GetActvate() { return mbActivated; }
+	const bool Actor::GetActvate()
+	{
+		return mbActivated;
+	}
+	const Component::Transform* Actor::GetTransform()
+	{
+		return GetComponent<Component::Transform>();
+	}
+	const Component::Render* Actor::GetRender()
+	{
+		return GetComponent<Component::Render>();
+	}
 }

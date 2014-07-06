@@ -3,8 +3,8 @@
 
 void StaticMesh::Release()
 {
-	SAFE_DELETE_ARRAY(mVertices);
-	SAFE_DELETE_ARRAY(mIndices);
+	mVertices.clear();
+	mIndices.clear();
 }
 
 bool StaticMesh::Initialize(const char* filename)
@@ -33,61 +33,8 @@ bool StaticMesh::Initialize(const char* filename)
 		return false;
 	}
 
-	mContainVertices.clear();
-	mContainIndices.clear();
-
-	//FbxMesh*	pMesh = static_cast<FbxMesh*>(root->GetNodeAttribute());
-	//FbxLayerElementArrayTemplate<int>* lMaterialIndice = NULL;
-	//FbxGeometryElement::EMappingMode lMaterialMappingMode = FbxGeometryElement::eNone;
-	//if (pMesh->GetElementMaterial())
-	//{
-	//	lMaterialIndice = &pMesh->GetElementMaterial()->GetIndexArray();
-	//	lMaterialMappingMode = pMesh->GetElementMaterial()->GetMappingMode();
-
-	//	if (lMaterialIndice && lMaterialMappingMode == FbxGeometryElement::eByPolygon)
-	//	{
-	//		FBX_ASSERT(lMaterialIndice->GetCount() == lPolygonCount);
-	//		if (lMaterialIndice->GetCount() == lPolygonCount)
-	//		{
-	//			// Count the faces of each material
-	//			for (int lPolygonIndex = 0; lPolygonIndex < lPolygonCount; ++lPolygonIndex)
-	//			{
-	//				const int lMaterialIndex = lMaterialIndice->GetAt(lPolygonIndex);
-	//				if (mSubMeshes.GetCount() < lMaterialIndex + 1)
-	//				{
-	//					mSubMeshes.Resize(lMaterialIndex + 1);
-	//				}
-	//				if (mSubMeshes[lMaterialIndex] == NULL)
-	//				{
-	//					mSubMeshes[lMaterialIndex] = new SubMesh;
-	//				}
-	//				mSubMeshes[lMaterialIndex]->TriangleCount += 1;
-	//			}
-
-	//			// Make sure we have no "holes" (NULL) in the mSubMeshes table. This can happen
-	//			// if, in the loop above, we resized the mSubMeshes by more than one slot.
-	//			for (int i = 0; i < mSubMeshes.GetCount(); i++)
-	//			{
-	//				if (mSubMeshes[i] == NULL)
-	//					mSubMeshes[i] = new SubMesh;
-	//			}
-
-	//			// Record the offset (how many vertex)
-	//			const int lMaterialCount = mSubMeshes.GetCount();
-	//			int lOffset = 0;
-	//			for (int lIndex = 0; lIndex < lMaterialCount; ++lIndex)
-	//			{
-	//				mSubMeshes[lIndex]->IndexOffset = lOffset;
-	//				lOffset += mSubMeshes[lIndex]->TriangleCount * 3;
-	//				// This will be used as counter in the following procedures, reset to zero
-	//				mSubMeshes[lIndex]->TriangleCount = 0;
-	//			}
-	//			FBX_ASSERT(lOffset == lPolygonCount * 3);
-	//		}
-	//	}
-	//}
-
-
+	mVertices.clear();
+	mIndices.clear();
 
 	for (int i = 0; i < root->GetChildCount(); ++i)
 	{
@@ -95,22 +42,7 @@ bool StaticMesh::Initialize(const char* filename)
 		GetFBXInfo(child);
 	}
 
-	mNumVertices	= mContainVertices.size();
-	mNumIndices		= mContainIndices.size();
-	mVertices		= new Vertex[mNumVertices - 1];
-	mIndices		= new int[mNumIndices - 1];
-
-	for (int i = 0; i < mNumVertices; ++i)
-	{
-		mVertices[i] = mContainVertices[i];
-	}
-	for (int i = 0; i < mNumIndices; ++i)
-	{
-		mIndices[i] = mContainIndices[i];
-	}
-
-	mContainVertices.clear();
-	mContainIndices.clear();
+	Console::Get()->print("Mesh[%s] Load Complete Vertex Count=%d\n", filename, mVertices.size());
 	return true;
 }
 
@@ -136,7 +68,7 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 	{
 		FbxStringList uvSetList;
 		mesh->GetUVSetNames(uvSetList);
-		uvSetName = uvSetList[0].Buffer();
+		//uvSetName = uvSetList[0].Buffer();
 	}
 
 	//Get Vertex, Index, UV, Normal Info
@@ -162,15 +94,15 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 			if (mesh->GetPolygonVertexUV(polygonidx, vertexidx, uvSetName, uv, bUnMapped))
 			{
 				vertex.uv.x = static_cast<float>(uv.mData[0]);
-				vertex.uv.y = static_cast<float>(uv.mData[1]);
+				vertex.uv.y = static_cast<float>(uv.mData[1]) -1;
 			}
 
 			vertex.position.x = static_cast<float>(vertices[controlPointIdx].mData[0]);
 			vertex.position.y = static_cast<float>(vertices[controlPointIdx].mData[1]);
 			vertex.position.z = static_cast<float>(vertices[controlPointIdx].mData[2]);
-
-			mContainVertices.push_back(vertex);
-			mContainIndices.push_back(controlPointIdx);
+			
+			mVertices.push_back(vertex);
+			mIndices.push_back(controlPointIdx);
 		}
 	}
 
@@ -188,4 +120,26 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 	{
 		GetFBXInfo(pNode->GetChild(i));
 	}
+}
+
+const IMesh::Vertex* StaticMesh::GetVertices()
+{
+	if (mVertices.size() == 0) return nullptr;
+	return &mVertices[0];
+}
+
+const int* StaticMesh::GetIndices()
+{
+	if (mIndices.size() == 0) return nullptr;
+	return &mIndices[0];
+}
+
+const int StaticMesh::GetNumVertices()
+{
+	return mVertices.size();
+}
+
+const int StaticMesh::GetNumIndices()
+{
+	return mIndices.size();
 }
