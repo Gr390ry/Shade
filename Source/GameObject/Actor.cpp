@@ -1,5 +1,5 @@
 #include "Actor.h"
-#include "../ConstructHelper.h"
+#include "ConstructHelper.h"
 #include "../Component/Render.h"
 #include "../Component/Transform.h"
 #include "../Mesh/BoxMesh.h"

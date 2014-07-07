@@ -1,6 +1,6 @@
 #pragma once
-#include "../ISingleton.h"
-#include "../ShadeEngine.h"
+#include "ISingleton.h"
+#include "ShadeEngine.h"
 
 namespace GameObject {
 	class Actor;

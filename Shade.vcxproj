@@ -36,6 +36,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\directX11\Effect\d3dx11effect.h" />
+    <ClInclude Include="Source\Common\ConstructHelper.h" />
+    <ClInclude Include="Source\Common\GenericVariable.h" />
+    <ClInclude Include="Source\Common\ISingleton.h" />
+    <ClInclude Include="Source\Common\MemoryCheck.h" />
+    <ClInclude Include="Source\Common\RTTI.h" />
+    <ClInclude Include="Source\Common\ShadeEngine.h" />
     <ClInclude Include="Source\Component\CameraProp.h" />
     <ClInclude Include="Source\Component\IComponent.h" />
     <ClInclude Include="Source\Component\IRenderable.h" />
@@ -43,33 +49,28 @@
     <ClInclude Include="Source\Component\Render.h" />
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Console.h" />
-    <ClInclude Include="Source\ConstructHelper.h" />
     <ClInclude Include="Source\GameObject\Actor.h" />
     <ClInclude Include="Source\GameObject\Camera.h" />
     <ClInclude Include="Source\GameObject\IGameObject.h" />
     <ClInclude Include="Source\GameObject\Prop.h" />
     <ClInclude Include="Source\GameObject\RequireComponents.h" />
-    <ClInclude Include="Source\GenericVariable.h" />
-    <ClInclude Include="Source\ISingleton.h" />
     <ClInclude Include="Source\Management\GameTimer.h" />
     <ClInclude Include="Source\Management\General.h" />
     <ClInclude Include="Source\Management\RenderDevice.h" />
-    <ClInclude Include="Source\MemoryCheck.h" />
+    <ClInclude Include="Source\Material\IMaterial.h" />
     <ClInclude Include="Source\Mesh\BoxMesh.h" />
     <ClInclude Include="Source\Mesh\IMesh.h" />
     <ClInclude Include="Source\Mesh\SphereMesh.h" />
     <ClInclude Include="Source\Mesh\StaticMesh.h" />
-    <ClInclude Include="Source\RTTI.h" />
-    <ClInclude Include="Source\ShadeEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Common\ConstructHelper.cpp" />
     <ClCompile Include="Source\Component\CameraProp.cpp" />
     <ClCompile Include="Source\Component\IComponent.cpp" />
     <ClCompile Include="Source\Component\LightPoint.cpp" />
     <ClCompile Include="Source\Component\Render.cpp" />
     <ClCompile Include="Source\Component\IRenderable.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
-    <ClCompile Include="Source\ConstructHelper.cpp" />
     <ClCompile Include="Source\GameObject\Actor.cpp" />
     <ClCompile Include="Source\GameObject\Camera.cpp" />
     <ClCompile Include="Source\GameObject\Prop.cpp" />
@@ -211,7 +212,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Lib\FBX\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Lib\FBX\include;$(ProjectDir)\Source\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>

@@ -16,7 +16,7 @@ General::General() : pTestActor(nullptr), pMainCamera(nullptr)
 
 bool General::InitializeGame()
 {
-	GameObject::Actor* pActor;
+	GameObject::Actor* pActor = nullptr;
 	IMesh* pBoxMesh = new BoxMesh;
 	pBoxMesh->Initialize("");
 
@@ -39,6 +39,7 @@ bool General::InitializeGame()
 			pTransform->SetPosition(XMFLOAT3((float)((i % 2) * 300 - 150), -25, (float)((i / 2) * 200 - 100)));
 		}
 		listActors.emplace_back(pActor);
+		pActor = nullptr;
 	}
 	//floor
 	pActor = new GameObject::Actor;

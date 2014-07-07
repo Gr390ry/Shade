@@ -54,7 +54,7 @@ float4 PS(VS_OUTPUT Input) : SV_Target
 
 	//diffuse = ceil(diffuse * 5) / 5.0f;
 
-	return float4(diffuse.xxx, 1);
+	return float4(albedo * diffuse, 1);
 }
 
 technique11 ColorTech

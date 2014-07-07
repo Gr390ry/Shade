@@ -93,7 +93,7 @@ namespace GameObject {
 				++iter;
 			}
 		}
-
+		
 		//Variables
 	protected:		
 		bool mbActivated;

@@ -1,5 +1,5 @@
 #pragma once
-#include "../ISingleton.h"
+#include "ISingleton.h"
 
 class GameTimer : public ISingleton<GameTimer>
 {

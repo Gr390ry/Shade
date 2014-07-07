@@ -1,5 +1,5 @@
 #pragma once
-#include "../RTTI.h"
+#include "RTTI.h"
 
 
 class RTTI;

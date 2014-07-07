@@ -26,11 +26,14 @@
     <Filter Include="Sources\Mesh">
       <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Material">
+      <UniqueIdentifier>{78691a02-e76c-45c2-875d-2834201b1383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Common">
+      <UniqueIdentifier>{d8deaf79-5d75-4869-9d0d-715ba8f9d343}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\ISingleton.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameObject\Camera.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>
@@ -49,23 +52,8 @@
     <ClInclude Include="Source\Component\Transform.h">
       <Filter>Sources\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ShadeEngine.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MemoryCheck.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameObject\Actor.h">
       <Filter>Sources\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ConstructHelper.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\GenericVariable.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RTTI.h">
-      <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Source\GameObject\Prop.h">
       <Filter>Sources\GameObject</Filter>
@@ -106,6 +94,27 @@
     <ClInclude Include="Source\Mesh\SphereMesh.h">
       <Filter>Sources\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Material\IMaterial.h">
+      <Filter>Sources\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\ConstructHelper.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\GenericVariable.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\ISingleton.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\MemoryCheck.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\RTTI.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Common\ShadeEngine.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -122,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="Source\Component\Render.cpp">
       <Filter>Sources\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ConstructHelper.cpp">
-      <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Source\Component\IComponent.cpp">
       <Filter>Sources\Component</Filter>
@@ -158,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="Source\Mesh\SphereMesh.cpp">
       <Filter>Sources\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Common\ConstructHelper.cpp">
+      <Filter>Sources\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
