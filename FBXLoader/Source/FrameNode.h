@@ -1,4 +1,5 @@
 #pragma once
+#include "Common.h"
 
 class FrameNode
 {
@@ -7,6 +8,9 @@ public:
 	~FrameNode();
 
 private:
-	FrameNode* solbingNode;
-	FrameNode* childNode;
+	FrameNode*	solbingNode;
+	FrameNode*	childNode;
+	XMMATRIX	translationMatrix;
+	XMMATRIX	SolbingTranslationMatrix;
+	XMMATRIX	PreviusTranslationMatrix;
 };

@@ -176,5 +176,8 @@
     <Library Include="Lib\FBXLoaderD.lib">
       <Filter>Library</Filter>
     </Library>
+    <Library Include="Lib\libfbxsdk-md_x86d.lib">
+      <Filter>Library</Filter>
+    </Library>
   </ItemGroup>
 </Project>
