@@ -172,4 +172,9 @@
   <ItemGroup>
     <FxCompile Include="Contents\color.fx" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="Lib\FBXLoaderD.lib">
+      <Filter>Library</Filter>
+    </Library>
+  </ItemGroup>
 </Project>
