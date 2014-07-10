@@ -1,11 +1,17 @@
 #pragma once
+#include "FrameNode.h"
+#include "MeshInfo.h"
 
-#include "xnamath.h"
-#include <vector>
+namespace FBXLoader {
 
-struct Vertex
-{
-	XMFLOAT3 position;
-	XMFLOAT3 normal;
-	XMFLOAT2 uv;
+	FrameNode* LoadFBX(const std::string& filepath)
+	{
+		FrameNode* pRoot = new FrameNode();
+
+		return nullptr;
+	}
+
+	void ProcessNode(FbxNode* pNode)
+	{
+	}
 };
