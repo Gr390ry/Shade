@@ -1,5 +1,6 @@
 #include "StaticMesh.h"
 #include "../Management/RenderDevice.h"
+#include <Common.h>
 
 void StaticMesh::Release()
 {

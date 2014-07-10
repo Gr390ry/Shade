@@ -13,6 +13,9 @@
     <ClInclude Include="Source\MeshInfo.h">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="MeshHierarchy.h">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
