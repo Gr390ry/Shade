@@ -7,14 +7,14 @@ void BoxMesh::Release()
 bool BoxMesh::Initialize(const char* filepath = "")
 {
 	mVertices.clear();
-	mVertices.emplace_back(Vertex(XMFLOAT3(-1, -1, -1), XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 1)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(-1, 1, -1), XMFLOAT3(-1, 1, -1), XMFLOAT2(0, 0)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(1, 1, -1), XMFLOAT3(1, 1, -1), XMFLOAT2(1, 0)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(1, -1, -1), XMFLOAT3(1, -1, -1), XMFLOAT2(1, 1)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(-1, -1, 1), XMFLOAT3(-1, -1, 1), XMFLOAT2(1, 1)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(-1, 1, 1), XMFLOAT3(-1, 1, 1), XMFLOAT2(1, 0)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(1, 1, 1), XMFLOAT3(1, 1, 1), XMFLOAT2(0, 0)));
-	mVertices.emplace_back(Vertex(XMFLOAT3(1, -1, 1), XMFLOAT3(1, -1, 1), XMFLOAT2(0, 1)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(-1, -1, -1), XMFLOAT3(-1, -1, -1), XMFLOAT2(0, 1)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(-1, 1, -1), XMFLOAT3(-1, 1, -1), XMFLOAT2(0, 0)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(1, 1, -1), XMFLOAT3(1, 1, -1), XMFLOAT2(1, 0)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(1, -1, -1), XMFLOAT3(1, -1, -1), XMFLOAT2(1, 1)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(-1, -1, 1), XMFLOAT3(-1, -1, 1), XMFLOAT2(1, 1)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(-1, 1, 1), XMFLOAT3(-1, 1, 1), XMFLOAT2(1, 0)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(1, 1, 1), XMFLOAT3(1, 1, 1), XMFLOAT2(0, 0)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(1, -1, 1), XMFLOAT3(1, -1, 1), XMFLOAT2(0, 1)));
 
 	mIndices.clear();
 	//front
@@ -40,7 +40,7 @@ bool BoxMesh::Initialize(const char* filepath = "")
 	return true;
 }
 
-const IMesh::Vertex* BoxMesh::GetVertices()
+const GENERIC::Vertex* BoxMesh::GetVertices()
 {
 	if (mVertices.size() == 0) return nullptr;
 	return &mVertices[0];

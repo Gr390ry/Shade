@@ -14,7 +14,7 @@ bool SphereMesh::Initialize(const char* filepath = "")
 	float	phiStep		= XM_PI / nSliceCount;
 	float	thetaStep	= 2.0f * XM_PI / nSliceCount;
 
-	mVertices.emplace_back(Vertex(XMFLOAT3(0, fRadius, 0), XMFLOAT3(0, 1, 0), XMFLOAT2(0, 0)));	
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(0, fRadius, 0), XMFLOAT3(0, 1, 0), XMFLOAT2(0, 0)));
 
 	for (UINT i = 1; i <= nSliceCount - 1; ++i)
 	{
@@ -24,7 +24,7 @@ bool SphereMesh::Initialize(const char* filepath = "")
 		{
 			float theta = j*thetaStep;
 
-			Vertex v;
+			GENERIC::Vertex v;
 			v.position.x = fRadius * sinf(phi) * cosf(theta);
 			v.position.y = fRadius * cosf(phi);
 			v.position.z = fRadius * sinf(phi) * sinf(theta);
@@ -39,7 +39,7 @@ bool SphereMesh::Initialize(const char* filepath = "")
 		}
 	}
 
-	mVertices.emplace_back(Vertex(XMFLOAT3(0, -fRadius, 0), XMFLOAT3(0, -1, 0), XMFLOAT2(1, 0)));
+	mVertices.emplace_back(GENERIC::Vertex(XMFLOAT3(0, -fRadius, 0), XMFLOAT3(0, -1, 0), XMFLOAT2(1, 0)));
 
 	for (UINT i = 1; i <= nSliceCount; ++i)
 	{
@@ -80,7 +80,7 @@ bool SphereMesh::Initialize(const char* filepath = "")
 	return true;
 }
 
-const IMesh::Vertex* SphereMesh::GetVertices()
+const GENERIC::Vertex* SphereMesh::GetVertices()
 {
 	if (mVertices.size() == 0) return nullptr;
 	return &mVertices[0];

@@ -1,7 +1,5 @@
 #pragma once
-
-#include <xnamath.h>
-#include <vector>
+#include "../../Source/ShadeEngine.h"
 
 struct Vertex
 {

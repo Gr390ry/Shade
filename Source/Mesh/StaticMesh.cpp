@@ -82,7 +82,7 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 		{
 			int controlPointIdx = mesh->GetPolygonVertex(polygonidx, vertexidx);
 
-			Vertex vertex;
+			GENERIC::Vertex vertex;
 
 			idx = polygonidx * numVertices + vertexidx;
 
@@ -123,7 +123,7 @@ void StaticMesh::GetFBXInfo(FbxNode* pNode)
 	}
 }
 
-const IMesh::Vertex* StaticMesh::GetVertices()
+const GENERIC::Vertex* StaticMesh::GetVertices()
 {
 	if (mVertices.size() == 0) return nullptr;
 	return &mVertices[0];

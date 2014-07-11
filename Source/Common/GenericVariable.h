@@ -25,4 +25,18 @@ namespace GENERIC {
 
 	const float			RadToDeg = 57.29577951f;
 	const float			DegToRad = 0.017453293f;
+
+	struct Vertex
+	{
+		XMFLOAT3 position;
+		XMFLOAT3 normal;
+		XMFLOAT2 uv;
+
+		Vertex() : position(0, 0, 0), normal(0, 0, 0), uv(0, 0)
+		{
+		}
+		Vertex(XMFLOAT3 _position, XMFLOAT3 _normal, XMFLOAT2 _uv) : position(_position), normal(_normal), uv(_uv)
+		{
+		}
+	};
 };

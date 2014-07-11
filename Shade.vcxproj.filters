@@ -26,11 +26,14 @@
     <Filter Include="Sources\Mesh">
       <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Common">
+      <UniqueIdentifier>{d8deaf79-5d75-4869-9d0d-715ba8f9d343}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sources\Material">
       <UniqueIdentifier>{78691a02-e76c-45c2-875d-2834201b1383}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Common">
-      <UniqueIdentifier>{d8deaf79-5d75-4869-9d0d-715ba8f9d343}</UniqueIdentifier>
+    <Filter Include="Sources\FbxParser">
+      <UniqueIdentifier>{893daa10-7f38-4fb5-a88c-48cf18f575ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="Source\Common\ShadeEngine.h">
       <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FbxParser\FbxParser.h">
+      <Filter>Sources\FbxParser</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

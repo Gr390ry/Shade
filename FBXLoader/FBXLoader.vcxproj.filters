@@ -19,6 +19,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Common.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

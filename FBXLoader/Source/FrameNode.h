@@ -1,5 +1,7 @@
 #pragma once
-#include <xnamath.h>
+//#include <xnamath.h>
+#include "../../Source/ShadeEngine.h"
+
 
 class MeshInfo;
 class FrameNode

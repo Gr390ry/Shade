@@ -1,9 +1,33 @@
-﻿빌드 시작: 2014-07-11 오전 12:28:16
-     1>3 노드의 "F:\GitHub\Shade\FBXLoader\FBXLoader.vcxproj" 프로젝트(Build 대상)입니다.
-     1>Lib:
-         FBXLoader.vcxproj -> F:\GitHub\Shade\Lib\FBXLoaderD.lib
-     1>"F:\GitHub\Shade\FBXLoader\FBXLoader.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+﻿빌드 시작: 2014-07-11 오전 9:48:16
+     1>3 노드의 "D:\GitHub\Shade\FBXLoader\FBXLoader.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include" /ID:\GitHub\Shade\Lib\FBX\include /ID:\GitHub\Shade\Source\Common /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Common.cpp
+         Common.cpp
+       Lib:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"D:\GitHub\Shade\Lib\FBXLoaderD.lib" "libfbxsdk-md_x86d.lib" /LIBPATH:D:\GitHub\Shade\Lib\ /NOLOGO /NODEFAULTLIB:FBXLoaderD.lib Debug\Common.obj
+         Debug\main.obj
+     1>libfbxsdk-md_x86d.lib(H5Smpio.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(H5FDmpiposix.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(H5FDmpio.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(H5FDdirect.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(H5Dmpio.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(ImathShear.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(ImathBox.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(xmlmodule.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(SAX.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(nanohttp.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(nanoftp.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(legacy.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(HTMLtree.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(HTMLparser.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(DOCBparser.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(debugXML.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(catalog.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(c14n.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+     1>libfbxsdk-md_x86d.lib(fbxsdkdll.obj) : warning LNK4221: 이 개체 파일은 이전에 정의되지 않은 공용 기호를 정의하지 않으므로 이 라이브러리를 사용하는 어떠한 링크 작업에도 사용되지 않습니다.
+         FBXLoader.vcxproj -> D:\GitHub\Shade\Lib\FBXLoaderD.lib
+     1>"D:\GitHub\Shade\FBXLoader\FBXLoader.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
 빌드했습니다.
 
-경과 시간: 00:00:00.03
+경과 시간: 00:00:02.54
