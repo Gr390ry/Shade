@@ -26,7 +26,7 @@ namespace Component
 		pMeshData = new BoxMesh;
 
 		if (FAILED(D3DX11CreateShaderResourceViewFromFile(RenderDevice::Get()->GetDevice(), 
-														  "Contents/Texture/DiffuseTest.dds", 
+														  "Contents/Texture/images.jpg", 
 														  0, 0, &pDiffuseMap, 0)))
 		{
 			Console::Get()->print("Texture Load Failed");
@@ -70,7 +70,7 @@ namespace Component
 
 			fxWorldLightPosition->SetFloatVector(lightPosition);
 
-			UINT stride = sizeof(IMesh::Vertex);
+			UINT stride = sizeof(GENERIC::Vertex);
 			UINT offset = 0;
 			RenderDevice::Get()->GetContext()->IASetVertexBuffers(0, 1, &pVB, &stride, &offset);
 			RenderDevice::Get()->GetContext()->IASetIndexBuffer(pIB, DXGI_FORMAT_R32_UINT, 0);
@@ -116,7 +116,7 @@ namespace Component
 	{
 		D3D11_BUFFER_DESC vbd;
 		vbd.Usage				= D3D11_USAGE_IMMUTABLE;
-		vbd.ByteWidth			= sizeof(IMesh::Vertex) * pMeshData->GetNumVertices();
+		vbd.ByteWidth			= sizeof(GENERIC::Vertex) * pMeshData->GetNumVertices();
 		vbd.BindFlags			= D3D11_BIND_VERTEX_BUFFER;
 		vbd.CPUAccessFlags		= 0;
 		vbd.MiscFlags			= 0;

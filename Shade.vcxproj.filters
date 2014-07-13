@@ -121,6 +121,12 @@
     <ClInclude Include="Source\FbxParser\FbxParser.h">
       <Filter>Sources\FbxParser</Filter>
     </ClInclude>
+    <ClInclude Include="Source\FbxParser\FrameNode.h">
+      <Filter>Sources\FbxParser</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FbxParser\SubMesh.h">
+      <Filter>Sources\FbxParser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -174,14 +180,14 @@
     <ClCompile Include="Source\Common\ConstructHelper.cpp">
       <Filter>Sources\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FbxParser\FbxParser.cpp">
+      <Filter>Sources\FbxParser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Contents\color.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Lib\FBXLoaderD.lib">
-      <Filter>Library</Filter>
-    </Library>
     <Library Include="Lib\libfbxsdk-md_x86d.lib">
       <Filter>Library</Filter>
     </Library>

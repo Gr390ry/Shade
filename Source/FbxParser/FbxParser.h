@@ -2,62 +2,30 @@
 #include "ISingleton.h"
 #include "ShadeEngine.h"
 
-class FrameNode
-{
-public:
-	void Initialize();
+namespace Fbx {
 
-
-	static void* operator new (size_t size)
+	class FrameNode;
+	class FbxParser : public ISingleton<FbxParser>
 	{
-		void * p = _aligned_malloc(sizeof(FrameNode), 16);
-		static_cast<FrameNode*>(p)->Initialize();
-		return p;
-	}
-	static void operator delete (void* p)
-	{
-		static_cast<FrameNode*>(p)->~FrameNode();
-		_aligned_free(p);
-		p = nullptr;
-	}
+	private:
+		bool ProcessNode(FrameNode*, FbxNode*);
+		void ProcessingByNodeType(FrameNode*, FbxNode*);
+		void ProcessMeshNode(FrameNode*, FbxNode*);
+		void ProcessSkeletonNode(FrameNode*, FbxNode*);
+		void ProcessMarkerNode(FrameNode*, FbxNode*);
 
-public:
-	FrameNode*	firstNode;
-	FrameNode*	siblingNode;
-	XMMATRIX	translationMatrix;
-	XMMATRIX	siblingTranslationMatrix;
-	XMMATRIX	previousSiblingTranslationMatrix;
-	std::string name;
-};
+	public:
+		FbxParser()					= default;
+		FbxParser(const FbxParser&) = delete;
+		~FbxParser()				= default;
 
-class SubMesh
-{
-public:
-	void Initialzie();
-	void Release();
+		void	Initialize();
+		bool	ReadFBX(const std::string&, FrameNode*);
 
-private:
-};
+	private:
+		FbxManager*				fbxManager;
+		FbxScene*				fbxScene;
+		FbxImporter*			fbxImporter;
+	};
 
-class FbxParser : public ISingleton<FbxParser>
-{
-private:
-	bool ProcessNode(FrameNode*, FbxNode*);
-	void ProcessingByNodeType(FrameNode*, FbxNode*);
-	void ProcessMeshNode(FrameNode*, FbxNode*);
-	void ProcessSkeletonNode(FrameNode*, FbxNode*);
-	void ProcessMarkerNode(FrameNode*, FbxNode*);
-
-public:
-	FbxParser() = default;
-	FbxParser(const FbxParser&) = delete;
-	~FbxParser() = default;	
-
-	void	Initialize();
-	bool	ReadFBX(const std::string&, FrameNode*);
-	
-private:
-	FbxManager*				fbxManager;
-	FbxScene*				fbxScene;
-	FbxImporter*			fbxImporter;
-};
+} /*Fbx*/

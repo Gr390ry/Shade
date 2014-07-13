@@ -50,6 +50,8 @@
     <ClInclude Include="Source\Component\Transform.h" />
     <ClInclude Include="Source\Console.h" />
     <ClInclude Include="Source\FbxParser\FbxParser.h" />
+    <ClInclude Include="Source\FbxParser\FrameNode.h" />
+    <ClInclude Include="Source\FbxParser\SubMesh.h" />
     <ClInclude Include="Source\GameObject\Actor.h" />
     <ClInclude Include="Source\GameObject\Camera.h" />
     <ClInclude Include="Source\GameObject\IGameObject.h" />
@@ -72,6 +74,7 @@
     <ClCompile Include="Source\Component\Render.cpp" />
     <ClCompile Include="Source\Component\IRenderable.cpp" />
     <ClCompile Include="Source\Component\Transform.cpp" />
+    <ClCompile Include="Source\FbxParser\FbxParser.cpp" />
     <ClCompile Include="Source\GameObject\Actor.cpp" />
     <ClCompile Include="Source\GameObject\Camera.cpp" />
     <ClCompile Include="Source\GameObject\Prop.cpp" />
@@ -96,7 +99,6 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Lib\FBXLoaderD.lib" />
     <Library Include="Lib\libfbxsdk-md_x86d.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -217,7 +219,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Lib\FBX\include;$(ProjectDir)\Source\Common;$(SolutionDir)FBXLoader\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Lib\FBX\include;$(ProjectDir)\Source\Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UndefinePreprocessorDefinitions>
       </UndefinePreprocessorDefinitions>
