@@ -65,6 +65,7 @@
     <ClInclude Include="Source\Mesh\IMesh.h" />
     <ClInclude Include="Source\Mesh\SphereMesh.h" />
     <ClInclude Include="Source\Mesh\StaticMesh.h" />
+    <ClInclude Include="Source\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Common\ConstructHelper.cpp" />
@@ -100,6 +101,15 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Lib\libfbxsdk-md_x86d.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Contents\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ShadeEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Contents\ConsoleIntro.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A448F86F-C6AE-4249-AB23-8ADD787BD5FC}</ProjectGuid>

@@ -35,6 +35,9 @@
     <Filter Include="Sources\FbxParser">
       <UniqueIdentifier>{893daa10-7f38-4fb5-a88c-48cf18f575ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{f4290fc8-b597-4626-afa2-32927b14f9bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameObject\Camera.h">
@@ -127,6 +130,9 @@
     <ClInclude Include="Source\FbxParser\SubMesh.h">
       <Filter>Sources\FbxParser</Filter>
     </ClInclude>
+    <ClInclude Include="Source\resource.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -185,11 +191,28 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Contents\color.fx" />
-  </ItemGroup>
-  <ItemGroup>
     <Library Include="Lib\libfbxsdk-md_x86d.lib">
       <Filter>Library</Filter>
     </Library>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Contents\Icon.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ShadeEngine.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Contents\ConsoleIntro.txt">
+      <Filter>Contents</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Contents\color.fx">
+      <Filter>Contents</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

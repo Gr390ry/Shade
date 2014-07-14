@@ -1,4 +1,5 @@
 #include "ShadeEngine.h"
+#include "resource.h"
 #include "Management/General.h"
 #include "Management/RenderDevice.h"
 #include "Management/GameTimer.h"
@@ -13,10 +14,17 @@ bool gAppPuased;
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	, LPSTR lpszCmdParam, int nCmdShow)
 {
-
+	//아이콘 로드
+	HICON hIcon = reinterpret_cast<HICON>(::LoadImage(hInstance, MAKEINTRESOURCE(IDI_ICON2),
+											IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR));
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L,
-		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-		GENERIC::gAppName.c_str(), NULL };
+					GetModuleHandle(NULL),
+					hIcon,
+					NULL, 
+					NULL, 
+					NULL,
+					GENERIC::gAppName.c_str(),
+					hIcon };
 	RegisterClassEx(&wc);
 
 	DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
@@ -25,10 +33,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
 	Console::Get()->Initialize("Debug Console", hInstance, hPrevInstance, lpszCmdParam, nCmdShow);
+	Sleep(5000);
 
 	DEBUG_CONSOLE("Hello!\n");
 
-	//if (!RenderDevice::Get()->InitializeDevice(hWnd))
 	if (!RenderDevice::Get()->InitializeDevice11(hWnd))
 	{
 		MessageBox(hWnd, "Render Device Initialize Failure!", "Error", MB_OK);

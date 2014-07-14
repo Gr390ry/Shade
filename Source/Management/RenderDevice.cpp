@@ -470,6 +470,14 @@ void RenderDevice::Render11()
 	mDirectContext->IASetInputLayout(mInputLayout);
 	mDirectContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	ID3D11Asynchronous* pAsynchronous = nullptr;
+
+
+	/*HRESULT queryResult = mDirectContext->GetData(pAsynchronous, nullptr, 0, 0);
+	if (SUCCEEDED(queryResult))
+	{
+		mDirectContext->Begin(pAsynchronous);
+	}	*/
 	
 	typedef std::vector<Component::Render*>::iterator listiterator;
 	listiterator iter = listRenders.begin();
@@ -480,6 +488,10 @@ void RenderDevice::Render11()
 		++iter;
 	}
 
+	/*if (SUCCEEDED(queryResult))
+	{
+		mDirectContext->End(pAsynchronous);
+	}*/
 
 	mSwapChain->Present(0, 0);
 }
