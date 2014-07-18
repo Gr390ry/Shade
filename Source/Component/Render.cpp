@@ -88,21 +88,6 @@ namespace Component
 		}
 	}
 
-	//void Render::LoadFbxModel(const char* filepath)
-	//{
-	//	if (!pMeshData) return;
-
-	//	if (!pMeshData->Initialize(filepath))
-	//	{
-	//		Console::Get()->print("Err>Mesh Initialize Failed");
-	//		assert(NULL);
-	//		return;
-	//	}
-	//	CreateVertexBuffer();
-	//	CreateIndexBuffer();
-	//	//pMeshData->Release();
-	//}
-
 	void Render::SetMeshData(IMesh* pMesh)
 	{
 		if (pMesh == nullptr) return;

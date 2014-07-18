@@ -63,6 +63,8 @@ private:
 	D3D11_VIEWPORT			mScreenViewPort;
 	D3D_DRIVER_TYPE			mDriverType;
 	bool					enableMSAAx4;
+
+	ID3D11Buffer*			mInstanceBuffer;
 	
 	LPD3D11EFFECT			mShader;
 	ID3D11InputLayout*		mInputLayout;
@@ -72,8 +74,7 @@ private:
 	std::vector<Component::LightPoint*> listLightPoints;
 
 	//출력 가능한 컴포넌트들을 받는다.(Render, LightPoint, Etc..)
-	MAP_COMPONENT ContainComponents;
-
+	MAP_COMPONENT			ContainComponents;
 	FbxManager*				mFbxManager;		
 	/*
 		Support Maximize RenderTarget Count To DirectX Version

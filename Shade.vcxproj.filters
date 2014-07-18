@@ -23,20 +23,26 @@
     <Filter Include="Library\directX11">
       <UniqueIdentifier>{eb7d02a6-94b3-43e8-95ba-f4903364a889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Mesh">
-      <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Common">
       <UniqueIdentifier>{d8deaf79-5d75-4869-9d0d-715ba8f9d343}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Material">
-      <UniqueIdentifier>{78691a02-e76c-45c2-875d-2834201b1383}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\FbxParser">
       <UniqueIdentifier>{893daa10-7f38-4fb5-a88c-48cf18f575ab}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents">
       <UniqueIdentifier>{f4290fc8-b597-4626-afa2-32927b14f9bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Render">
+      <UniqueIdentifier>{ee76ac8b-de76-4bfc-ae18-81e0e9088f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Render\Effect">
+      <UniqueIdentifier>{aabdf2bf-627d-49a1-8181-b7c19c71616d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Render\Material">
+      <UniqueIdentifier>{78691a02-e76c-45c2-875d-2834201b1383}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Render\Mesh">
+      <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -86,22 +92,16 @@
       <Filter>Library\directX11</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh\StaticMesh.h">
-      <Filter>Sources\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh\IMesh.h">
-      <Filter>Sources\Mesh</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\Console.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh\BoxMesh.h">
-      <Filter>Sources\Mesh</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\Mesh\SphereMesh.h">
-      <Filter>Sources\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Material\IMaterial.h">
-      <Filter>Sources\Material</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\Common\ConstructHelper.h">
       <Filter>Sources\Common</Filter>
@@ -132,6 +132,18 @@
     </ClInclude>
     <ClInclude Include="Source\resource.h">
       <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Effect\InstancedBasic.h">
+      <Filter>Sources\Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\IEffect.h">
+      <Filter>Sources\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh\IMesh.h">
+      <Filter>Sources\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Material\IMaterial.h">
+      <Filter>Sources\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -175,19 +187,22 @@
       <Filter>Sources\Management</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\StaticMesh.cpp">
-      <Filter>Sources\Mesh</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\BoxMesh.cpp">
-      <Filter>Sources\Mesh</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\Mesh\SphereMesh.cpp">
-      <Filter>Sources\Mesh</Filter>
+      <Filter>Sources\Render\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="Source\Common\ConstructHelper.cpp">
       <Filter>Sources\Common</Filter>
     </ClCompile>
     <ClCompile Include="Source\FbxParser\FbxParser.cpp">
       <Filter>Sources\FbxParser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Effect\InstancedBasic.cpp">
+      <Filter>Sources\Render\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,5 +229,8 @@
     <FxCompile Include="Contents\color.fx">
       <Filter>Contents</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Contents\InstanceBasic.fx" />
   </ItemGroup>
 </Project>
