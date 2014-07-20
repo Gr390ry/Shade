@@ -44,6 +44,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 	}
 	Console::Get()->print("DirectX11 Device Initialize Complete!\n");
 
+	if (!General::Get()->LoadAssets())
+	{
+		MessageBox(hWnd, "General Load Assets Failure!", "Error", MB_OK);
+		PostQuitMessage(0);
+	}
+
 	if (!General::Get()->InitializeGame())
 	{
 		MessageBox(hWnd, "General Game Initialize Failure!", "Error", MB_OK);

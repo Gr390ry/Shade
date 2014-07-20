@@ -13,6 +13,7 @@ public:
 	General();
 
 	bool InitializeGame();
+	bool LoadAssets();
 	void Release();
 	void Update(float);
 

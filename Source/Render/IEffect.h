@@ -12,6 +12,9 @@ namespace Render { namespace Effect {
 
 	class IEffect
 	{
+	private:
+		virtual void SetInputLayout() = 0;
+
 	public:
 		IEffect();
 		IEffect(IEffect& ref) = delete;
@@ -37,6 +40,8 @@ namespace Render { namespace Effect {
 
 	bool IEffect::LoadEffect(const std::string& filepath)
 	{
+		if (filepath == "") return false;
+
 		DWORD shaderFlag = 0;
 
 #if defined(DEBUG) || defined(_DEBUG)
@@ -84,6 +89,7 @@ namespace Render { namespace Effect {
 
 	const LPD3D11EFFECT IEffect::GetFx()
 	{
+		assert(object == nullptr);
 		return object;
 	}
 

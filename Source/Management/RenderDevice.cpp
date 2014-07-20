@@ -4,30 +4,29 @@
 #include "../GameObject/Camera.h"
 #include <algorithm>
 
-RenderDevice::RenderDevice() : mFbxManager(nullptr),
-							   mInstanceBuffer(nullptr),
-							   mDirectDevice11(nullptr),
-							   mDirectContext(nullptr),
-							   mSwapChain(nullptr),
-							   mDepthStencilBuffer(nullptr),
-							   mRenderTargetView(nullptr)
+RenderDevice::RenderDevice() : _fbxManager(nullptr),
+							   _instanceBuffer(nullptr),
+							   _directDevice11(nullptr),
+							   _directContext(nullptr),
+							   _swapChain(nullptr),
+							   _depthStencilBuffer(nullptr),
+							   _renderTargetView(nullptr)
 {
 }
 
 void RenderDevice::Release()
 {
-	if (mFbxManager)
+	if (_fbxManager)
 	{
-		mFbxManager->Destroy();
+		_fbxManager->Destroy();
 	}
 
-	SAFE_RELEASE(mInstanceBuffer);
-	SAFE_RELEASE(mShader);
-	SAFE_RELEASE(mRenderTargetView);
-	SAFE_RELEASE(mDepthStencilBuffer);
-	SAFE_RELEASE(mSwapChain);
-	SAFE_RELEASE(mDirectContext);
-	SAFE_RELEASE(mDirectDevice11);
+	SAFE_RELEASE(_instanceBuffer);
+	SAFE_RELEASE(_renderTargetView);
+	SAFE_RELEASE(_depthStencilBuffer);
+	SAFE_RELEASE(_swapChain);
+	SAFE_RELEASE(_directContext);
+	SAFE_RELEASE(_directDevice11);
 }
 
 bool RenderDevice::InitializeDevice11(HWND hWnd)
@@ -74,11 +73,11 @@ bool RenderDevice::InitializeDevice11(HWND hWnd)
 	//다이렉트 11 디바이스/컨텍스트/스왑체인 생성
 	for (UINT i = 0; i < numDriverTypes; ++i)
 	{
-		mDriverType = driverTypes[i];;
+		_driverType = driverTypes[i];;
 
-		hr = D3D11CreateDevice(NULL, mDriverType, NULL, uFlag, featureLevels, 
+		hr = D3D11CreateDevice(NULL, _driverType, NULL, uFlag, featureLevels, 
 							   numFeatureLevels, D3D11_SDK_VERSION, 
-							   &mDirectDevice11, &mFeatureLevel, &mDirectContext);
+							   &_directDevice11, &_featureLevel, &_directContext);
 
 		if (SUCCEEDED(hr))
 			break;
@@ -87,7 +86,7 @@ bool RenderDevice::InitializeDevice11(HWND hWnd)
 
 	{
 		IDXGIDevice* dxgiDevice = nullptr;
-		hr = mDirectDevice11->QueryInterface(__uuidof(IDXGIDevice), (LPVOID*)&dxgiDevice);
+		hr = _directDevice11->QueryInterface(__uuidof(IDXGIDevice), (LPVOID*)&dxgiDevice);
 		if (FAILED(hr)) return false;
 
 		IDXGIAdapter* dxgiAdapter;
@@ -98,7 +97,7 @@ bool RenderDevice::InitializeDevice11(HWND hWnd)
 		hr = dxgiAdapter->GetParent(__uuidof(IDXGIFactory), (LPVOID*)&dxgiFactory);
 		if (FAILED(hr)) return false;
 
-		hr = dxgiFactory->CreateSwapChain(mDirectDevice11, &sd, &mSwapChain);
+		hr = dxgiFactory->CreateSwapChain(_directDevice11, &sd, &_swapChain);
 		if (FAILED(hr)) return false;
 
 		dxgiFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_WINDOW_CHANGES);
@@ -111,216 +110,202 @@ bool RenderDevice::InitializeDevice11(HWND hWnd)
 	//백버퍼 생성
 	{
 		ID3D11Texture2D* backBuffer;
-		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
+		hr = _swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBuffer);
 		if (FAILED(hr)) return false;
 
 		//랜더 타겟 설정
-		hr = mDirectDevice11->CreateRenderTargetView(backBuffer, NULL, &mRenderTargetView);
+		hr = _directDevice11->CreateRenderTargetView(backBuffer, NULL, &_renderTargetView);
 		backBuffer->Release();
 		if (FAILED(hr)) return false;
 	}
 
 	{
 		//랜더 타겟 뷰 생성
-		mDirectContext->OMSetRenderTargets(1, &mRenderTargetView, NULL);
+		_directContext->OMSetRenderTargets(1, &_renderTargetView, NULL);
 
 		D3D11_TEXTURE2D_DESC depthStencilDesc;
-		depthStencilDesc.Width = GENERIC::windowWidth;
-		depthStencilDesc.Height = GENERIC::windowHeight;
-		depthStencilDesc.MipLevels = 1;
-		depthStencilDesc.ArraySize = 1;
-		depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthStencilDesc.SampleDesc.Count = 1;
+		depthStencilDesc.Width				= GENERIC::windowWidth;
+		depthStencilDesc.Height				= GENERIC::windowHeight;
+		depthStencilDesc.MipLevels			= 1;
+		depthStencilDesc.ArraySize			= 1;
+		depthStencilDesc.Format				= DXGI_FORMAT_D24_UNORM_S8_UINT;
+		depthStencilDesc.SampleDesc.Count	= 1;
 		depthStencilDesc.SampleDesc.Quality = 0;
-		depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-		depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-		depthStencilDesc.CPUAccessFlags = 0;
-		depthStencilDesc.MiscFlags = 0;
+		depthStencilDesc.Usage				= D3D11_USAGE_DEFAULT;
+		depthStencilDesc.BindFlags			= D3D11_BIND_DEPTH_STENCIL;
+		depthStencilDesc.CPUAccessFlags		= 0;
+		depthStencilDesc.MiscFlags			= 0;
 
-		hr = mDirectDevice11->CreateTexture2D(&depthStencilDesc, 0, &mDepthStencilBuffer);
+		hr = _directDevice11->CreateTexture2D(&depthStencilDesc, 0, &_depthStencilBuffer);
 		if (FAILED(hr)) return false;
-		hr = mDirectDevice11->CreateDepthStencilView(mDepthStencilBuffer, 0, &mDepthStencilView);
+		hr	= _directDevice11->CreateDepthStencilView(_depthStencilBuffer, 0, &_depthStencilView);
 		if (FAILED(hr)) return false;
 	}
 
-	mDirectContext->OMSetRenderTargets(1, &mRenderTargetView, mDepthStencilView);
+	_directContext->OMSetRenderTargets(1, &_renderTargetView, _depthStencilView);
 
 
 
 	//뷰포트 설정
-	mScreenViewPort.Width = GENERIC::windowWidth;
-	mScreenViewPort.Height = GENERIC::windowHeight;
-	mScreenViewPort.MinDepth = 0;
-	mScreenViewPort.MaxDepth = 1;
-	mScreenViewPort.TopLeftX = 0;
-	mScreenViewPort.TopLeftY = 0;
-	mDirectContext->RSSetViewports(1, &mScreenViewPort);
+	_screenViewPort.Width		= GENERIC::windowWidth;
+	_screenViewPort.Height		= GENERIC::windowHeight;
+	_screenViewPort.MinDepth	= 0;
+	_screenViewPort.MaxDepth	= 1;
+	_screenViewPort.TopLeftX	= 0;
+	_screenViewPort.TopLeftY	= 0;
+	_directContext->RSSetViewports(1, &_screenViewPort);
 
 	D3D11_RASTERIZER_DESC rasterDesc;
-	rasterDesc.AntialiasedLineEnable = false;
-	rasterDesc.CullMode = D3D11_CULL_BACK;
-	rasterDesc.DepthBias = 0;
-	rasterDesc.DepthBiasClamp = 0.0f;
-	rasterDesc.DepthClipEnable = true;
-	rasterDesc.FillMode = D3D11_FILL_SOLID;
-	rasterDesc.FrontCounterClockwise = false;
-	rasterDesc.MultisampleEnable = false;
-	rasterDesc.ScissorEnable = false;
-	rasterDesc.SlopeScaledDepthBias = 0.0f;
+	rasterDesc.AntialiasedLineEnable	= false;
+	rasterDesc.CullMode					= D3D11_CULL_BACK;
+	rasterDesc.DepthBias				= 0;
+	rasterDesc.DepthBiasClamp			= 0.0f;
+	rasterDesc.DepthClipEnable			= true;
+	rasterDesc.FillMode					= D3D11_FILL_SOLID;
+	rasterDesc.FrontCounterClockwise	= false;
+	rasterDesc.MultisampleEnable		= false;
+	rasterDesc.ScissorEnable			= false;
+	rasterDesc.SlopeScaledDepthBias		= 0.0f;
 
 	// Create the rasterizer state from the description we just filled out.
 	//result = m_device->CreateRasterizerState(&rasterDesc, &m_rasterState);
 	ID3D11RasterizerState* rasterState;
-	if (FAILED(mDirectDevice11->CreateRasterizerState(&rasterDesc, &rasterState)))
+	if (FAILED(_directDevice11->CreateRasterizerState(&rasterDesc, &rasterState)))
 	{
 		return false;
 	}
 
-	mDirectContext->RSSetState(rasterState);
+	_directContext->RSSetState(rasterState);
 
 	if (!InitializeFbx())
 	{
 		return false;
 	}
 
-	if (!CreateEffectFile("Contents/InstanceBasic.fx", &mShader))
-	{
-		return false;
-	}
-	//mTechnique = mShader->GetTechniqueByName("ColorTech");
-	mTechnique = mShader->GetTechniqueByIndex(0);
+	//if (!CreateEffectFile("Contents/InstanceBasic.fx", &mShader))
+	//{
+	//	return false;
+	//}
+	//
+	////mTechnique = mShader->GetTechniqueByName("ColorTech");
+	//mTechnique = mShader->GetTechniqueByIndex(0);
 
-	if (!InitializeVertexLayout())
-	{
-		return false;
-	}
+	//if (!InitializeVertexLayout())
+	//{
+	//	return false;
+	//}
 	return true;
 }
 
 bool RenderDevice::InitializeFbx()
 {
-	mFbxManager = FbxManager::Create();
+	_fbxManager = FbxManager::Create();
 	
-	if (mFbxManager == nullptr)
+	if (_fbxManager == nullptr)
 	{
 		return false;
 	}
 
-	FbxIOSettings* ios = FbxIOSettings::Create(mFbxManager, IOSROOT);
-	mFbxManager->SetIOSettings(ios);
+	FbxIOSettings* ios = FbxIOSettings::Create(_fbxManager, IOSROOT);
+	_fbxManager->SetIOSettings(ios);
 	return true;
 }
 
-bool RenderDevice::InitializeVertexLayout()
-{
-	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 0	, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
-		{ "NORMAL"	, 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 12, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT		, 0	, 24, D3D11_INPUT_PER_VERTEX_DATA	, 0 },
-		{ "WORLD"	, 0, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 0	, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-		{ "WORLD"	, 1, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 16, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-		{ "WORLD"	, 2, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 32, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-		{ "WORLD"	, 3, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1 , 64, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-	};
-
-	D3DX11_PASS_DESC passDesc;
-	
-	/*if (!mTechnique->IsValid())
-	{
-		return false;
-	}*/
-
-	mTechnique->GetPassByIndex(0)->GetDesc(&passDesc);
-
-	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 7, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
-	{
-		return false;
-	}
-	return true;
-}
-
-bool RenderDevice::CreateEffectFile(char* filepath, LPD3D11EFFECT* effect)
-{
-	return false;
-}
+//bool RenderDevice::InitializeVertexLayout()
+//{
+//	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+//	{
+//		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 0	, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
+//		{ "NORMAL"	, 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 12, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
+//		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT		, 0	, 24, D3D11_INPUT_PER_VERTEX_DATA	, 0 },
+//		{ "WORLD"	, 0, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 0	, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
+//		{ "WORLD"	, 1, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 16, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
+//		{ "WORLD"	, 2, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 32, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
+//		{ "WORLD"	, 3, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1 , 64, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
+//	};
+//
+//	D3DX11_PASS_DESC passDesc;
+//	
+//	/*if (!mTechnique->IsValid())
+//	{
+//		return false;
+//	}*/
+//
+//	mTechnique->GetPassByIndex(0)->GetDesc(&passDesc);
+//
+//	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 7, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
+//	{
+//		return false;
+//	}
+//	return true;
+//}
+//
+//bool RenderDevice::CreateEffectFile(char* filepath, LPD3D11EFFECT* effect)
+//{
+//	return false;
+//}
 
 void RenderDevice::Render11()
 {
 	float color[4] = { 0, 0.125f, 0.3f, 1 };
-	mDirectContext->ClearRenderTargetView(mRenderTargetView, color);
-	mDirectContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	_directContext->ClearRenderTargetView(_renderTargetView, color);
+	_directContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 
 
 	/*
 	Instance용 랜더를 새로 만들어야함.. 메쉬에서 인스탄스 속성을 줘야할듯..
 	*/
 
-	mDirectContext->IASetInputLayout(mInputLayout);
-	mDirectContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//_directContext->IASetInputLayout(_inputLayout);
+	_directContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	ID3D11Asynchronous* pAsynchronous = nullptr;
 
-
-	/*HRESULT queryResult = mDirectContext->GetData(pAsynchronous, nullptr, 0, 0);
-	if (SUCCEEDED(queryResult))
-	{
-		mDirectContext->Begin(pAsynchronous);
-	}	*/
-	
 	typedef std::vector<Component::Render*>::iterator listiterator;
-	listiterator iter = listRenders.begin();
-	while (iter != listRenders.end())
+	listiterator iter = _listRenders.begin();
+
+	for (Component::Render* render : _listRenders)
 	{
-		Component::Render* elemental = (*iter);
-		elemental->RendMesh(mTechnique);
-		++iter;
+		//render->RendMesh();
 	}
-
-	/*if (SUCCEEDED(queryResult))
-	{
-		mDirectContext->End(pAsynchronous);
-	}*/
-
-	mSwapChain->Present(0, 0);
+	
+	_swapChain->Present(0, 0);
 }
 
 void RenderDevice::LoadAsset()
 {
 }
 
-void RenderDevice::AddListener(Component::Render* pRender)
+void RenderDevice::AddListener(Component::Render* render)
 {
-	if (pRender == nullptr) return;
+	typedef Component::Render Render;
 
-	typedef std::vector<Component::Render*>::iterator listiterator;
-
-	listiterator iter = listRenders.begin();
-	while (iter != listRenders.end())
+	if (render == nullptr) return;
+	
+	for (Render* listItem : _listRenders)
 	{
-		Component::Render* elemental = (*iter);
-		if (elemental && elemental == pRender)
+		if (listItem != nullptr && listItem == render)
 		{
 			return;
 		}
-		++iter;
 	}
-	listRenders.push_back(pRender);
+
+	_listRenders.push_back(render);
 }
 
-void RenderDevice::RemoveListener(Component::Render* pRender)
+void RenderDevice::RemoveListener(Component::Render* render)
 {
-	if (pRender == nullptr) return;
+	if (render == nullptr) return;
 
 	typedef std::vector<Component::Render*>::iterator listiterator;
 
-	listiterator iter = listRenders.begin();
-	while (iter != listRenders.end())
+	listiterator iter = _listRenders.begin();
+	while (iter != _listRenders.end())
 	{
 		Component::Render* elemental = (*iter);
-		if (elemental && elemental == pRender)
+		if (elemental && elemental == render)
 		{
-			listRenders.erase(iter);
+			_listRenders.erase(iter);
 			break;
 		}
 		++iter;

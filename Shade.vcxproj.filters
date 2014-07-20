@@ -145,6 +145,9 @@
     <ClInclude Include="Source\Material\IMaterial.h">
       <Filter>Sources\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Source\IncludeAssets.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">

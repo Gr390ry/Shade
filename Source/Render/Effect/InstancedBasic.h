@@ -1,10 +1,14 @@
 #pragma once
 #include "../IEffect.h"
+#include "ISingleton.h"
 
 namespace Render { namespace Effect {
 
-	class InstancedBasic : IEffect
+	class InstancedBasic : public IEffect, public ISingleton<InstancedBasic>
 	{
+	private:
+		void SetInputLayout() override;
+
 	public:
 		void Initialize() override;
 		void Release() override;
@@ -15,9 +19,11 @@ namespace Render { namespace Effect {
 		void SetLightDirection(const XMVECTOR*);
 
 	private:
+		ID3D11InputLayout*				_inputLayout;
+		ID3DX11EffectTechnique*			_technique;
 		ID3DX11EffectMatrixVariable*	_world;
 		ID3DX11EffectMatrixVariable*	_viewProjection;
-		ID3DX11EffectVectorVariable*	_lightDirection;
+		ID3DX11EffectVectorVariable*	_lightDirection;		
 	};
 
 } /*Render*/ } /*Effect*/

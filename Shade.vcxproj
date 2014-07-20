@@ -57,6 +57,7 @@
     <ClInclude Include="Source\GameObject\IGameObject.h" />
     <ClInclude Include="Source\GameObject\Prop.h" />
     <ClInclude Include="Source\GameObject\RequireComponents.h" />
+    <ClInclude Include="Source\IncludeAssets.h" />
     <ClInclude Include="Source\Management\GameTimer.h" />
     <ClInclude Include="Source\Management\General.h" />
     <ClInclude Include="Source\Management\RenderDevice.h" />

@@ -4,9 +4,10 @@
 #include "../Component/Transform.h"
 #include "../Component/CameraProp.h"
 #include "../GameObject/Camera.h"
-#include "../Mesh/IMesh.h"
-#include "../Mesh/BoxMesh.h"
-#include "../Mesh/SphereMesh.h"
+//#include "../Mesh/IMesh.h"
+//#include "../Mesh/BoxMesh.h"
+//#include "../Mesh/SphereMesh.h"
+#include "../IncludeAssets.h"
 
 using namespace GameObject;
 
@@ -69,6 +70,13 @@ bool General::InitializeGame()
 	pMainCamera->SetLookAt(XMFLOAT3(0, 0, 0));
 
 	return true;
+}
+
+bool General::LoadAssets()
+{
+	typedef Render::Effect::InstancedBasic InstancedBasic;
+
+	InstancedBasic::Get()->LoadEffect("Contents/InstanceBasic.fx");
 }
 
 void General::Release()

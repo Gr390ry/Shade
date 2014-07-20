@@ -42,40 +42,37 @@ public:
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
-	//TODO:Shader DEMO
 	void LoadAsset();
 
-	FbxManager* GetFbxManager() { return mFbxManager; }
-	ID3D11Device* GetDevice() { return mDirectDevice11; }
-	ID3D11DeviceContext* GetContext() { return mDirectContext; }
-	LPD3D11EFFECT GetShaderDEMO() { return mShader; }
+	FbxManager* GetFbxManager() { return _fbxManager; }
+	ID3D11Device* GetDevice() { return _directDevice11; }
+	ID3D11DeviceContext* GetContext() { return _directContext; }
 
 private:
 	
 
-	ID3D11Device*			mDirectDevice11;
-	ID3D11DeviceContext*	mDirectContext;
-	D3D_FEATURE_LEVEL		mFeatureLevel;
-	IDXGISwapChain*			mSwapChain;
-	ID3D11Texture2D*		mDepthStencilBuffer;
-	ID3D11RenderTargetView* mRenderTargetView;
-	ID3D11DepthStencilView* mDepthStencilView;
-	D3D11_VIEWPORT			mScreenViewPort;
-	D3D_DRIVER_TYPE			mDriverType;
-	bool					enableMSAAx4;
-
-	ID3D11Buffer*			mInstanceBuffer;
+	ID3D11Device*			_directDevice11;
+	ID3D11DeviceContext*	_directContext;
+	D3D_FEATURE_LEVEL		_featureLevel;
+	IDXGISwapChain*			_swapChain;
+	ID3D11Texture2D*		_depthStencilBuffer;
+	ID3D11RenderTargetView* _renderTargetView;
+	ID3D11DepthStencilView* _depthStencilView;
+	D3D11_VIEWPORT			_screenViewPort;
+	D3D_DRIVER_TYPE			_driverType;
+	bool					_enableMSAAx4;
+	ID3D11Buffer*			_instanceBuffer;
 	
-	LPD3D11EFFECT			mShader;
-	ID3D11InputLayout*		mInputLayout;
-	ID3DX11EffectTechnique* mTechnique;
+	//LPD3D11EFFECT			mShader;
+	//ID3D11InputLayout*		mInputLayout;
+	//ID3DX11EffectTechnique* mTechnique;
 
-	std::vector<Component::Render*> listRenders;
-	std::vector<Component::LightPoint*> listLightPoints;
+	std::vector<Component::Render*> _listRenders;
+	std::vector<Component::LightPoint*> _listLightPoints;
 
 	//출력 가능한 컴포넌트들을 받는다.(Render, LightPoint, Etc..)
-	MAP_COMPONENT			ContainComponents;
-	FbxManager*				mFbxManager;		
+	MAP_COMPONENT			_containComponents;
+	FbxManager*				_fbxManager;		
 	/*
 		Support Maximize RenderTarget Count To DirectX Version
 		-DX9 : 4

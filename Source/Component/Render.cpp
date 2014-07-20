@@ -50,25 +50,25 @@ namespace Component
 	
 	void Render::RendMesh(ID3DX11EffectTechnique* technique)
 	{
-		XMMATRIX world = pOwner->GetComponent<Transform>()->GetWorldMatrix();
-		XMMATRIX view = General::Get()->GetMainCamera()->GetViewMarix();
-		XMMATRIX projection = General::Get()->GetMainCamera()->GetProjectionMatrix();
+		XMMATRIX world			= pOwner->GetComponent<Transform>()->GetWorldMatrix();
+		XMMATRIX view			= General::Get()->GetMainCamera()->GetViewMarix();
+		XMMATRIX projection		= General::Get()->GetMainCamera()->GetProjectionMatrix();
 
 		XMMATRIX vp = XMMatrixMultiply(view, projection);
 		
 		{
-			ID3DX11EffectMatrixVariable* fxWorld = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorld")->AsMatrix();
+			/*ID3DX11EffectMatrixVariable* fxWorld = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorld")->AsMatrix();
 			ID3DX11EffectMatrixVariable* fxViewProjection = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gViewProjection")->AsMatrix();
 			ID3DX11EffectVectorVariable* fxWorldLightPosition = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorldLightPosition")->AsVector();
-			ID3DX11EffectShaderResourceVariable* fxDiffuseMap = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gDiffuseMap")->AsShaderResource();
+			ID3DX11EffectShaderResourceVariable* fxDiffuseMap = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gDiffuseMap")->AsShaderResource();*/
 
-			fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
-			fxViewProjection->SetMatrix(reinterpret_cast<float*>(&vp));
+			/*fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
+			fxViewProjection->SetMatrix(reinterpret_cast<float*>(&vp));*/
 
 
 			float lightPosition[] = { 500, 500, -500, 1 };
 
-			fxWorldLightPosition->SetFloatVector(lightPosition);
+			//fxWorldLightPosition->SetFloatVector(lightPosition);
 
 			UINT stride = sizeof(GENERIC::Vertex);
 			UINT offset = 0;
@@ -80,7 +80,7 @@ namespace Component
 
 			for (UINT i = 0; i < techDesc.Passes; ++i)
 			{
-				fxDiffuseMap->SetResource(pDiffuseMap);
+				//fxDiffuseMap->SetResource(pDiffuseMap);
 				technique->GetPassByIndex(i)->Apply(0, RenderDevice::Get()->GetContext());
 				RenderDevice::Get()->GetContext()->DrawIndexed(pMeshData->GetNumIndices(), 0, 0);
 				//RenderDevice::Get()->GetContext()->Draw(pMeshData->GetNumVertices(), 0);
