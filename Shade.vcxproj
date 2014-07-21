@@ -60,14 +60,17 @@
     <ClInclude Include="Source\IncludeAssets.h" />
     <ClInclude Include="Source\Management\GameTimer.h" />
     <ClInclude Include="Source\Management\General.h" />
+    <ClInclude Include="Source\Management\MeshPool.h" />
     <ClInclude Include="Source\Management\RenderDevice.h" />
     <ClInclude Include="Source\Material\IMaterial.h" />
-    <ClInclude Include="Source\Mesh\BoxMesh.h" />
-    <ClInclude Include="Source\Mesh\IMesh.h" />
-    <ClInclude Include="Source\Mesh\SphereMesh.h" />
-    <ClInclude Include="Source\Mesh\StaticMesh.h" />
+    <ClInclude Include="Source\Pool\IDynamicPool.h" />
+    <ClInclude Include="Source\Pool\IStaticPool.h" />
     <ClInclude Include="Source\Render\Effect\InstancedBasic.h" />
     <ClInclude Include="Source\Render\IEffect.h" />
+    <ClInclude Include="Source\Render\IMesh.h" />
+    <ClInclude Include="Source\Render\Mesh\BoxMesh.h" />
+    <ClInclude Include="Source\Render\Mesh\SphereMesh.h" />
+    <ClInclude Include="Source\Render\Mesh\StaticMesh.h" />
     <ClInclude Include="Source\resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -84,11 +87,14 @@
     <ClCompile Include="Source\GameObject\Prop.cpp" />
     <ClCompile Include="Source\Management\GameTimer.cpp" />
     <ClCompile Include="Source\Management\General.cpp" />
+    <ClCompile Include="Source\Management\MeshPool.cpp" />
     <ClCompile Include="Source\Management\RenderDevice.cpp" />
-    <ClCompile Include="Source\Mesh\BoxMesh.cpp" />
-    <ClCompile Include="Source\Mesh\SphereMesh.cpp" />
-    <ClCompile Include="Source\Mesh\StaticMesh.cpp" />
+    <ClCompile Include="Source\Render\Effect\EffectCommon.cpp" />
     <ClCompile Include="Source\Render\Effect\InstancedBasic.cpp" />
+    <ClCompile Include="Source\Render\Mesh\BoxMesh.cpp" />
+    <ClCompile Include="Source\Render\Mesh\MeshCommon.cpp" />
+    <ClCompile Include="Source\Render\Mesh\SphereMesh.cpp" />
+    <ClCompile Include="Source\Render\Mesh\StaticMesh.cpp" />
     <ClCompile Include="Source\window.cpp" />
   </ItemGroup>
   <ItemGroup>

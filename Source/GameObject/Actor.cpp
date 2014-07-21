@@ -2,8 +2,8 @@
 #include "ConstructHelper.h"
 #include "../Component/Render.h"
 #include "../Component/Transform.h"
-#include "../Mesh/BoxMesh.h"
-#include "../Mesh/SphereMesh.h"
+#include "../Render/Mesh/BoxMesh.h"
+#include "../Render/Mesh/SphereMesh.h"
 
 namespace GameObject {
 

@@ -16,7 +16,11 @@ class RenderDevice : public ISingleton<RenderDevice>
 {
 	//typedef
 	typedef std::map<unsigned int, Component::IRenderable*> MAP_COMPONENT;
-	typedef MAP_COMPONENT::iterator ITER_COMPONENT;
+	typedef MAP_COMPONENT::iterator					ITER_COMPONENT;
+
+	typedef std::vector<Component::Render*>			VEC_RENDER;
+	typedef std::vector<Component::LightPoint*>		VEC_LIGHTPOINT;
+	typedef std::vector<GENERIC::InstancedData>		VEC_INSTANCEDDATA;
 
 private:
 	//void RenderTarget(const LPD3DXEFFECT&, const LPD3DXMESH&, const DWORD&, const DWORD&);
@@ -31,23 +35,20 @@ private:
 public:	
 	RenderDevice();
 
-
-	//bool InitializeDevice(HWND);
 	bool InitializeDevice11(HWND);
 	void Release();
-
 	void OnResize();
 	void Render11();
-
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
 	void LoadAsset();
+	void BuildInstancedBuffer();
 
 	FbxManager* GetFbxManager() { return _fbxManager; }
 	ID3D11Device* GetDevice() { return _directDevice11; }
 	ID3D11DeviceContext* GetContext() { return _directContext; }
-
+	
 private:
 	
 
@@ -61,14 +62,12 @@ private:
 	D3D11_VIEWPORT			_screenViewPort;
 	D3D_DRIVER_TYPE			_driverType;
 	bool					_enableMSAAx4;
-	ID3D11Buffer*			_instanceBuffer;
-	
-	//LPD3D11EFFECT			mShader;
-	//ID3D11InputLayout*		mInputLayout;
-	//ID3DX11EffectTechnique* mTechnique;
 
-	std::vector<Component::Render*> _listRenders;
-	std::vector<Component::LightPoint*> _listLightPoints;
+	ID3D11Buffer*			_instanceBuffer;
+
+	VEC_INSTANCEDDATA		_vecInstancedData;	
+	VEC_RENDER				_vecRenders;
+	VEC_LIGHTPOINT			_vecLightPoints;
 
 	//출력 가능한 컴포넌트들을 받는다.(Render, LightPoint, Etc..)
 	MAP_COMPONENT			_containComponents;

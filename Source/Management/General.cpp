@@ -4,23 +4,19 @@
 #include "../Component/Transform.h"
 #include "../Component/CameraProp.h"
 #include "../GameObject/Camera.h"
-//#include "../Mesh/IMesh.h"
-//#include "../Mesh/BoxMesh.h"
-//#include "../Mesh/SphereMesh.h"
 #include "../IncludeAssets.h"
+#include "MeshPool.h"
 
 using namespace GameObject;
 
-General::General() : pTestActor(nullptr), pMainCamera(nullptr)
+General::General() : _mainCamera(nullptr)
 {
 }
 
 bool General::InitializeGame()
 {
 	GameObject::Actor* pActor = nullptr;
-	IMesh* pBoxMesh = new BoxMesh;
-	pBoxMesh->Initialize("");
-
+	IMesh* pBoxMesh = MeshPool::Get()->GetMeshData("Box");
 	int batchCount = 10;
 	float boxSize = 5;
 	float boxPositionInterval = boxSize + 15;
@@ -36,38 +32,42 @@ bool General::InitializeGame()
 				pActor = new GameObject::Actor;
 				pActor->Initialize();
 
-				Component::Render* pRender = pActor->GetComponent<Component::Render>();
-				Component::Transform* pTransform = pActor->GetComponent<Component::Transform>();
+				Component::Render* render = pActor->GetComponent<Component::Render>();
+				Component::Transform* transform = pActor->GetComponent<Component::Transform>();
 
-				if (pRender)
+				if (render)
 				{
-					pRender->SetMeshData(pBoxMesh);
+					render->SetMeshData(pBoxMesh);
 				}
-				if (pTransform)
+				if (transform)
 				{
-					pTransform->SetScale(XMFLOAT3(boxSize, boxSize, boxSize));					
+					transform->SetScale(XMFLOAT3(boxSize, boxSize, boxSize));
 
 					XMFLOAT3 position(boxPositionInterval * col + -boxLength * 0.5f + center.x,
 						boxPositionInterval * row + -boxLength * 0.5f + center.y,
 						boxPositionInterval * depth + -boxLength * 0.5f + center.z);
 
 					Console::Get()->print("processing test box actor index[%d,%d,%d]\n", col, row, depth);
+					
+					transform->SetPosition(position);
+					transform->Update(0);
 
-
-					pTransform->SetPosition(position);
+					_vecInstanObjectWorld.emplace_back(transform->GetWorldMatrix());
 				}
-				listActors.emplace_back(pActor);
+
+
+				_vecActors.emplace_back(pActor);
 				pActor = nullptr;
 			}
 		}
 	}
 
-	if (pMainCamera == nullptr)
-		pMainCamera = new GameObject::Camera;
+	if (_mainCamera == nullptr)
+		_mainCamera = new GameObject::Camera;
 
-	pMainCamera->Initialize();
-	pMainCamera->SetPosition(XMFLOAT3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
-	pMainCamera->SetLookAt(XMFLOAT3(0, 0, 0));
+	_mainCamera->Initialize();
+	_mainCamera->SetPosition(XMFLOAT3(GENERIC::worldCameraPosition.x, GENERIC::worldCameraPosition.y, GENERIC::worldCameraPosition.z));
+	_mainCamera->SetLookAt(XMFLOAT3(0, 0, 0));
 
 	return true;
 }
@@ -77,31 +77,46 @@ bool General::LoadAssets()
 	typedef Render::Effect::InstancedBasic InstancedBasic;
 
 	InstancedBasic::Get()->LoadEffect("Contents/InstanceBasic.fx");
+	MeshPool::Get()->Initialize();
+
+	return true;
 }
 
 void General::Release()
 {
-	for (GameObject::Actor* pActor : listActors)
+	for (GameObject::Actor* actor : _vecActors)
 	{
-		pActor->Release();
-		SAFE_DELETE(pActor);
+		actor->Release();
+		SAFE_DELETE(actor);
 	}
+	_vecActors.clear();
+	_vecInstanObjectWorld.clear();
 
-	pMainCamera->Release();
-	SAFE_DELETE(pMainCamera);
+	_mainCamera->Release();
+	SAFE_DELETE(_mainCamera);
 }
 
 void General::Update(float pDelta)
 {
-	for (GameObject::Actor* pActor : listActors)
+	for (GameObject::Actor* actor : _vecActors)
 	{
-		if (pActor == nullptr) continue;
-		pActor->Update(pDelta);
+		if (actor == nullptr) continue;
+		actor->Update(pDelta);
 	}
-	UPDATE_OBJECT(pMainCamera, pDelta);
+	UPDATE_OBJECT(_mainCamera, pDelta);
 }
 
 Camera* General::GetMainCamera() const
 {
-	return pMainCamera;
+	return _mainCamera;
+}
+
+General::VEC_ACTOR General::GetActorList()
+{
+	return _vecActors;
+}
+
+General::VEC_MATRIX General::GetInstancedObjectsWorldMatrix()
+{
+	return _vecInstanObjectWorld;
 }

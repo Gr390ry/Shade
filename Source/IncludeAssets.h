@@ -6,7 +6,7 @@
 #pragma endregion
 
 #pragma region Mesh Header
-#include "Mesh\BoxMesh.h"
-#include "Mesh\SphereMesh.h"
-#include "Mesh\StaticMesh.h"
+#include "Render\Mesh\BoxMesh.h"
+#include "Render\Mesh\SphereMesh.h"
+#include "Render\Mesh\StaticMesh.h"
 #pragma endregion

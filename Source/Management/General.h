@@ -9,6 +9,9 @@ namespace GameObject {
 
 class General : public ISingleton<General>
 {
+	typedef std::vector<GameObject::Actor*> VEC_ACTOR;
+	typedef std::vector<XMMATRIX> VEC_MATRIX;
+
 public:	
 	General();
 
@@ -18,12 +21,13 @@ public:
 	void Update(float);
 
 	GameObject::Camera* GetMainCamera() const;
+	VEC_ACTOR GetActorList();
+	VEC_MATRIX GetInstancedObjectsWorldMatrix();
 
 private:
-	GameObject::Actor* pTestActor;
-	std::vector<GameObject::Actor*> listActors;
-
-	GameObject::Camera* pMainCamera;
+	VEC_ACTOR				_vecActors;
+	VEC_MATRIX				_vecInstanObjectWorld;
+	GameObject::Camera*		_mainCamera;
 
 
 };

@@ -2,6 +2,9 @@
 #include "General.h"
 #include "../Component/Render.h"
 #include "../GameObject/Camera.h"
+#include "../GameObject/Actor.h"
+#include "../IncludeAssets.h"
+
 #include <algorithm>
 
 RenderDevice::RenderDevice() : _fbxManager(nullptr),
@@ -211,63 +214,28 @@ bool RenderDevice::InitializeFbx()
 	return true;
 }
 
-//bool RenderDevice::InitializeVertexLayout()
-//{
-//	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
-//	{
-//		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 0	, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
-//		{ "NORMAL"	, 0, DXGI_FORMAT_R32G32B32_FLOAT	, 0	, 12, D3D11_INPUT_PER_VERTEX_DATA	, 0	},
-//		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT		, 0	, 24, D3D11_INPUT_PER_VERTEX_DATA	, 0 },
-//		{ "WORLD"	, 0, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 0	, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-//		{ "WORLD"	, 1, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 16, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-//		{ "WORLD"	, 2, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1	, 32, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-//		{ "WORLD"	, 3, DXGI_FORMAT_R32G32B32A32_FLOAT	, 1 , 64, D3D11_INPUT_PER_INSTANCE_DATA	, 1 }, //인스탄스 설정
-//	};
-//
-//	D3DX11_PASS_DESC passDesc;
-//	
-//	/*if (!mTechnique->IsValid())
-//	{
-//		return false;
-//	}*/
-//
-//	mTechnique->GetPassByIndex(0)->GetDesc(&passDesc);
-//
-//	if (FAILED(mDirectDevice11->CreateInputLayout(vertexDesc, 7, passDesc.pIAInputSignature, passDesc.IAInputSignatureSize, &mInputLayout)))
-//	{
-//		return false;
-//	}
-//	return true;
-//}
-//
-//bool RenderDevice::CreateEffectFile(char* filepath, LPD3D11EFFECT* effect)
-//{
-//	return false;
-//}
-
 void RenderDevice::Render11()
 {
 	float color[4] = { 0, 0.125f, 0.3f, 1 };
 	_directContext->ClearRenderTargetView(_renderTargetView, color);
 	_directContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
-
-
+	
 	/*
 	Instance용 랜더를 새로 만들어야함.. 메쉬에서 인스탄스 속성을 줘야할듯..
 	*/
 
-	//_directContext->IASetInputLayout(_inputLayout);
+	_directContext->IASetInputLayout(Render::Effect::InstancedBasic::Get()->GetLayout());
 	_directContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	ID3D11Asynchronous* pAsynchronous = nullptr;
+	//ID3D11Asynchronous* pAsynchronous = nullptr;
 
-	typedef std::vector<Component::Render*>::iterator listiterator;
-	listiterator iter = _listRenders.begin();
+	//typedef std::vector<Component::Render*>::iterator listiterator;
+	//listiterator iter = _listRenders.begin();
 
-	for (Component::Render* render : _listRenders)
-	{
-		//render->RendMesh();
-	}
+	//for (Component::Render* render : _listRenders)
+	//{
+	//	//render->RendMesh();
+	//}
 	
 	_swapChain->Present(0, 0);
 }
@@ -276,13 +244,26 @@ void RenderDevice::LoadAsset()
 {
 }
 
+void RenderDevice::BuildInstancedBuffer()
+{
+	for (GameObject::Actor* actor : General::Get()->GetActorList())
+	{
+		//_vecInstancedData.Add();
+	}
+
+	D3D11_BUFFER_DESC instancedBufferDesc;
+	instancedBufferDesc.Usage		= D3D11_USAGE_DYNAMIC;
+	instancedBufferDesc.ByteWidth	= sizeof(GENERIC::InstancedData);
+	//_instanceBuffer;
+}
+
 void RenderDevice::AddListener(Component::Render* render)
 {
 	typedef Component::Render Render;
 
 	if (render == nullptr) return;
 	
-	for (Render* listItem : _listRenders)
+	for (Render* listItem : _vecRenders)
 	{
 		if (listItem != nullptr && listItem == render)
 		{
@@ -290,7 +271,7 @@ void RenderDevice::AddListener(Component::Render* render)
 		}
 	}
 
-	_listRenders.push_back(render);
+	_vecRenders.push_back(render);
 }
 
 void RenderDevice::RemoveListener(Component::Render* render)
@@ -299,13 +280,13 @@ void RenderDevice::RemoveListener(Component::Render* render)
 
 	typedef std::vector<Component::Render*>::iterator listiterator;
 
-	listiterator iter = _listRenders.begin();
-	while (iter != _listRenders.end())
+	listiterator iter = _vecRenders.begin();
+	while (iter != _vecRenders.end())
 	{
 		Component::Render* elemental = (*iter);
 		if (elemental && elemental == render)
 		{
-			_listRenders.erase(iter);
+			_vecRenders.erase(iter);
 			break;
 		}
 		++iter;

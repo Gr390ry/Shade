@@ -4,9 +4,9 @@
 #include "../GameObject/Camera.h"
 #include "../Management/General.h"
 #include "../Management/RenderDevice.h"
-#include "../Mesh/IMesh.h"
-#include "../Mesh/StaticMesh.h"
-#include "../Mesh/BoxMesh.h"
+#include "../Render/IMesh.h"
+#include "../Render/Mesh/StaticMesh.h"
+#include "../Render/Mesh/BoxMesh.h"
 
 namespace Component
 {

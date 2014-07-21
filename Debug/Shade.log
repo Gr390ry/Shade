@@ -1,13 +1,46 @@
-﻿빌드 시작: 2014-07-19 오후 10:53:05
-     1>2 노드의 "F:\GitHub\Shade\Shade.vcxproj" 프로젝트(Build 대상)입니다.
+﻿빌드 시작: 2014-07-21 오후 3:18:51
+     1>2 노드의 "D:\GitHub\Shade\Shade.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
-         D:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IF:\GitHub\Shade\\Lib\FBX\include /IF:\GitHub\Shade\\Source\Common /Zi /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Management\General.cpp Source\Render\Effect\InstancedBasic.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ID:\GitHub\Shade\\Lib\FBX\include /ID:\GitHub\Shade\\Source\Common /Zi /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Component\Render.cpp Source\GameObject\Actor.cpp Source\Management\General.cpp Source\Management\MeshPool.cpp Source\Management\RenderDevice.cpp Source\Render\Effect\InstancedBasic.cpp Source\Render\Mesh\BoxMesh.cpp Source\Render\Mesh\MeshCommon.cpp Source\Render\Mesh\SphereMesh.cpp Source\Render\Mesh\StaticMesh.cpp
+         Render.cpp
+         Actor.cpp
          General.cpp
+         MeshPool.cpp
+         RenderDevice.cpp
          InstancedBasic.cpp
+         BoxMesh.cpp
+         MeshCommon.cpp
+         SphereMesh.cpp
+         StaticMesh.cpp
          코드를 생성하고 있습니다...
-     1>f:\github\shade\source\management\general.cpp(80): error C4716: 'General::LoadAssets' : 값을 반환해야 합니다.
-     1>"F:\GitHub\Shade\Shade.vcxproj" 프로젝트를 빌드했습니다(Build 대상). - 실패
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GitHub\Shade\Debug\ShadeEngine.exe" /INCREMENTAL /NOLOGO /LIBPATH:D:\GitHub\Shade\Lib\ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib d3d11.lib d3dx11d.lib D3DCompiler.lib dxerr.lib dxgi.lib Effects11d.lib "libfbxsdk-md_x86d.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\GitHub\Shade\Debug\ShadeEngine.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GitHub\Shade\Debug\ShadeEngine.lib" /MACHINE:X86 Debug\ShadeEngine.res
+         Debug\ConstructHelper.obj
+         Debug\CameraProp.obj
+         Debug\IComponent.obj
+         Debug\LightPoint.obj
+         Debug\Render.obj
+         Debug\IRenderable.obj
+         Debug\Transform.obj
+         Debug\FbxParser.obj
+         Debug\Actor.obj
+         Debug\Camera.obj
+         Debug\Prop.obj
+         Debug\GameTimer.obj
+         Debug\General.obj
+         Debug\MeshPool.obj
+         Debug\RenderDevice.obj
+         Debug\EffectCommon.obj
+         Debug\InstancedBasic.obj
+         Debug\BoxMesh.obj
+         Debug\MeshCommon.obj
+         Debug\SphereMesh.obj
+         Debug\StaticMesh.obj
+         Debug\window.obj
+         "Lib\libfbxsdk-md_x86d.lib"
+         Shade.vcxproj -> D:\GitHub\Shade\Debug\ShadeEngine.exe
+     1>"D:\GitHub\Shade\Shade.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
-빌드하지 못했습니다.
+빌드했습니다.
 
-경과 시간: 00:00:03.57
+경과 시간: 00:00:20.43

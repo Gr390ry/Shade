@@ -39,4 +39,9 @@ namespace GENERIC {
 		{
 		}
 	};
+
+	struct InstancedData
+	{
+		XMFLOAT4 _world;
+	};
 };

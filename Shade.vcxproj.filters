@@ -44,6 +44,9 @@
     <Filter Include="Sources\Render\Mesh">
       <UniqueIdentifier>{956abb9e-f9c5-4d2f-a92a-caa53e40db2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Pool">
+      <UniqueIdentifier>{001d5c4e-f1ea-40ff-a1d5-770c430407e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\GameObject\Camera.h">
@@ -91,17 +94,8 @@
     <ClInclude Include="Lib\directX11\Effect\d3dx11effect.h">
       <Filter>Library\directX11</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mesh\StaticMesh.h">
-      <Filter>Sources\Render\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Console.h">
       <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh\BoxMesh.h">
-      <Filter>Sources\Render\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Mesh\SphereMesh.h">
-      <Filter>Sources\Render\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\Common\ConstructHelper.h">
       <Filter>Sources\Common</Filter>
@@ -139,14 +133,32 @@
     <ClInclude Include="Source\Render\IEffect.h">
       <Filter>Sources\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Mesh\IMesh.h">
-      <Filter>Sources\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Material\IMaterial.h">
       <Filter>Sources\Render</Filter>
     </ClInclude>
     <ClInclude Include="Source\IncludeAssets.h">
       <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Management\MeshPool.h">
+      <Filter>Sources\Management</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Mesh\BoxMesh.h">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Mesh\SphereMesh.h">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\Mesh\StaticMesh.h">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Render\IMesh.h">
+      <Filter>Sources\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pool\IStaticPool.h">
+      <Filter>Sources\Pool</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Pool\IDynamicPool.h">
+      <Filter>Sources\Pool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,15 +201,6 @@
     <ClCompile Include="Source\Management\GameTimer.cpp">
       <Filter>Sources\Management</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Mesh\StaticMesh.cpp">
-      <Filter>Sources\Render\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh\BoxMesh.cpp">
-      <Filter>Sources\Render\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Mesh\SphereMesh.cpp">
-      <Filter>Sources\Render\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Common\ConstructHelper.cpp">
       <Filter>Sources\Common</Filter>
     </ClCompile>
@@ -206,6 +209,24 @@
     </ClCompile>
     <ClCompile Include="Source\Render\Effect\InstancedBasic.cpp">
       <Filter>Sources\Render\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Management\MeshPool.cpp">
+      <Filter>Sources\Management</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Mesh\BoxMesh.cpp">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Mesh\SphereMesh.cpp">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Mesh\StaticMesh.cpp">
+      <Filter>Sources\Render\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Effect\EffectCommon.cpp">
+      <Filter>Sources\Render\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Render\Mesh\MeshCommon.cpp">
+      <Filter>Sources\Render\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
