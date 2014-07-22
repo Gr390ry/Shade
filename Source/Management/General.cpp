@@ -16,51 +16,74 @@ General::General() : _mainCamera(nullptr)
 bool General::InitializeGame()
 {
 	GameObject::Actor* pActor = nullptr;
-	IMesh* pBoxMesh = MeshPool::Get()->GetMeshData("Box");
-	int batchCount = 10;
+	//IMesh* pBoxMesh = MeshPool::Get()->GetMeshData("Box");
+	int batchCount = 2;
 	float boxSize = 5;
 	float boxPositionInterval = boxSize + 15;
 	float boxLength = boxPositionInterval * batchCount;
 	XMFLOAT3 center(0, 0, 0);
 
-	for (int col = 0; col < batchCount; ++col)
+	for (int i = 0; i < 10; ++i)
 	{
-		for (int row = 0; row < batchCount; ++row)
-		{
-			for (int depth = 0; depth < batchCount; ++depth)
-			{
-				pActor = new GameObject::Actor;
-				pActor->Initialize();
+		XMMATRIX worldMatrix;
+		XMFLOAT3 position = XMFLOAT3(i * 30, 0, -20);
+		XMFLOAT3 scale = XMFLOAT3(boxSize, boxSize, boxSize);
 
-				Component::Render* render = pActor->GetComponent<Component::Render>();
-				Component::Transform* transform = pActor->GetComponent<Component::Transform>();
-
-				if (render)
-				{
-					render->SetMeshData(pBoxMesh);
-				}
-				if (transform)
-				{
-					transform->SetScale(XMFLOAT3(boxSize, boxSize, boxSize));
-
-					XMFLOAT3 position(boxPositionInterval * col + -boxLength * 0.5f + center.x,
-						boxPositionInterval * row + -boxLength * 0.5f + center.y,
-						boxPositionInterval * depth + -boxLength * 0.5f + center.z);
-
-					Console::Get()->print("processing test box actor index[%d,%d,%d]\n", col, row, depth);
-					
-					transform->SetPosition(position);
-					transform->Update(0);
-
-					_vecInstanObjectWorld.emplace_back(transform->GetWorldMatrix());
-				}
-
-
-				_vecActors.emplace_back(pActor);
-				pActor = nullptr;
-			}
-		}
+		worldMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+		worldMatrix *= XMMatrixTranslation(position.x, position.y, position.z);
+		_vecInstanObjectWorld.emplace_back(worldMatrix);
 	}
+
+	//for (int col = 0; col < batchCount; ++col)
+	//{
+	//	for (int row = 0; row < batchCount; ++row)
+	//	{
+	//		for (int depth = 0; depth < batchCount; ++depth)
+	//		{
+	//			/*pActor = new GameObject::Actor;
+	//			pActor->Initialize();
+
+	//			Component::Render* render = pActor->GetComponent<Component::Render>();
+	//			Component::Transform* transform = pActor->GetComponent<Component::Transform>();
+
+	//			if (render)
+	//			{
+	//				render->SetMeshData(pBoxMesh);
+	//			}
+	//			if (transform)
+	//			{
+	//				transform->SetScale(XMFLOAT3(boxSize, boxSize, boxSize));
+
+	//				XMFLOAT3 position(boxPositionInterval * col + -boxLength * 0.5f + center.x,
+	//					boxPositionInterval * row + -boxLength * 0.5f + center.y,
+	//					boxPositionInterval * depth + -boxLength * 0.5f + center.z);
+
+	//				Console::Get()->print("processing test box actor index[%d,%d,%d]\n", col, row, depth);
+	//				
+	//				transform->SetPosition(position);
+	//				transform->Update(0);
+
+	//				_vecInstanObjectWorld.emplace_back(transform->GetWorldMatrix());
+	//			}
+
+
+	//			_vecActors.emplace_back(pActor);
+	//			pActor = nullptr;*/
+
+	//			XMMATRIX worldMatrix;
+	//			XMFLOAT3 position = XMFLOAT3(boxPositionInterval * col + -boxLength * 0.5f + center.x,
+	//										boxPositionInterval * row + -boxLength * 0.5f + center.y,
+	//										boxPositionInterval * depth + -boxLength * 0.5f + center.z);
+	//			XMFLOAT3 scale = XMFLOAT3(boxSize, boxSize, boxSize);
+
+	//			worldMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
+	//			worldMatrix *= XMMatrixTranslation(position.x, position.y, position.z);
+	//			_vecInstanObjectWorld.emplace_back(worldMatrix);
+	//		}
+	//	}
+	//}
+
+	Console::Get()->print("Test Instancing World Matrix Complete[Count:%d]\n", _vecInstanObjectWorld.size());
 
 	if (_mainCamera == nullptr)
 		_mainCamera = new GameObject::Camera;

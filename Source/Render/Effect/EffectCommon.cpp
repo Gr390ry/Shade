@@ -55,14 +55,14 @@ namespace Render { namespace Effect {
 		SAFE_RELEASE(compiledShader);
 
 		if (FAILED(hr)) return false;
-		return true;
-
+		
 		Initialize();
+		return true;
 	}
 
 	const LPD3D11EFFECT IEffect::GetFx()
 	{
-		assert(object == nullptr);
+		assert(object != nullptr);
 		return object;
 	}
 

@@ -38,7 +38,13 @@ public:
 	bool InitializeDevice11(HWND);
 	void Release();
 	void OnResize();
+
+
 	void Render11();
+	void UpdateScene(const float&);
+	void DrawScene();
+
+
 	void AddListener(Component::Render*);
 	void RemoveListener(Component::Render*);
 
@@ -63,7 +69,7 @@ private:
 	D3D_DRIVER_TYPE			_driverType;
 	bool					_enableMSAAx4;
 
-	ID3D11Buffer*			_instanceBuffer;
+	ID3D11Buffer*			_instancedBuffer;
 
 	VEC_INSTANCEDDATA		_vecInstancedData;	
 	VEC_RENDER				_vecRenders;

@@ -21,16 +21,16 @@ namespace GENERIC {
 	const int			shadowMapSize	= 2048;
 	const XMFLOAT4		worldLightPosition(500, 500, -500, 1);
 	const XMFLOAT4		worldLightColor(0.7f, 0.7f, 0.7f, 1);
-	const XMFLOAT4		worldCameraPosition(0, 0, -200, 1);
+	const XMFLOAT4		worldCameraPosition(0, 0, -20, 1);
 
 	const float			RadToDeg = 57.29577951f;
 	const float			DegToRad = 0.017453293f;
 
 	struct Vertex
 	{
-		XMFLOAT3 position;
-		XMFLOAT3 normal;
-		XMFLOAT2 uv;
+		XMFLOAT3			position;
+		XMFLOAT3			normal;
+		XMFLOAT2			uv;
 
 		Vertex() : position(0, 0, 0), normal(0, 0, 0), uv(0, 0)
 		{
@@ -42,6 +42,21 @@ namespace GENERIC {
 
 	struct InstancedData
 	{
-		XMFLOAT4 _world;
+		XMFLOAT4X4			_world;
+		XMFLOAT4			_color;
+
+		InstancedData() : _world(), _color(1, 1, 1, 1)
+		{
+		}
 	};
 };
+
+namespace Vertex
+{
+	struct Basic32
+	{
+		XMFLOAT3			_position;
+		XMFLOAT3			_normal;
+		XMFLOAT2			_uv;
+	};
+}

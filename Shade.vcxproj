@@ -65,6 +65,7 @@
     <ClInclude Include="Source\Material\IMaterial.h" />
     <ClInclude Include="Source\Pool\IDynamicPool.h" />
     <ClInclude Include="Source\Pool\IStaticPool.h" />
+    <ClInclude Include="Source\Render\Effect\BasicEffect.h" />
     <ClInclude Include="Source\Render\Effect\InstancedBasic.h" />
     <ClInclude Include="Source\Render\IEffect.h" />
     <ClInclude Include="Source\Render\IMesh.h" />
@@ -89,6 +90,7 @@
     <ClCompile Include="Source\Management\General.cpp" />
     <ClCompile Include="Source\Management\MeshPool.cpp" />
     <ClCompile Include="Source\Management\RenderDevice.cpp" />
+    <ClCompile Include="Source\Render\Effect\BasicEffect.cpp" />
     <ClCompile Include="Source\Render\Effect\EffectCommon.cpp" />
     <ClCompile Include="Source\Render\Effect\InstancedBasic.cpp" />
     <ClCompile Include="Source\Render\Mesh\BoxMesh.cpp" />

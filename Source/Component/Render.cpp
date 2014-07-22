@@ -7,9 +7,14 @@
 #include "../Render/IMesh.h"
 #include "../Render/Mesh/StaticMesh.h"
 #include "../Render/Mesh/BoxMesh.h"
+#include "../Render/Effect/BasicEffect.h"
+
+
 
 namespace Component
 {
+	using namespace Render;
+
 	ImplementRTTI(Render, IRenderable);
 
 	Render::Render()
@@ -48,7 +53,7 @@ namespace Component
 	{
 	}
 	
-	void Render::RendMesh(ID3DX11EffectTechnique* technique)
+	void Render::RendMesh(ID3DX11EffectTechnique* technique = nullptr)
 	{
 		XMMATRIX world			= pOwner->GetComponent<Transform>()->GetWorldMatrix();
 		XMMATRIX view			= General::Get()->GetMainCamera()->GetViewMarix();
@@ -57,12 +62,12 @@ namespace Component
 		XMMATRIX vp = XMMatrixMultiply(view, projection);
 		
 		{
-			/*ID3DX11EffectMatrixVariable* fxWorld = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorld")->AsMatrix();
-			ID3DX11EffectMatrixVariable* fxViewProjection = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gViewProjection")->AsMatrix();
-			ID3DX11EffectVectorVariable* fxWorldLightPosition = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorldLightPosition")->AsVector();
-			ID3DX11EffectShaderResourceVariable* fxDiffuseMap = RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gDiffuseMap")->AsShaderResource();*/
+			/*ID3DX11EffectMatrixVariable* fxWorld				= RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorld")->AsMatrix();
+			ID3DX11EffectMatrixVariable* fxViewProjection		= RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gViewProjection")->AsMatrix();
+			ID3DX11EffectVectorVariable* fxWorldLightPosition	= RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gWorldLightPosition")->AsVector();
+			ID3DX11EffectShaderResourceVariable* fxDiffuseMap	= RenderDevice::Get()->GetShaderDEMO()->GetVariableByName("gDiffuseMap")->AsShaderResource();
 
-			/*fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
+			fxWorld->SetMatrix(reinterpret_cast<float*>(&world));
 			fxViewProjection->SetMatrix(reinterpret_cast<float*>(&vp));*/
 
 
@@ -76,12 +81,13 @@ namespace Component
 			RenderDevice::Get()->GetContext()->IASetIndexBuffer(pIB, DXGI_FORMAT_R32_UINT, 0);
 
 			D3DX11_TECHNIQUE_DESC techDesc;
-			technique->GetDesc(&techDesc);
+			//technique->GetDesc(&techDesc);
+			Effect::BasicEffect::Get()->GetTechique()->GetDesc(&techDesc);
 
 			for (UINT i = 0; i < techDesc.Passes; ++i)
 			{
 				//fxDiffuseMap->SetResource(pDiffuseMap);
-				technique->GetPassByIndex(i)->Apply(0, RenderDevice::Get()->GetContext());
+				Effect::BasicEffect::Get()->GetTechique()->GetPassByIndex(i)->Apply(0, RenderDevice::Get()->GetContext());
 				RenderDevice::Get()->GetContext()->DrawIndexed(pMeshData->GetNumIndices(), 0, 0);
 				//RenderDevice::Get()->GetContext()->Draw(pMeshData->GetNumVertices(), 0);
 			}

@@ -33,7 +33,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 
 	Console::Get()->Initialize("Debug Console", hInstance, hPrevInstance, lpszCmdParam, nCmdShow);
-	Sleep(5000);
+	//Sleep(5000);
 
 	DEBUG_CONSOLE("Hello!\n");
 
@@ -55,6 +55,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 		MessageBox(hWnd, "General Game Initialize Failure!", "Error", MB_OK);
 		PostQuitMessage(0);
 	}
+
+	//TODO:ÀÎ½ºÅº½Ì Å×½ºÆ®
+	RenderDevice::Get()->BuildInstancedBuffer();
+	
 	Console::Get()->print("Game Asset Initialize Complete!\n");
 
 	gAppPuased = false;
@@ -93,9 +97,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 
 		if (!gAppPuased)
 		{
-			float fTick = GameTimer::Get()->DeltaTime();
+			float tick = GameTimer::Get()->DeltaTime();
 
-			General::Get()->Update(fTick);
+			General::Get()->Update(tick);
+			RenderDevice::Get()->UpdateScene(tick);
 			RenderDevice::Get()->Render11();
 			CalculateFrameStats(hWnd);
 		}

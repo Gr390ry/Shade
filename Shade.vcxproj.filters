@@ -160,6 +160,9 @@
     <ClInclude Include="Source\Pool\IDynamicPool.h">
       <Filter>Sources\Pool</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Render\Effect\BasicEffect.h">
+      <Filter>Sources\Render\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\window.cpp">
@@ -228,6 +231,9 @@
     <ClCompile Include="Source\Render\Mesh\MeshCommon.cpp">
       <Filter>Sources\Render\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Render\Effect\BasicEffect.cpp">
+      <Filter>Sources\Render\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Lib\libfbxsdk-md_x86d.lib">
@@ -255,6 +261,8 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Contents\InstanceBasic.fx" />
+    <None Include="Contents\InstanceBasic.fx">
+      <Filter>Contents</Filter>
+    </None>
   </ItemGroup>
 </Project>

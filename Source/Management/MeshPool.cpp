@@ -5,7 +5,9 @@
 
 void MeshPool::Initialize()
 {
-	AddMesh("Box", "", new BoxMesh());
+	AddMesh("Box", "Box", new BoxMesh());
+
+	Console::Get()->print("MeshPoolCount[%d]\n", _mapMeshContainer.size());
 }
 
 void MeshPool::Release()
@@ -26,10 +28,10 @@ void MeshPool::LoadScheduler()
 
 void MeshPool::AddMesh(const std::string& meshID, const std::string& filepath, const LPMESH mesh)
 {
-	assert(meshID == "");
-	assert(mesh == nullptr);
+	assert(meshID != "");
+	assert(mesh != nullptr);
 
-	if (_mapMeshContainer.find(meshID) != _mapMeshContainer.end())
+	if (_mapMeshContainer.find(meshID) == _mapMeshContainer.end())
 	{
 		assert(mesh->Initialize(filepath.c_str()));
 		_mapMeshContainer.emplace(meshID, mesh);
@@ -38,7 +40,7 @@ void MeshPool::AddMesh(const std::string& meshID, const std::string& filepath, c
 
 MeshPool::LPMESH MeshPool::GetMeshData(const std::string& meshID)
 {
-	assert(meshID == "");
+	assert(meshID != "");
 	ITER_MESH iter = _mapMeshContainer.find(meshID);
 
 	if (iter == _mapMeshContainer.end())
