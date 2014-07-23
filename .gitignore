@@ -94,3 +94,5 @@ Debug/Shade.log
 *.sdf
 Shade.sdf
 Shade.sdf
+*.res
+*.tlog
