@@ -218,52 +218,14 @@ bool RenderDevice::InitializeFbx()
 void RenderDevice::Render11()
 {
 	float color[4] = { 0, 0.125f, 0.3f, 1 };
-	ID3D11InputLayout* inputLayout		= Render::Effect::InstancedBasic::Get()->GetLayout();
-	ID3DX11EffectTechnique* activeTech	= Render::Effect::InstancedBasic::Get()->GetTechique();	
-	IMesh* mesh		= MeshPool::Get()->GetMeshData("Box");
-
-	assert(inputLayout != nullptr);
-	assert(activeTech != nullptr);
-	assert(mesh != nullptr);
-
+	
 	_directContext->ClearRenderTargetView(_renderTargetView, color);
 	_directContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	
-	_directContext->IASetInputLayout(inputLayout);
-	_directContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DrawScene();
 
-	UINT strides[2] = { sizeof(GENERIC::Vertex), sizeof(GENERIC::InstancedData) };
-	UINT offsets[2]	= { 0, 0 };
+	//DrawInstancing();
 
-	ID3D11Buffer* vertexBuffers[2] = { mesh->GetVB(), _instancedBuffer };
-
-	XMMATRIX view			= General::Get()->GetMainCamera()->GetViewMarix();
-	XMMATRIX projection		= General::Get()->GetMainCamera()->GetProjectionMatrix();
-	XMMATRIX vp				= XMMatrixMultiply(view, projection);
-	XMFLOAT4 lightPosition	= XMFLOAT4(500, 500, -500, 1);
-	XMVECTOR lightVector	= XMLoadFloat4(&lightPosition);
-
-	Render::Effect::InstancedBasic::Get()->SetViewProjectionMatrix(&vp);
-
-	LPD3D11EFFECT effect	= Render::Effect::InstancedBasic::Get()->GetFx();
-	ID3DX11EffectMatrixVariable*	viewProjection = effect->GetVariableByName("gViewProjection")->AsMatrix();
-
-	//Render::Effect::InstancedBasic::Get()->SetLightDirection(&lightVector);
-
-	D3DX11_TECHNIQUE_DESC techDesc;
-	activeTech->GetDesc(&techDesc);
-
-	for (UINT p = 0; p < techDesc.Passes; ++p)
-	{
-		_directContext->IASetVertexBuffers(0, 2, vertexBuffers, strides, offsets);
-		_directContext->IASetIndexBuffer(mesh->GetIB(), DXGI_FORMAT_R32_UINT, 0);
-
-		//Render::Effect::InstancedBasic::Get()->SetWorldMatrix(&XMMatrixIdentity());	
-		viewProjection->SetMatrix(reinterpret_cast<float*>(&vp));
-
-		activeTech->GetPassByIndex(p)->Apply(0, _directContext);
-		_directContext->DrawIndexedInstanced(mesh->GetNumIndices(), _vecInstancedData.size(), 0, 0, 0);
-	}
 	_swapChain->Present(0, 0);
 }
 
@@ -283,6 +245,61 @@ void RenderDevice::UpdateScene(const float& delta)
 }
 
 void RenderDevice::DrawScene()
+{
+	for (Component::Render* render : _vecRenders)
+	{
+		render->RendMesh(nullptr);
+	}
+}
+
+void RenderDevice::DrawInstancing()
+{
+	ID3D11InputLayout* inputLayout = Render::Effect::InstancedBasic::Get()->GetLayout();
+	ID3DX11EffectTechnique* activeTech = Render::Effect::InstancedBasic::Get()->GetTechique();
+	IMesh* mesh = MeshPool::Get()->GetMeshData("Box");
+
+	assert(inputLayout != nullptr);
+	assert(activeTech != nullptr);
+	assert(mesh != nullptr);
+
+	_directContext->IASetInputLayout(inputLayout);
+	_directContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	UINT strides[2] = { sizeof(GENERIC::Vertex), sizeof(GENERIC::InstancedData) };
+	UINT offsets[2] = { 0, 0 };
+
+	ID3D11Buffer* vertexBuffers[2] = { mesh->GetVB(), _instancedBuffer };
+
+	XMMATRIX view = General::Get()->GetMainCamera()->GetViewMarix();
+	XMMATRIX projection = General::Get()->GetMainCamera()->GetProjectionMatrix();
+	XMMATRIX vp = XMMatrixMultiply(view, projection);
+	XMFLOAT4 lightPosition = XMFLOAT4(500, 500, -500, 1);
+	XMVECTOR lightVector = XMLoadFloat4(&lightPosition);
+
+	Render::Effect::InstancedBasic::Get()->SetViewProjectionMatrix(&vp);
+
+	LPD3D11EFFECT effect = Render::Effect::InstancedBasic::Get()->GetFx();
+	ID3DX11EffectMatrixVariable*	viewProjection = effect->GetVariableByName("gViewProjection")->AsMatrix();
+
+	//Render::Effect::InstancedBasic::Get()->SetLightDirection(&lightVector);
+
+	D3DX11_TECHNIQUE_DESC techDesc;
+	activeTech->GetDesc(&techDesc);
+
+	for (UINT p = 0; p < techDesc.Passes; ++p)
+	{
+		_directContext->IASetVertexBuffers(0, 2, vertexBuffers, strides, offsets);
+		_directContext->IASetIndexBuffer(mesh->GetIB(), DXGI_FORMAT_R32_UINT, 0);
+
+		//Render::Effect::InstancedBasic::Get()->SetWorldMatrix(&XMMatrixIdentity());	
+		viewProjection->SetMatrix(reinterpret_cast<float*>(&vp));
+
+		activeTech->GetPassByIndex(p)->Apply(0, _directContext);
+		_directContext->DrawIndexedInstanced(mesh->GetNumIndices(), _vecInstancedData.size(), 0, 0, 0);
+	}
+}
+
+void RenderDevice::DrawVertex()
 {
 }
 

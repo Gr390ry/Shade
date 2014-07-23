@@ -2,6 +2,7 @@
 
 #pragma region Effect Header
 #include "Render\IEffect.h"
+#include "Render\Effect\BasicEffect.h"
 #include "Render\Effect\InstancedBasic.h"
 #pragma endregion
 

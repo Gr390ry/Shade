@@ -32,6 +32,9 @@ private:
 	bool CreateEffectFile(char*, LPD3D11EFFECT*);
 	bool InitializeVertexLayout();
 
+	void DrawInstancing();
+	void DrawVertex();
+
 public:	
 	RenderDevice();
 

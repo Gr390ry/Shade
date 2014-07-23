@@ -12,6 +12,8 @@ class IMesh;
 namespace Component {		
 	class Render : public IRenderable
 	{
+		typedef IMesh* LPMESH;
+
 		DeclareRTTI(Render);
 	private:
 		void CreateVertexBuffer();
@@ -41,7 +43,7 @@ namespace Component {
 		XMMATRIX*			pWorldMatrix;
 		bool				bIsCulled;
 		Transform*			transform;
-		IMesh*				pMeshData;
+		LPMESH				meshData;
 	};
 	
 };

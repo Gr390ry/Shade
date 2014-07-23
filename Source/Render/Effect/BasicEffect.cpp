@@ -41,21 +41,21 @@ namespace Render { namespace Effect {
 	{
 	}
 
-	void BasicEffect::SetWorldMatrix(const XMMATRIX* world)
+	void BasicEffect::SetWorldMatrix(XMMATRIX& world)
 	{
-		assert(world != nullptr);
+		//assert(world != nullptr);
 		_world->SetMatrix(reinterpret_cast<float*>(&world));
 	}
 
-	void BasicEffect::SetViewProjectionMatrix(const XMMATRIX* viewProjection)
+	void BasicEffect::SetViewProjectionMatrix(XMMATRIX& viewProjection)
 	{
-		assert(viewProjection != nullptr);
+		//assert(viewProjection != nullptr);
 		_viewProjection->SetMatrix(reinterpret_cast<float*>(&viewProjection));
 	}
 
-	void BasicEffect::SetLightDirection(const XMVECTOR* lightDirection)
+	void BasicEffect::SetLightDirection(XMVECTOR& lightDirection)
 	{
-		assert(lightDirection != nullptr);
+		//assert(lightDirection != nullptr);
 		_lightDirection->SetFloatVector(reinterpret_cast<float*>(&lightDirection));
 	}
 
