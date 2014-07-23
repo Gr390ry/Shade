@@ -14,9 +14,9 @@ namespace Render { namespace Effect {
 		void Release() override;
 
 
-		void SetWorldMatrix(XMMATRIX&);
-		void SetViewProjectionMatrix(XMMATRIX&);
-		void SetLightDirection(XMVECTOR&);
+		void SetWorldMatrix(const float*);
+		void SetViewProjectionMatrix(const float*);
+		void SetLightDirection(const float*);
 
 		ID3D11InputLayout* GetLayout() { return _inputLayout; }
 		ID3DX11EffectTechnique* GetTechique() { return _technique; }

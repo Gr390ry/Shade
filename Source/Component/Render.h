@@ -31,19 +31,22 @@ namespace Component {
 		void				SetOwner(GameObject::IGameObject* owner) override { pOwner = owner; }
 
 		//void				LoadFbxModel(const char*);
-		void				RendMesh(ID3DX11EffectTechnique*);
+		void				Draw();
 		void				SetMeshData(IMesh*);
 	private:
 		ID3D11Buffer*		pVB;
 		ID3D11Buffer*		pIB;
-		ID3D10EffectMatrixVariable* fxWorldVoewProjectionMatrix;
-		ID3D11Texture2D*	pDiffuseTexture;
-		ID3D11ShaderResourceView* pDiffuseMap;
+		ID3DX11EffectTechnique* _tech;
+		ID3D11InputLayout*				_inputLayout;
+		//ID3D10EffectMatrixVariable* fxWorldVoewProjectionMatrix;
+		//ID3D11ShaderResourceView*	pDiffuseMap;
+		ID3D11Texture2D*			pDiffuseTexture;
+		
 
-		XMMATRIX*			pWorldMatrix;
-		bool				bIsCulled;
-		Transform*			transform;
-		LPMESH				meshData;
+		XMMATRIX*			_worldMatrix;
+		bool				_IsCulled;
+		Transform*			_transform;
+		LPMESH				_meshData;
 	};
 	
 };

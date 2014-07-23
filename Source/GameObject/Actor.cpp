@@ -19,27 +19,12 @@ namespace GameObject {
 	void Actor::Initialize()
 	{
 		this->AddComponent<Component::Render>();
-		this->AddComponent<Component::Transform>();		
-		/*Component::Transform* transform = GetComponent<Component::Transform>();
-		Component::Render* render = GetComponent<Component::Render>();*/
-		//render->LoadFbxModel("Contents/Model/darkSider2/DarSider.fbx");
-		//BoxMesh* pBox = new BoxMesh;
-		/*SphereMesh *pSphere = new SphereMesh;
-		pSphere->Initialize("");
-		render->SetMeshData(pSphere);*/
+		this->AddComponent<Component::Transform>();
 	}
 
-	void Actor::Update(float pDelta)
+	void Actor::Update(float deltaTime)
 	{
-		Component::Transform* transform = GetComponent<Component::Transform>();
-
-		ITER_COMPONENT iter = ContainComponents.begin();
-		int nSize = ContainComponents.size();
-		concurrency::parallel_for(0, nSize, [&](int n)
-		{
-			iter->second->Update(pDelta);
-			++iter;
-		});
+		UPDATE_COMPONENTS(deltaTime);
 	}
 
 	void Actor::Release()
@@ -49,7 +34,7 @@ namespace GameObject {
 
 	const bool Actor::GetActvate()
 	{
-		return mbActivated;
+		return _IsActivated;
 	}
 	const Component::Transform* Actor::GetTransform()
 	{

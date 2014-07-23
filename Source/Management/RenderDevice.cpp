@@ -222,41 +222,51 @@ void RenderDevice::Render11()
 	_directContext->ClearRenderTargetView(_renderTargetView, color);
 	_directContext->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	
-	DrawScene();
+	//DrawScene();
 
-	//DrawInstancing();
+	DrawInstancing();
 
 	_swapChain->Present(0, 0);
 }
 
 void RenderDevice::UpdateScene(const float& delta)
 {
-	//D3D11_MAPPED_SUBRESOURCE mappedData;
-	//_directContext->Map(_instancedBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
+	D3D11_MAPPED_SUBRESOURCE mappedData;
+	_directContext->Map(_instancedBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
 
-	//GENERIC::InstancedData* dataView = reinterpret_cast<GENERIC::InstancedData*>(mappedData.pData);
+	GENERIC::InstancedData* dataView = reinterpret_cast<GENERIC::InstancedData*>(mappedData.pData);
 
-	//for (UINT i = 0; i < _vecInstancedData.size(); ++i)
-	//{
-	//	dataView[i] = _vecInstancedData[i];
-	//}
+	for (UINT i = 0; i < _vecInstancedData.size(); ++i)
+	{
+		dataView[i] = _vecInstancedData[i];
+	}
 
-	//_directContext->Unmap(_instancedBuffer, 0);
+	_directContext->Unmap(_instancedBuffer, 0);
 }
 
 void RenderDevice::DrawScene()
 {
 	for (Component::Render* render : _vecRenders)
 	{
-		render->RendMesh(nullptr);
+		render->Draw();
 	}
 }
 
 void RenderDevice::DrawInstancing()
 {
-	ID3D11InputLayout* inputLayout = Render::Effect::InstancedBasic::Get()->GetLayout();
-	ID3DX11EffectTechnique* activeTech = Render::Effect::InstancedBasic::Get()->GetTechique();
-	IMesh* mesh = MeshPool::Get()->GetMeshData("Box");
+	typedef Render::Effect::InstancedBasic Fx;
+
+	ID3D11InputLayout*		inputLayout = Fx::Get()->GetLayout();
+	ID3DX11EffectTechnique* activeTech	= Fx::Get()->GetTechique();
+	IMesh*					mesh		= MeshPool::Get()->GetMeshData("Box");
+
+	ID3D11Buffer*			vertexBuffers[2] = { mesh->GetVB(), _instancedBuffer };
+	XMMATRIX				viewProjection	= General::Get()->GetMainCamera()->GetViewProjectionMatrix();
+	XMFLOAT4				lightPosition	= XMFLOAT4(500, 500, -500, 1);
+	XMVECTOR				lightVector		= XMLoadFloat4(&lightPosition);
+
+	UINT					strides[2] = { sizeof(GENERIC::Vertex), sizeof(GENERIC::InstancedData) };
+	UINT					offsets[2] = { 0, 0 };
 
 	assert(inputLayout != nullptr);
 	assert(activeTech != nullptr);
@@ -265,22 +275,14 @@ void RenderDevice::DrawInstancing()
 	_directContext->IASetInputLayout(inputLayout);
 	_directContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	UINT strides[2] = { sizeof(GENERIC::Vertex), sizeof(GENERIC::InstancedData) };
-	UINT offsets[2] = { 0, 0 };
+	_directContext->IASetVertexBuffers(0, 2, vertexBuffers, strides, offsets);
+	_directContext->IASetIndexBuffer(mesh->GetIB(), DXGI_FORMAT_R32_UINT, 0);
 
-	ID3D11Buffer* vertexBuffers[2] = { mesh->GetVB(), _instancedBuffer };
+	Fx::Get()->SetViewProjectionMatrix(reinterpret_cast<float*>(&viewProjection));
+	Fx::Get()->SetLightDirection(reinterpret_cast<float*>(&lightVector));
 
-	XMMATRIX view = General::Get()->GetMainCamera()->GetViewMarix();
-	XMMATRIX projection = General::Get()->GetMainCamera()->GetProjectionMatrix();
-	XMMATRIX vp = XMMatrixMultiply(view, projection);
-	XMFLOAT4 lightPosition = XMFLOAT4(500, 500, -500, 1);
-	XMVECTOR lightVector = XMLoadFloat4(&lightPosition);
-
-	Render::Effect::InstancedBasic::Get()->SetViewProjectionMatrix(&vp);
-
-	LPD3D11EFFECT effect = Render::Effect::InstancedBasic::Get()->GetFx();
-	ID3DX11EffectMatrixVariable*	viewProjection = effect->GetVariableByName("gViewProjection")->AsMatrix();
-
+	//LPD3D11EFFECT effect = Render::Effect::InstancedBasic::Get()->GetFx();
+	//ID3DX11EffectMatrixVariable*	viewProjection = effect->GetVariableByName("gViewProjection")->AsMatrix();
 	//Render::Effect::InstancedBasic::Get()->SetLightDirection(&lightVector);
 
 	D3DX11_TECHNIQUE_DESC techDesc;
@@ -288,12 +290,6 @@ void RenderDevice::DrawInstancing()
 
 	for (UINT p = 0; p < techDesc.Passes; ++p)
 	{
-		_directContext->IASetVertexBuffers(0, 2, vertexBuffers, strides, offsets);
-		_directContext->IASetIndexBuffer(mesh->GetIB(), DXGI_FORMAT_R32_UINT, 0);
-
-		//Render::Effect::InstancedBasic::Get()->SetWorldMatrix(&XMMatrixIdentity());	
-		viewProjection->SetMatrix(reinterpret_cast<float*>(&vp));
-
 		activeTech->GetPassByIndex(p)->Apply(0, _directContext);
 		_directContext->DrawIndexedInstanced(mesh->GetNumIndices(), _vecInstancedData.size(), 0, 0, 0);
 	}
@@ -309,48 +305,18 @@ void RenderDevice::LoadAsset()
 
 void RenderDevice::BuildInstancedBuffer()
 {
-	/*_vecInstancedData.clear();
-	for (XMMATRIX worldMatrix : General::Get()->GetInstancedObjectsWorldMatrix())
+	const int n = 15;
+	_vecInstancedData.clear();
+
+	for (int i = 0; i < n; ++i)
 	{
+		XMMATRIX translationMatrix	= XMMatrixTranslation(i % 5 * 150.f, 1 / 5 * 150.f, 100);
+		XMMATRIX scaleMatrix		= XMMatrixScaling(3, 3, 3);
+
 		GENERIC::InstancedData instancedData;
-
-		instancedData._world = worldMatrix;
+		XMStoreFloat4x4(&instancedData._world, XMMatrixMultiply(scaleMatrix, translationMatrix));
+		instancedData._color = XMFLOAT4(1,1,1,1);
 		_vecInstancedData.emplace_back(instancedData);
-	}*/
-
-	const int n = 5;
-	_vecInstancedData.resize(n*n*n);
-
-	float width = 200.0f;
-	float height = 200.0f;
-	float depth = 200.0f;
-
-	float x = -0.5f*width;
-	float y = -0.5f*height;
-	float z = -0.5f*depth;
-	float dx = width / (n - 1);
-	float dy = height / (n - 1);
-	float dz = depth / (n - 1);
-	for (int k = 0; k < n; ++k)
-	{
-		for (int i = 0; i < n; ++i)
-		{
-			for (int j = 0; j < n; ++j)
-			{
-				// Position instanced along a 3D grid.
-				_vecInstancedData[k*n*n + i*n + j]._world = XMFLOAT4X4(
-					100.0f, 0.0f, 0.0f, 0.0f,
-					0.0f, 100.0f, 0.0f, 0.0f,
-					0.0f, 0.0f, 100.0f, 0.0f,
-					x + j*dx, y + i*dy, z + k*dz, 1.0f);
-
-				// Random color.
-				_vecInstancedData[k*n*n + i*n + j]._color.x = 1.f;
-				_vecInstancedData[k*n*n + i*n + j]._color.y = 1.f;
-				_vecInstancedData[k*n*n + i*n + j]._color.z = 1.f;
-				_vecInstancedData[k*n*n + i*n + j]._color.w = 1.0f;
-			}
-		}
 	}
 
 	D3D11_BUFFER_DESC instancedBufferDesc;

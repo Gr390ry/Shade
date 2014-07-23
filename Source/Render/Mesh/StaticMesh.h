@@ -22,7 +22,7 @@ public:
 	bool			Initialize(const char*) override;
 	void			Release()				override;
 	const GENERIC::Vertex*	GetVertices()			override;
-	const int*		GetIndices()			override;
+	const UINT*		GetIndices()			override;
 	const int		GetNumVertices()		override;
 	const int		GetNumIndices()			override;
 private:

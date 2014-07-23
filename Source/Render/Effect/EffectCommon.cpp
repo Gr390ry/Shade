@@ -3,12 +3,12 @@
 
 namespace Render { namespace Effect {
 
-	IEffect::IEffect() : object(nullptr)
+	IEffect::IEffect() : _fx(nullptr)
 	{
 	}
 	IEffect::~IEffect()
 	{
-		SAFE_RELEASE(object);
+		SAFE_RELEASE(_fx);
 	}
 
 	bool IEffect::LoadEffect(const std::string& filepath)
@@ -51,7 +51,7 @@ namespace Render { namespace Effect {
 
 		hr = D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(),
 			compiledShader->GetBufferSize(),
-			0, device, &object);
+			0, device, &_fx);
 		SAFE_RELEASE(compiledShader);
 
 		if (FAILED(hr)) return false;
@@ -62,8 +62,8 @@ namespace Render { namespace Effect {
 
 	const LPD3D11EFFECT IEffect::GetFx()
 	{
-		assert(object != nullptr);
-		return object;
+		assert(_fx != nullptr);
+		return _fx;
 	}
 
 } /*Effect*/ } /*Render*/

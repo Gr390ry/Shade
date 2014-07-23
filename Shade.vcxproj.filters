@@ -256,13 +256,13 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Contents\color.fx">
-      <Filter>Contents</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Contents\InstanceBasic.fx">
       <Filter>Contents</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Contents\BasicEffect.fx">
+      <Filter>Contents</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

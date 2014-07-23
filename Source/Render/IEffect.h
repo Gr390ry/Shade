@@ -27,7 +27,7 @@ namespace Render { namespace Effect {
 		bool LoadEffect(const std::string&);
 		const LPD3D11EFFECT GetFx();
 	protected:
-		LPD3D11EFFECT	object;
+		LPD3D11EFFECT	_fx;
 	};
 
 } /*Effect*/ } /*Render*/

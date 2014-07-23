@@ -12,7 +12,7 @@ namespace GameObject {
 		void				Initialize()	override;
 		void				Release()		override;
 		void				Update(float)	override;		
-		const bool			GetActvate()	override { return mbActivated; }
+		const bool			GetActvate()	override { return _IsActivated; }
 	};
 
 }; /*GameObject*/

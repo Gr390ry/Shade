@@ -17,12 +17,14 @@ bool General::InitializeGame()
 {
 	IMesh*	meshData	= MeshPool::Get()->GetMeshData("Box");
 	Actor*	actor		= new Actor();
+	actor->Initialize();
 	Component::Render* render = actor->GetComponent<Component::Render>();
+	Component::Transform* transform = actor->GetComponent<Component::Transform>();
 
-	if (render)
-	{
-		render->SetMeshData(meshData);
-	}
+	render->SetMeshData(meshData);
+	transform->SetScale(XMFLOAT3(2, 2, 2));
+	transform->SetPosition(XMFLOAT3(0, 10, 60));
+
 	_vecActors.emplace_back(actor);
 
 	Console::Get()->print("Test Instancing World Matrix Complete[Count:%d]\n", _vecInstanObjectWorld.size());
@@ -44,7 +46,7 @@ bool General::LoadAssets()
 	typedef Render::Effect::BasicEffect basicEffect;
 
 	InstancedBasic::Get()->LoadEffect("Contents/InstanceBasic.fx");
-	basicEffect::Get()->LoadEffect("Contents/color.fx");
+	basicEffect::Get()->LoadEffect("Contents/BasicEffect.fx");
 	MeshPool::Get()->Initialize();
 
 	return true;
@@ -52,6 +54,13 @@ bool General::LoadAssets()
 
 void General::Release()
 {
+	typedef Render::Effect::InstancedBasic InstancedBasic;
+	typedef Render::Effect::BasicEffect basicEffect;
+
+	InstancedBasic::Get()->Release();
+	basicEffect::Get()->Release();
+	MeshPool::Get()->Release();
+	
 	for (GameObject::Actor* actor : _vecActors)
 	{
 		actor->Release();
@@ -64,14 +73,14 @@ void General::Release()
 	SAFE_DELETE(_mainCamera);
 }
 
-void General::Update(float pDelta)
+void General::Update(float deltaTime)
 {
 	for (GameObject::Actor* actor : _vecActors)
 	{
-		if (actor == nullptr) continue;
-		actor->Update(pDelta);
+		UPDATE_OBJECT(actor, deltaTime);
 	}
-	UPDATE_OBJECT(_mainCamera, pDelta);
+
+	UPDATE_OBJECT(_mainCamera, deltaTime);
 }
 
 Camera* General::GetMainCamera() const

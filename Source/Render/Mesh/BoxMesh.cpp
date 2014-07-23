@@ -49,7 +49,7 @@ const GENERIC::Vertex* BoxMesh::GetVertices()
 	return &_vertices[0];
 }
 
-const int* BoxMesh::GetIndices()
+const UINT* BoxMesh::GetIndices()
 {
 	if (_indices.size() == 0) return nullptr;
 	return &_indices[0];

@@ -15,20 +15,16 @@ namespace GameObject {
 
 	void Camera::Initialize()
 	{
-		mbActivated = true;
-		pTransform	= AddComponent<Component::Transform>();
-		pProperty	= AddComponent<Component::CameraProp>();		
+		_transform	= AddComponent<Component::Transform>();
+		_cameraProp	= AddComponent<Component::CameraProp>();
+
+		_IsActivated = true;
+		_targetActor	= nullptr;
 	}
 
-	void Camera::Update(float pDelta)
+	void Camera::Update(float deltaTime)
 	{
-		ITER_COMPONENT iter = ContainComponents.begin();
-		int nSize = ContainComponents.size();
-		concurrency::parallel_for(0, nSize, [&](int n)
-		{
-			iter->second->Update(pDelta);
-			++iter;
-		});
+		UPDATE_COMPONENTS(deltaTime);
 	}
 
 	void Camera::Release()
@@ -38,18 +34,27 @@ namespace GameObject {
 	
 	const XMMATRIX& Camera::GetViewMarix()
 	{
-		return pProperty->GetViewMatrix();
+		assert(_cameraProp != nullptr);
+		return _cameraProp->GetViewMatrix();
 	}
 	const XMMATRIX& Camera::GetProjectionMatrix()
 	{
-		return pProperty->GetProjectionMatrix();
+		assert(_cameraProp != nullptr);
+		return _cameraProp->GetProjectionMatrix();
+	}
+	const XMMATRIX& Camera::GetViewProjectionMatrix()
+	{
+		assert(_cameraProp != nullptr);
+		return XMMatrixMultiply(_cameraProp->GetViewMatrix(), _cameraProp->GetProjectionMatrix());
 	}
 	void Camera::SetLookAt(const XMFLOAT3& look)
 	{
-		pProperty->SetLookAt(look);
+		assert(_cameraProp != nullptr);
+		_cameraProp->SetLookAt(look);
 	}
 	void Camera::SetPosition(const XMFLOAT3& position)
 	{
-		pTransform->SetPosition(position);
+		assert(_transform != nullptr);
+		_transform->SetPosition(position);
 	}
 };

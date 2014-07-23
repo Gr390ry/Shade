@@ -2,11 +2,19 @@
 #include "../Component/IComponent.h"
 #include <map>
 
+
+
+
 namespace Component {
 	class IComponent;
 };
 
 namespace GameObject {
+
+#define UPDATE_COMPONENTS(deltaTime)\
+	ITER_COMPONENT iter = ContainComponents.begin();\
+	int size = this->ContainComponents.size();\
+	concurrency::parallel_for(0, size, [&](int n) { iter->second->Update(deltaTime); ++iter; });\
 
 	class IGameObject
 	{
@@ -96,7 +104,7 @@ namespace GameObject {
 		
 		//Variables
 	protected:		
-		bool mbActivated;
-		MAP_COMPONENT ContainComponents;
+		bool				_IsActivated;
+		MAP_COMPONENT		ContainComponents;
 	};
 }

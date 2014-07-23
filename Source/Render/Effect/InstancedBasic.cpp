@@ -5,13 +5,13 @@ namespace Render { namespace Effect {
 
 	void InstancedBasic::Initialize()
 	{
-		assert(object != nullptr);
+		assert(_fx != nullptr);
 
 		SetInputLayout();
 
-		_world				= object->GetVariableByName("gWorld")->AsMatrix();
-		_viewProjection		= object->GetVariableByName("gViewProjection")->AsMatrix();
-		_lightDirection		= object->GetVariableByName("gWorldLightPosition")->AsVector();
+		_world				= _fx->GetVariableByName("gWorld")->AsMatrix();
+		_viewProjection		= _fx->GetVariableByName("gViewProjection")->AsMatrix();
+		_lightDirection		= _fx->GetVariableByName("gWorldLightPosition")->AsVector();
 	}
 
 	void InstancedBasic::Release()
@@ -34,7 +34,7 @@ namespace Render { namespace Effect {
 		};
 		D3DX11_PASS_DESC passDesc;
 
-		_technique		= object->GetTechniqueByIndex(0);
+		_technique			= _fx->GetTechniqueByIndex(0);
 		_technique->GetPassByIndex(0)->GetDesc(&passDesc);
 
 
@@ -47,22 +47,22 @@ namespace Render { namespace Effect {
 		assert(_inputLayout != nullptr);
 	}
 
-	void InstancedBasic::SetWorldMatrix(const XMMATRIX* worldMatrix)
+	void InstancedBasic::SetWorldMatrix(const float* worldMatrix)
 	{
 		assert(worldMatrix != nullptr);
-		_world->SetMatrix(reinterpret_cast<float*>(&worldMatrix));
+		_world->SetMatrix(worldMatrix);
 	}
 
-	void InstancedBasic::SetViewProjectionMatrix(const XMMATRIX* viewProjectionMatrix)
+	void InstancedBasic::SetViewProjectionMatrix(const float* viewProjectionMatrix)
 	{
 		assert(viewProjectionMatrix != nullptr);
-		_viewProjection->SetMatrix(reinterpret_cast<float*>(&viewProjectionMatrix));
+		_viewProjection->SetMatrix(viewProjectionMatrix);
 	}
 
-	void InstancedBasic::SetLightDirection(const XMVECTOR* lightDirection)
+	void InstancedBasic::SetLightDirection(const float* lightDirection)
 	{
 		assert(lightDirection != nullptr);
-		_lightDirection->SetFloatVector(reinterpret_cast<float*>(&lightDirection));
+		_lightDirection->SetFloatVector(lightDirection);
 	}
 
 } /*Effect*/ } /*Render*/

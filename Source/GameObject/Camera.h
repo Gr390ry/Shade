@@ -9,6 +9,7 @@ namespace Component {
 
 namespace GameObject {
 
+	class Actor;
 	class Camera : public IGameObject
 	{
 	public:
@@ -18,16 +19,19 @@ namespace GameObject {
 		void				Initialize()		override;
 		void				Update(float)		override;
 		void				Release()			override;
-		const bool			GetActvate()		override { return mbActivated; }
+		const bool			GetActvate()		override { return _IsActivated; }
 		void				AttachTo(const IGameObject*);		
 		const XMMATRIX&		GetViewMarix();
 		const XMMATRIX&		GetProjectionMatrix();
+		const XMMATRIX&		GetViewProjectionMatrix();
 		void				SetLookAt(const XMFLOAT3&);
 		void				SetPosition(const XMFLOAT3&);
+		void				SetTarget(const Actor*);
 
 	private:
-		Component::CameraProp* pProperty;
-		Component::Transform* pTransform;
+		Component::CameraProp*	_cameraProp;
+		Component::Transform*	_transform;		
+		Actor*					_targetActor;
 	};
 
 }; /*GameObject*/

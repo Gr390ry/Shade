@@ -129,10 +129,10 @@ const GENERIC::Vertex* StaticMesh::GetVertices()
 	return &mVertices[0];
 }
 
-const int* StaticMesh::GetIndices()
+const UINT* StaticMesh::GetIndices()
 {
-	if (mIndices.size() == 0) return nullptr;
-	return &mIndices[0];
+	if (_indices.size() == 0) return nullptr;
+	return &_indices[0];
 }
 
 const int StaticMesh::GetNumVertices()
